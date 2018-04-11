@@ -31,7 +31,7 @@ namespace CostaAlmeidaCobranca
             else
             {
                 context.SetError("invalid_grant",
-                    "Credenciais não encontradas no banco.");
+                    "Credenciais não encontradas.");
             }
         }
     }
