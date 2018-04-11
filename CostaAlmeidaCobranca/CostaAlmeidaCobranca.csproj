@@ -158,6 +158,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProviderTokenAccess.cs" />
     <Compile Include="Startup.cs" />
@@ -177,13 +178,16 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="App_Start\" />
-    <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dados\Dados.csproj">
       <Project>{1DA707B0-1566-41EE-9E26-B1F88FB49809}</Project>
       <Name>Dados</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Entidade\Entidade.csproj">
+      <Project>{51341A17-B20B-4A5F-8413-A378BF5F1FF1}</Project>
+      <Name>Entidade</Name>
     </ProjectReference>
     <ProjectReference Include="..\Negocio\Negocio.csproj">
       <Project>{62C43A07-6900-4140-8A11-198387E4A133}</Project>

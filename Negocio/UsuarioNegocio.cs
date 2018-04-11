@@ -1,4 +1,5 @@
-﻿using Entidade;
+﻿using Dados;
+using Entidade;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,9 @@ namespace Negocio
     {
         public bool VerificarLogin(string aEmail, string aSenha)
         {
-            var teste = ListarTodos();
+            var dados = new UsuarioDados();
 
-            if (teste.Where(x => x.Email == aEmail && x.Senha == aSenha).Count() > 0)
+            if (dados.BuscarLogin(aEmail, aSenha).Count() > 0)
                 return true;
 
             return false;

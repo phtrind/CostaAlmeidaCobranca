@@ -11,7 +11,7 @@ namespace Dados
 {
     public class DadosBase<T> : IRepository<T> where T : EntidadeBase
     {
-        private readonly IDbConnection db;
+        protected readonly IDbConnection db;
 
         public DadosBase()
         {

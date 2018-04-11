@@ -14,8 +14,8 @@ namespace Dados.Mapeamento
         {
             ToTable("USUARIOS");
 
-            Map(x => x.Id).ToColumn("COD_CODUSUARIO").IsKey();
-            Map(x => x.Email).ToColumn("TXT_EMAIL").IsKey();
+            Map(x => x.Id).ToColumn("COD_CODUSUARIO").IsKey().IsIdentity();
+            Map(x => x.Email).ToColumn("TXT_EMAIL");
             Map(x => x.Senha).ToColumn("TXT_SENHA");
             Map(x => x.Tipo).ToColumn("IDC_TIPOUSUARIO");
             Map(x => x.DataCadastro).ToColumn("DTH_DATACADASTRO");
