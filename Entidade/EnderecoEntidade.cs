@@ -8,6 +8,9 @@ namespace Entidade
 {
     public class EnderecoEntidade : EntidadeBase
     {
+        public long? Id { get; set; }
+        public DateTime? DataCadastro { get; set; }
+
         public string Logradouro { get; set; }
         public string Numero { get; set; }
         public string Complemento { get; set; }

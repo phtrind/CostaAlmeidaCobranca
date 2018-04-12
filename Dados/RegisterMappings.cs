@@ -16,6 +16,8 @@ namespace Dados
             FluentMapper.Initialize(config =>
             {
                 config.AddMap(new UsuarioMap());
+                config.AddMap(new EnderecoMap());
+                config.AddMap(new FinanceiroMap());
                 config.ForDommel();
             });
         }

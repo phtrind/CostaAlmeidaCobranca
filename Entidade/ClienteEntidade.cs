@@ -9,6 +9,9 @@ namespace Entidade
 {
     public class ClienteEntidade : EntidadeBase
     {
+        public long? Id { get; set; }
+        public DateTime? DataCadastro { get; set; }
+
         public int Nome { get; set; }
         public string Cpf { get; set; }
         public string Email { get; set; }

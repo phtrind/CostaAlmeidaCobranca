@@ -4,30 +4,30 @@ using System.Collections.Generic;
 
 namespace Negocio
 {
-    public class NegocioBase<T> : INegocioBase<T>  where T : EntidadeBase
+    public abstract class NegocioBase<T> : INegocioBase<T>  where T : EntidadeBase
     {
 
-        public bool Atualizar(T aObjeto)
+        public virtual bool Atualizar(T aObjeto)
         {
             return new DadosBase<T>().Atualizar(aObjeto);
         }
 
-        public bool Excluir(T aObjeto)
+        public virtual bool Excluir(T aObjeto)
         {
             return new DadosBase<T>().Excluir(aObjeto);
         }
 
-        public long Inserir(T aObjeto)
+        public virtual long Inserir(T aObjeto)
         {
             return new DadosBase<T>().Inserir(aObjeto);
         }
 
-        public T Listar(long aCodigo)
+        public virtual T Listar(long aCodigo)
         {
             return new DadosBase<T>().Listar(aCodigo);
         }
 
-        public IEnumerable<T> ListarTodos()
+        public virtual IEnumerable<T> ListarTodos()
         {
             return new DadosBase<T>().ListarTodos();
         }

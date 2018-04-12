@@ -24,17 +24,17 @@ namespace CostaAlmeidaCobranca.Controllers
         }
 
         // POST: api/Usuario
-        public long Post([FromBody]UsuarioEntidade aUsuario)
+        public long Post([FromBody]UsuarioEntidade aEntidade)
         {
-            aUsuario.DataCadastro = DateTime.Now;
+            aEntidade.DataCadastro = DateTime.Now;
 
-            return new UsuarioNegocio().Inserir(aUsuario);
+            return new UsuarioNegocio().Inserir(aEntidade);
         }
 
         // PUT: api/Usuario/5
-        public bool Put([FromBody]UsuarioEntidade aUsuario)
+        public bool Put([FromBody]UsuarioEntidade aEntidade)
         {
-            return new UsuarioNegocio().Atualizar(aUsuario);
+            return new UsuarioNegocio().Atualizar(aEntidade);
         }
 
         // DELETE: api/Usuario/5

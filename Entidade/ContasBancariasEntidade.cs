@@ -11,5 +11,6 @@ namespace Entidade
         public string Banco { get; set; }
         public string Agencia { get; set; }
         public string Numero { get; set; }
+        public ClienteEntidade Cliente { get; set; }
     }
 }

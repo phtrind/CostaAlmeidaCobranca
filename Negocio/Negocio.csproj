@@ -44,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EnderecoNegocio.cs" />
+    <Compile Include="FinanceiroNegocio.cs" />
     <Compile Include="Interface\INegocioBase.cs" />
     <Compile Include="NegocioBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

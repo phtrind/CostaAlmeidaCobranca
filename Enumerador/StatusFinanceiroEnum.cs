@@ -8,5 +8,8 @@ namespace Enumerador
 {
     public enum StatusFinanceiroEnum
     {
+        Pendente = 1,
+        Concluido = 2,
+        Cancelado = 3
     }
 }
