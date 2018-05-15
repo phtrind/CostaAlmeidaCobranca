@@ -13,24 +13,43 @@ namespace Dados
     {
         public override IEnumerable<FinanceiroEntidade> ListarTodos()
         {
-            var resultado = db.Query("SELECT * FROM TRANSACOES INNER JOIN USUARIOS ON TRANSACOES.COD_CODUSUARIO = USUARIOS.COD_CODUSUARIO");
+            var resultado = db.Query(@" SELECT *
+                                        FROM TRANSACOES
+                                            INNER JOIN USUARIOS
+                                            ON TRANSACOES.COD_CODUSUARIO = USUARIOS.COD_CODUSUARIO ");
 
-            return resultado.Select(financeiro => new FinanceiroEntidade()
+            return DadosParaEntidade(resultado);
+        }
+
+        public override FinanceiroEntidade Listar(long aCodigo)
+        {
+            var resultado = db.Query($@" SELECT *
+                                         FROM TRANSACOES
+                                             INNER JOIN USUARIOS
+                                             ON TRANSACOES.COD_CODUSUARIO = USUARIOS.COD_CODUSUARIO
+                                         WHERE COD_CODTRANSACAO = {aCodigo} ");
+
+            return DadosParaEntidade(resultado).FirstOrDefault();
+        }
+
+        private IEnumerable<FinanceiroEntidade> DadosParaEntidade(IEnumerable<dynamic> aResultado)
+        {
+            return aResultado.Select(x => new FinanceiroEntidade()
             {
-                Id = financeiro.COD_CODTRANSACAO,
-                Valor = Convert.ToDecimal(financeiro.VAL_VALOR),
-                Tipo = (TipoFinanceiroEnum)Convert.ToInt32(financeiro.IDC_TIPO),
-                Data = Convert.ToDateTime(financeiro.DTH_DATA),
-                Status = (StatusFinanceiroEnum)Convert.ToInt32(financeiro.IDC_STATUS),
-                IdUsuario = financeiro.COD_CODUSUARIO,
-                DataCadastro = financeiro.DTH_DATACADASTRO,
+                Id = Convert.ToInt64(x.COD_CODTRANSACAO),
+                Valor = Convert.ToDecimal(x.VAL_VALOR),
+                Tipo = (TipoFinanceiroEnum)Convert.ToInt32(x.IDC_TIPO),
+                Data = Convert.ToDateTime(x.DTH_DATA),
+                Status = (StatusFinanceiroEnum)Convert.ToInt32(x.IDC_STATUS),
+                IdUsuario = Convert.ToInt64(x.COD_CODUSUARIO),
+                DataCadastro = x.DTH_CADASTROTRANSACAO,
                 Usuario = new UsuarioEntidade()
                 {
-                    Id = financeiro.COD_CODUSUARIO,
-                    Email = financeiro.TXT_EMAIL,
-                    Senha = financeiro.TXT_SENHA,
-                    Tipo = (TipoUsuarioEnum)Convert.ToInt32(financeiro.IDC_TIPOUSUARIO),
-                    DataCadastro = financeiro.DTH_DATACADASTRO
+                    Id = Convert.ToInt64(x.COD_CODUSUARIO),
+                    Email = x.TXT_EMAIL,
+                    Senha = x.TXT_SENHA,
+                    Tipo = (TipoUsuarioEnum)Convert.ToInt32(x.IDC_TIPOUSUARIO),
+                    DataCadastro = x.DTH_CADASTROUSUARIO
                 }
             });
         }

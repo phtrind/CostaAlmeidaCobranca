@@ -20,7 +20,7 @@ namespace Dados.Mapeamento
             Map(x => x.Data).ToColumn("DTH_DATA");
             Map(x => x.Status).ToColumn("IDC_STATUS");
             Map(x => x.IdUsuario).ToColumn("COD_CODUSUARIO");
-            Map(x => x.DataCadastro).ToColumn("DTH_DATACADASTRO");
+            Map(x => x.DataCadastro).ToColumn("DTH_CADASTROTRANSACAO");
 
             Map(x => x.Usuario).Ignore();
         }

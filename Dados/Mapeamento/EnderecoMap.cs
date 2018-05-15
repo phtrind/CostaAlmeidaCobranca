@@ -21,7 +21,7 @@ namespace Dados.Mapeamento
             Map(x => x.Cep).ToColumn("NUM_CEP");
             Map(x => x.Cidade).ToColumn("TXT_CIDADE");
             Map(x => x.Estado).ToColumn("TXT_ESTADO");
-            Map(x => x.DataCadastro).ToColumn("DTH_DATACADASTRO");
+            Map(x => x.DataCadastro).ToColumn("DTH_CADASTROENDERECO");
         }
     }
 }

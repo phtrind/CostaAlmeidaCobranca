@@ -12,9 +12,13 @@ namespace Entidade
         public long? Id { get; set; }
         public DateTime? DataCadastro { get; set; }
 
-        public int Nome { get; set; }
+        public string Nome { get; set; }
         public string Cpf { get; set; }
         public string Email { get; set; }
+
+        public long? IdEndereco { get; set; }
+        public long? IdUsuario { get; set; }
+
         public EnderecoEntidade Endereco { get; set; }
         public List<ContratoEntidade> Contratos { get; set; }
         public List<ContasBancariasEntidade> ContasBancarias { get; set; }

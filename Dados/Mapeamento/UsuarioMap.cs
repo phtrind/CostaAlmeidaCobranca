@@ -18,7 +18,7 @@ namespace Dados.Mapeamento
             Map(x => x.Email).ToColumn("TXT_EMAIL");
             Map(x => x.Senha).ToColumn("TXT_SENHA");
             Map(x => x.Tipo).ToColumn("IDC_TIPOUSUARIO");
-            Map(x => x.DataCadastro).ToColumn("DTH_DATACADASTRO");
+            Map(x => x.DataCadastro).ToColumn("DTH_CADASTROUSUARIO");
         }
     }
 }

@@ -75,8 +75,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClienteDados.cs" />
     <Compile Include="FinanceiroDados.cs" />
     <Compile Include="Interface\IRepository.cs" />
+    <Compile Include="Mapeamento\ClienteMap.cs" />
     <Compile Include="Mapeamento\EnderecoMap.cs" />
     <Compile Include="Mapeamento\FinanceiroMap.cs" />
     <Compile Include="Mapeamento\UsuarioMap.cs" />

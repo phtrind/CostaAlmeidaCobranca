@@ -14,5 +14,10 @@ namespace Negocio
         {
             return new FinanceiroDados().ListarTodos();
         }
+
+        public override FinanceiroEntidade Listar(long aCodigo)
+        {
+            return new FinanceiroDados().Listar(aCodigo);
+        }
     }
 }

@@ -18,6 +18,7 @@ namespace Dados
                 config.AddMap(new UsuarioMap());
                 config.AddMap(new EnderecoMap());
                 config.AddMap(new FinanceiroMap());
+                config.AddMap(new ClienteMap());
                 config.ForDommel();
             });
         }
