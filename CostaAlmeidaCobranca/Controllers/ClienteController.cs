@@ -14,13 +14,13 @@ namespace CostaAlmeidaCobranca.Controllers
         // GET: api/Cliente
         public IEnumerable<ClienteEntidade> Get()
         {
-            return new ClienteNegocio().ListarTodos();
+            return new ClienteNegocio().ListarTodosCompleto();
         }
 
         // GET: api/Cliente/5
         public ClienteEntidade Get(int id)
         {
-            return new ClienteNegocio().Listar(id);
+            return new ClienteNegocio().ListarCompleto(id);
         }
 
         // POST: api/Cliente

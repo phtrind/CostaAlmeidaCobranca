@@ -40,7 +40,7 @@ namespace CostaAlmeidaCobranca.Controllers
         // DELETE: api/Financeiro/5
         public bool Delete(int id)
         {
-            var negocio = new UsuarioNegocio();
+            var negocio = new FinanceiroNegocio();
             var entidade = negocio.Listar(id);
 
             return negocio.Excluir(entidade);

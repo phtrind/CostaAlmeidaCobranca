@@ -45,10 +45,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClienteNegocio.cs" />
+    <Compile Include="ContratoNegocio.cs" />
     <Compile Include="EnderecoNegocio.cs" />
+    <Compile Include="EventoNegocio.cs" />
     <Compile Include="FinanceiroNegocio.cs" />
     <Compile Include="Interface\INegocioBase.cs" />
     <Compile Include="NegocioBase.cs" />
+    <Compile Include="ParcelaNegocio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UsuarioNegocio.cs" />
   </ItemGroup>

@@ -18,8 +18,13 @@ namespace Dados.Mapeamento
             Map(x => x.Nome).ToColumn("TXT_NOME");
             Map(x => x.Cpf).ToColumn("TXT_CPF");
             Map(x => x.Email).ToColumn("TXT_EMAIL");
+            Map(x => x.TelefoneFixo).ToColumn("TEL_TELEFONEFIXO");
+            Map(x => x.TelefoneCelular).ToColumn("TEL_TELEFONECELULAR");
+            Map(x => x.DataNascimento).ToColumn("DTH_DATANASCIMENTO");
+
             Map(x => x.IdEndereco).ToColumn("COD_CODENDERECO");
             Map(x => x.IdUsuario).ToColumn("COD_CODUSUARIO");
+
             Map(x => x.DataCadastro).ToColumn("DTH_CADASTROCLIENTE");
 
             Map(x => x.Usuario).Ignore();

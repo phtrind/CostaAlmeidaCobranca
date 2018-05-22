@@ -11,7 +11,7 @@ namespace Dados
 {
     public class ClienteDados : DadosBase<ClienteEntidade>
     {
-        public override IEnumerable<ClienteEntidade> ListarTodos()
+        public IEnumerable<ClienteEntidade> ListarTodosCompleto()
         {
             var resultado = db.Query(@" SELECT *
                                         FROM CLIENTES
@@ -23,7 +23,7 @@ namespace Dados
             return DadosParaEntidade(resultado);
         }
 
-        public override ClienteEntidade Listar(long aCodigo)
+        public ClienteEntidade ListarCompleto(long aCodigo)
         {
             var resultado = db.Query($@" SELECT *
                                          FROM CLIENTES
@@ -31,7 +31,7 @@ namespace Dados
                                              ON CLIENTES.COD_CODENDERECO = ENDERECOS.COD_CODENDERECO
                                              INNER JOIN USUARIOS
                                              ON CLIENTES.COD_CODUSUARIO = USUARIOS.COD_CODUSUARIO 
-                                         WHERE CLIENTES.COD_CLIENTE = {aCodigo} ");
+                                         WHERE CLIENTES.COD_CODCLIENTE = {aCodigo} ");
 
             return DadosParaEntidade(resultado).FirstOrDefault();
         }
@@ -44,6 +44,9 @@ namespace Dados
                 Nome = x.TXT_NOME,
                 Cpf = x.TXT_CPF,
                 Email = x.TXT_EMAIL,
+                TelefoneFixo = x.TEL_TELEFONEFIXO,
+                TelefoneCelular = x.TEL_TELEFONECELULAR,
+                DataNascimento = x.DTH_DATANASCIMENTO,
                 IdEndereco = Convert.ToInt64(x.COD_CODENDERECO),
                 IdUsuario = Convert.ToInt64(x.COD_CODUSUARIO),
                 DataCadastro = Convert.ToDateTime(x.DTH_CADASTROCLIENTE),

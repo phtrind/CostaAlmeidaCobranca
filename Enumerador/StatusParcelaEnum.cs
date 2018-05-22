@@ -8,5 +8,9 @@ namespace Enumerador
 {
     public enum StatusParcelaEnum
     {
+        Pendente = 1,
+        Paga = 2,
+        Atrasada = 3,
+        Cancelada = 4
     }
 }

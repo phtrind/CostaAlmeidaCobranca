@@ -10,14 +10,14 @@ namespace Negocio
 {
     public class ClienteNegocio : NegocioBase<ClienteEntidade>
     {
-        public override IEnumerable<ClienteEntidade> ListarTodos()
+        public IEnumerable<ClienteEntidade> ListarTodosCompleto()
         {
-            return new ClienteDados().ListarTodos();
+            return new ClienteDados().ListarTodosCompleto();
         }
 
-        public override ClienteEntidade Listar(long aCodigo)
+        public ClienteEntidade ListarCompleto(long aCodigo)
         {
-            return new ClienteDados().Listar(aCodigo);
+            return new ClienteDados().ListarCompleto(aCodigo);
         }
     }
 }
