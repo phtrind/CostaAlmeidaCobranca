@@ -11,18 +11,21 @@ namespace CostaAlmeidaCobranca.Controllers
 {
     public class ParcelaController : ApiController
     {
+        [Authorize]
         // GET: api/Parcela
         public IEnumerable<ParcelasEntidade> Get()
         {
             return new ParcelaNegocio().ListarTodosCompleto();
         }
 
+        [Authorize]
         // GET: api/Parcela/5
         public ParcelasEntidade Get(int id)
         {
             return new ParcelaNegocio().ListarCompleto(id);
         }
 
+        [Authorize]
         // POST: api/Parcela
         public long Post([FromBody]ParcelasEntidade aEntidade)
         {
@@ -31,12 +34,14 @@ namespace CostaAlmeidaCobranca.Controllers
             return new ParcelaNegocio().Inserir(aEntidade);
         }
 
+        [Authorize]
         // PUT: api/Parcela/5
         public bool Put([FromBody]ParcelasEntidade aEntidade)
         {
             return new ParcelaNegocio().Atualizar(aEntidade);
         }
 
+        [Authorize]
         // DELETE: api/Parcela/5
         public bool Delete(int id)
         {

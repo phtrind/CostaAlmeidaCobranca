@@ -11,18 +11,21 @@ namespace CostaAlmeidaCobranca.Controllers
 {
     public class EventoController : ApiController
     {
+        [Authorize]
         // GET: api/Evento
         public IEnumerable<EventoEntidade> Get()
         {
             return new EventoNegocio().ListarTodos();
         }
 
+        [Authorize]
         // GET: api/Evento/5
         public EventoEntidade Get(int id)
         {
             return new EventoNegocio().Listar(id);
         }
 
+        [Authorize]
         // POST: api/Evento
         public long Post([FromBody]EventoEntidade aEntidade)
         {
@@ -31,12 +34,14 @@ namespace CostaAlmeidaCobranca.Controllers
             return new EventoNegocio().Inserir(aEntidade);
         }
 
+        [Authorize]
         // PUT: api/Evento/5
         public bool Put([FromBody]EventoEntidade aEntidade)
         {
             return new EventoNegocio().Atualizar(aEntidade);
         }
 
+        [Authorize]
         // DELETE: api/Evento/5
         public bool Delete(int id)
         {

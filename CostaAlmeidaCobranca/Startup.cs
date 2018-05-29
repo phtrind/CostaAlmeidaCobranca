@@ -20,6 +20,8 @@ namespace CostaAlmeidaCobranca
 
             config.MapHttpAttributeRoutes();
 
+            config.EnableCors();
+
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
@@ -49,7 +51,7 @@ namespace CostaAlmeidaCobranca
                 TokenEndpointPath = new PathString("/token"),
 
                 //Configurando por quanto tempo um token de acesso já forncedido valerá (AccessTokenExpireTimeSpan).
-                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(5),
+                AccessTokenExpireTimeSpan = TimeSpan.FromHours(20),
 
                 //Como verificar usuário e senha para fornecer tokens de acesso? Precisamos configurar o Provider dos tokens
                 Provider = new ProviderTokenAccess()
