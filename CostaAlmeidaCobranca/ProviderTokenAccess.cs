@@ -6,9 +6,11 @@ using Microsoft.Owin.Security.OAuth;
 using System.Web;
 using System.Security.Claims;
 using Negocio;
+using System.Web.Http.Cors;
 
 namespace CostaAlmeidaCobranca
 {
+    //[EnableCors(origins: "*", headers: "*", methods: "*", SupportsCredentials = true)]
     internal class ProviderTokenAccess : OAuthAuthorizationServerProvider
     {
         public override async Task ValidateClientAuthentication

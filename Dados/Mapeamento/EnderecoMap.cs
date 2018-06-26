@@ -12,16 +12,17 @@ namespace Dados.Mapeamento
     {
         public EnderecoMap()
         {
-            ToTable("ENDERECOS");
+            ToTable("END_ENDERECOS");
 
-            Map(x => x.Id).ToColumn("COD_CODENDERECO").IsKey().IsIdentity();
-            Map(x => x.Logradouro).ToColumn("TXT_LOGRADOURO");
-            Map(x => x.Numero).ToColumn("TXT_NUMERO");
-            Map(x => x.Complemento).ToColumn("TXT_COMPLEMENTO");
-            Map(x => x.Cep).ToColumn("NUM_CEP");
-            Map(x => x.Cidade).ToColumn("TXT_CIDADE");
-            Map(x => x.Estado).ToColumn("TXT_ESTADO");
-            Map(x => x.DataCadastro).ToColumn("DTH_CADASTROENDERECO");
+            Map(x => x.Id).ToColumn("END_CODIGO").IsKey().IsIdentity();
+            Map(x => x.Logradouro).ToColumn("END_LOGRADOURO");
+            Map(x => x.Numero).ToColumn("END_NUMERO");
+            Map(x => x.Complemento).ToColumn("END_COMPLEMENTO");
+            Map(x => x.Bairro).ToColumn("END_BAIRRO");
+            Map(x => x.Cep).ToColumn("END_CEP");
+            Map(x => x.Cidade).ToColumn("END_CIDADE");
+            Map(x => x.Estado).ToColumn("END_ESTADO");
+            Map(x => x.DataCadastro).ToColumn("END_DTHCADASTRO");
         }
     }
 }

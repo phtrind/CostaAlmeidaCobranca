@@ -5,11 +5,13 @@ using Owin;
 using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
 using Dados;
+using System.Web.Http.Cors;
 
 [assembly: OwinStartup(typeof(CostaAlmeidaCobranca.Startup))]
 
 namespace CostaAlmeidaCobranca
 {
+    //[EnableCors(origins: "*", headers: "*", methods: "*", SupportsCredentials = true)]
     public class Startup
     {
         public void Configuration(IAppBuilder app)
@@ -20,7 +22,7 @@ namespace CostaAlmeidaCobranca
 
             config.MapHttpAttributeRoutes();
 
-            config.EnableCors();
+            config.EnableCors(new EnableCorsAttribute(origins: "*", headers: "*", methods: "*"));
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",

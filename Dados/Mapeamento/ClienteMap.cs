@@ -12,20 +12,20 @@ namespace Dados.Mapeamento
     {
         public ClienteMap()
         {
-            ToTable("CLIENTES");
+            ToTable("CLI_CLIENTES");
 
-            Map(x => x.Id).ToColumn("COD_CODCLIENTE").IsKey().IsIdentity();
-            Map(x => x.Nome).ToColumn("TXT_NOME");
-            Map(x => x.Cpf).ToColumn("TXT_CPF");
-            Map(x => x.Email).ToColumn("TXT_EMAIL");
-            Map(x => x.TelefoneFixo).ToColumn("TEL_TELEFONEFIXO");
-            Map(x => x.TelefoneCelular).ToColumn("TEL_TELEFONECELULAR");
-            Map(x => x.DataNascimento).ToColumn("DTH_DATANASCIMENTO");
+            Map(x => x.Id).ToColumn("CLI_CODIGO").IsKey().IsIdentity();
+            Map(x => x.Nome).ToColumn("CLI_NOME");
+            Map(x => x.Cpf).ToColumn("CLI_CPF");
+            Map(x => x.Email).ToColumn("CLI_EMAIL");
+            Map(x => x.TelefoneFixo).ToColumn("CLI_TELFIXO");
+            Map(x => x.TelefoneCelular).ToColumn("CLI_TELCELULAR");
+            Map(x => x.DataNascimento).ToColumn("CLI_DTHNASCIMENTO");
 
-            Map(x => x.IdEndereco).ToColumn("COD_CODENDERECO");
-            Map(x => x.IdUsuario).ToColumn("COD_CODUSUARIO");
+            Map(x => x.IdEndereco).ToColumn("END_CODIGO");
+            Map(x => x.IdUsuario).ToColumn("USU_CODIGO");
 
-            Map(x => x.DataCadastro).ToColumn("DTH_CADASTROCLIENTE");
+            Map(x => x.DataCadastro).ToColumn("CLI_DTHCADASTRO");
 
             Map(x => x.Usuario).Ignore();
             Map(x => x.Endereco).Ignore();

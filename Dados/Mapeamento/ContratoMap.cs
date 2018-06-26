@@ -12,20 +12,20 @@ namespace Dados.Mapeamento
     {
         public ContratoMap()
         {
-            ToTable("CONTRATOS");
+            ToTable("CON_CONTRATOS");
 
-            Map(x => x.Id).ToColumn("COD_CODCONTRATO").IsKey().IsIdentity();
-            Map(x => x.Valor).ToColumn("VAL_VALORCONTRATO");
-            Map(x => x.TaxaLucro).ToColumn("VAL_TAXALUCRO");
-            Map(x => x.Observacao).ToColumn("TXT_OBSERVACAO");
-            Map(x => x.Status).ToColumn("IDC_STATUSCONTRATO");
+            Map(x => x.Id).ToColumn("CON_CODIGO").IsKey().IsIdentity();
+            Map(x => x.Valor).ToColumn("CON_VALOR");
+            Map(x => x.TaxaLucro).ToColumn("CON_TAXALUCRO");
+            Map(x => x.Observacao).ToColumn("CON_OBSERVACAO");
+            Map(x => x.Status).ToColumn("CON_STATUS");
 
-            Map(x => x.IdEvento).ToColumn("COD_CODEVENTO");
-            Map(x => x.IdUsuario).ToColumn("COD_CODUSUARIO");
-            Map(x => x.IdVendedor).ToColumn("COD_CODVENDEDOR");
-            Map(x => x.IdComprador).ToColumn("COD_CODCOMPRADOR");
+            Map(x => x.IdEvento).ToColumn("EVE_CODIGO");
+            Map(x => x.IdUsuario).ToColumn("USU_CODIGO");
+            Map(x => x.IdVendedor).ToColumn("CON_VENDEDOR");
+            Map(x => x.IdComprador).ToColumn("CON_COMPRADOR");
 
-            Map(x => x.DataCadastro).ToColumn("DTH_CADASTROCONTRATO");
+            Map(x => x.DataCadastro).ToColumn("CON_DTHCADASTRO");
 
             Map(x => x.Usuario).Ignore();
             Map(x => x.Evento).Ignore();

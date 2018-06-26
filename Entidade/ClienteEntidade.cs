@@ -17,7 +17,7 @@ namespace Entidade
         public string Email { get; set; }
         public string TelefoneFixo { get; set; }
         public string TelefoneCelular { get; set; }
-        public DateTime DataNascimento { get; set; }
+        public DateTime? DataNascimento { get; set; } //remover
 
         public long? IdEndereco { get; set; }
         public long? IdUsuario { get; set; }

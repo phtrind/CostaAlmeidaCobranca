@@ -12,13 +12,13 @@ namespace Dados.Mapeamento
     {
         public UsuarioMap()
         {
-            ToTable("USUARIOS");
+            ToTable("USU_USUARIOS");
 
-            Map(x => x.Id).ToColumn("COD_CODUSUARIO").IsKey().IsIdentity();
-            Map(x => x.Email).ToColumn("TXT_EMAIL");
-            Map(x => x.Senha).ToColumn("TXT_SENHA");
-            Map(x => x.Tipo).ToColumn("IDC_TIPOUSUARIO");
-            Map(x => x.DataCadastro).ToColumn("DTH_CADASTROUSUARIO");
+            Map(x => x.Id).ToColumn("USU_CODIGO").IsKey().IsIdentity();
+            Map(x => x.Email).ToColumn("USU_EMAIL");
+            Map(x => x.Senha).ToColumn("USU_SENHA");
+            Map(x => x.Tipo).ToColumn("USU_TIPO");
+            Map(x => x.DataCadastro).ToColumn("USU_DTHCADASTRO");
         }
     }
 }

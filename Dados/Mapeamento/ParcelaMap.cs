@@ -12,18 +12,18 @@ namespace Dados.Mapeamento
     {
         public ParcelaMap()
         {
-            ToTable("PARCELAS");
+            ToTable("PAR_PARCELAS");
 
-            Map(x => x.Id).ToColumn("COD_CODPARCELA").IsKey().IsIdentity();
+            Map(x => x.Id).ToColumn("PAR_CODIGO").IsKey().IsIdentity();
 
-            Map(x => x.DataCadastro).ToColumn("DTH_CADASTROPARCELA");
+            Map(x => x.DataCadastro).ToColumn("PAR_DTHCADASTRO");
 
-            Map(x => x.Valor).ToColumn("VAL_VALORPARCELA");
-            Map(x => x.Vencimento).ToColumn("DTH_VENCIMENTO");
-            Map(x => x.Status).ToColumn("IDC_STATUSPARCELA");
-            Map(x => x.Juros).ToColumn("VAL_JUROSPARCELA");
+            Map(x => x.Valor).ToColumn("PAR_VALOR");
+            Map(x => x.Vencimento).ToColumn("PAR_DTHVENCIMENTO");
+            Map(x => x.Status).ToColumn("PAR_STATUS");
+            Map(x => x.Juros).ToColumn("PAR_JUROS");
 
-            Map(x => x.IdContrato).ToColumn("COD_CODCONTRATO");
+            Map(x => x.IdContrato).ToColumn("CON_CODIGO");
 
             Map(x => x.Contrato).Ignore();
         }

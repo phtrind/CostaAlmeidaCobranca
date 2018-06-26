@@ -12,16 +12,16 @@ namespace Dados.Mapeamento
     {
         public EventoMap()
         {
-            ToTable("EVENTOS");
+            ToTable("EVE_EVENTOS");
 
-            Map(x => x.Id).ToColumn("COD_CODEVENTO").IsKey().IsIdentity();
-            Map(x => x.Nome).ToColumn("TXT_NOMEEVENTO");
-            Map(x => x.Data).ToColumn("DTH_DATAEVENTO");
+            Map(x => x.Id).ToColumn("EVE_CODIGO").IsKey().IsIdentity();
+            Map(x => x.Nome).ToColumn("EVE_NOME");
+            Map(x => x.Data).ToColumn("EVE_DATA");
 
-            Map(x => x.IdEndereco).ToColumn("COD_CODENDERECO");
-            Map(x => x.IdUsuario).ToColumn("COD_CODUSUARIO");
+            Map(x => x.IdEndereco).ToColumn("END_CODIGO");
+            Map(x => x.IdUsuario).ToColumn("USU_CODIGO");
 
-            Map(x => x.DataCadastro).ToColumn("DTH_CADASTROEVENTO");
+            Map(x => x.DataCadastro).ToColumn("EVE_DTHCADASTRO");
 
             Map(x => x.Usuario).Ignore();
             Map(x => x.Endereco).Ignore();

@@ -14,11 +14,11 @@ namespace Dados
         public override IEnumerable<EventoEntidade> ListarTodos()
         {
             var resultado = db.Query(@" SELECT *
-                                        FROM EVENTOS
-                                            INNER JOIN USUARIOS
-                                            ON EVENTOS.COD_CODUSUARIO = USUARIOS.COD_CODUSUARIO
-                                            INNER JOIN ENDERECOS
-                                            ON EVENTOS.COD_CODENDERECO = ENDERECOS.COD_CODENDERECO ");
+                                        FROM EVE_EVENTOS
+                                            INNER JOIN USU_USUARIOS
+                                            ON EVE_EVENTOS.USU_CODIGO = USU_USUARIOS.USU_CODIGO
+                                            INNER JOIN END_ENDERECOS
+                                            ON EVE_EVENTOS.END_CODIGO = END_ENDERECOS.END_CODIGO ");
 
             return DadosParaEntidade(resultado);
         }
@@ -26,12 +26,12 @@ namespace Dados
         public override EventoEntidade Listar(long aCodigo)
         {
             var resultado = db.Query($@" SELECT *
-                                        FROM EVENTOS
-                                            INNER JOIN USUARIOS
-                                            ON EVENTOS.COD_CODUSUARIO = USUARIOS.COD_CODUSUARIO
-                                            INNER JOIN ENDERECOS
-                                            ON EVENTOS.COD_CODENDERECO = ENDERECOS.COD_CODENDERECO 
-                                         WHERE EVENTOS.COD_CODEVENTO = {aCodigo} ");
+                                        FROM EVE_EVENTOS
+                                            INNER JOIN USU_USUARIOS
+                                            ON EVE_EVENTOS.USU_CODIGO = USU_USUARIOS.USU_CODIGO
+                                            INNER JOIN END_ENDERECOS
+                                            ON EVE_EVENTOS.END_CODIGO = END_ENDERECOS.END_CODIGO 
+                                         WHERE EVE_EVENTOS.EVE_CODIGO = {aCodigo} ");
 
             return DadosParaEntidade(resultado).FirstOrDefault();
         }
@@ -40,30 +40,31 @@ namespace Dados
         {
             return aResultado.Select(x => new EventoEntidade()
             {
-                Id = Convert.ToInt64(x.COD_CODEVENTO),
-                Nome = x.TXT_NOMEEVENTO,
-                Data = x.DTH_DATAEVENTO,
-                IdUsuario = Convert.ToInt64(x.COD_CODUSUARIO),
-                IdEndereco = Convert.ToInt64(x.COD_CODENDERECO),
-                DataCadastro = x.DTH_CADASTROEVENTO,
+                Id = Convert.ToInt64(x.EVE_CODIGO),
+                Nome = x.EVE_NOME,
+                Data = x.EVE_DATA,
+                IdUsuario = Convert.ToInt64(x.USU_CODIGO),
+                IdEndereco = Convert.ToInt64(x.END_CODIGO),
+                DataCadastro = x.EVE_DTHCADASTRO,
                 Usuario = new UsuarioEntidade()
                 {
-                    Id = Convert.ToInt64(x.COD_CODUSUARIO),
-                    Email = x.TXT_EMAIL,
-                    Senha = x.TXT_SENHA,
-                    Tipo = (TipoUsuarioEnum)Convert.ToInt32(x.IDC_TIPOUSUARIO),
-                    DataCadastro = x.DTH_CADASTROUSUARIO
+                    Id = Convert.ToInt64(x.USU_CODIGO),
+                    Email = x.USU_EMAIL,
+                    Senha = x.USU_SENHA,
+                    Tipo = (TipoUsuarioEnum)Convert.ToInt32(x.USU_TIPO),
+                    DataCadastro = x.USU_DTHCADASTRO
                 },
                 Endereco = new EnderecoEntidade()
                 {
-                    Id = Convert.ToInt64(x.COD_CODENDERECO),
-                    Logradouro = x.TXT_LOGRADOURO,
-                    Numero = x.TXT_NUMERO,
-                    Complemento = x.TXT_COMPLEMENTO,
-                    Cep = x.NUM_CEP,
-                    Cidade = x.TXT_CIDADE,
-                    Estado = x.TXT_ESTADO,
-                    DataCadastro = Convert.ToDateTime(x.DTH_CADASTROENDERECO)
+                    Id = Convert.ToInt64(x.END_CODIGO),
+                    Logradouro = x.END_LOGRADOURO,
+                    Numero = x.END_NUMERO,
+                    Complemento = x.END_COMPLEMENTO,
+                    Bairro = x.END_BAIRRO,
+                    Cep = x.END_CEP,
+                    Cidade = x.END_CIDADE,
+                    Estado = x.END_ESTADO,
+                    DataCadastro = Convert.ToDateTime(x.END_DTHCADASTRO)
                 }
             });
         }
