@@ -10,6 +10,7 @@ using System.Web.Http.Cors;
 
 namespace CostaAlmeidaCobranca.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class UsuarioController : ApiController
     {
         [Authorize]
@@ -26,13 +27,12 @@ namespace CostaAlmeidaCobranca.Controllers
             return new UsuarioNegocio().Listar(aId);
         }
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [Authorize]
         [Route("api/Usuario/Username/{aUsername}")]
         [HttpGet]
-        public UsuarioEntidade GetOrdersByCustomer(string aUsername)
+        public UsuarioEntidade getUserByEmail(string aEmail)
         {
-            return new UsuarioNegocio().ListarTodos().Where(x => x.Email == aUsername).FirstOrDefault();
+            return new UsuarioNegocio().ListarTodos().Where(x => x.Email == aEmail).FirstOrDefault();
         }
 
         [Authorize]

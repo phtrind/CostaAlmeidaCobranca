@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Projecao;
 
 namespace Negocio
 {
@@ -18,6 +19,15 @@ namespace Negocio
         public ContratoEntidade ListarCompleto(long aCodigo)
         {
             return new ContratoDados().ListarCompleto(aCodigo);
+        }
+
+        public getCombosCadastroContratoResponse getCombosCadastroContrato()
+        {
+            return new getCombosCadastroContratoResponse()
+            {
+                Clientes = new ClienteNegocio().getComboClientes().ToList(),
+                Eventos = new EventoNegocio().getComboEventos().ToList()
+            };
         }
     }
 }

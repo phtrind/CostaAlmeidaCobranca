@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Projecao;
 
 namespace Negocio
 {
@@ -18,6 +19,11 @@ namespace Negocio
         public override EventoEntidade Listar(long aCodigo)
         {
             return new EventoDados().Listar(aCodigo);
+        }
+
+        public IEnumerable<ComboProjecao> getComboEventos()
+        {
+            return new EventoDados().getComboEventos();
         }
     }
 }

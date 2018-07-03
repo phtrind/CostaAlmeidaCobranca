@@ -20,7 +20,7 @@ namespace Dados.Mapeamento
             Map(x => x.Email).ToColumn("CLI_EMAIL");
             Map(x => x.TelefoneFixo).ToColumn("CLI_TELFIXO");
             Map(x => x.TelefoneCelular).ToColumn("CLI_TELCELULAR");
-            Map(x => x.DataNascimento).ToColumn("CLI_DTHNASCIMENTO");
+            Map(x => x.Fazenda).ToColumn("CLI_FAZENDA");
 
             Map(x => x.IdEndereco).ToColumn("END_CODIGO");
             Map(x => x.IdUsuario).ToColumn("USU_CODIGO");

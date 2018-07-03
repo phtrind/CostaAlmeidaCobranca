@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Entidade;
 using Enumerador;
+using Projecao;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,19 @@ namespace Dados
             return DadosParaEntidade(resultado).FirstOrDefault();
         }
 
+        public IEnumerable<ComboProjecao> getComboClientes()
+        {
+            var resultado = db.Query($@"SELECT CLI_CODIGO, CLI_NOME
+                                        FROM CLI_CLIENTES
+                                        ORDER BY CLI_NOME");
+
+            return resultado.Select(x => new ComboProjecao()
+            {
+                Codigo = Convert.ToInt64(x.CLI_CODIGO),
+                Descricao = x.CLI_NOME
+            });
+        }
+
         private IEnumerable<ClienteEntidade> DadosParaEntidade(IEnumerable<dynamic> aResultado)
         {
             return aResultado.Select(x => new ClienteEntidade()
@@ -46,7 +60,7 @@ namespace Dados
                 Email = x.CLI_EMAIL,
                 TelefoneFixo = x.CLI_TELFIXO,
                 TelefoneCelular = x.CLI_TELCELULAR,
-                DataNascimento = x.CLI_DTHNASCIMENTO,
+                Fazenda = x.CLI_FAZENDA,
                 IdEndereco = Convert.ToInt64(x.END_CODIGO),
                 IdUsuario = Convert.ToInt64(x.USU_CODIGO),
                 DataCadastro = Convert.ToDateTime(x.CLI_DTHCADASTRO),

@@ -102,6 +102,10 @@
       <Project>{19877F9A-65D7-49EF-88B5-15CA40A34C0D}</Project>
       <Name>Enumerador</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Projecao\Projecao.csproj">
+      <Project>{D1355808-F79E-4ED7-A3F2-5BC0D351A546}</Project>
+      <Name>Projecao</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

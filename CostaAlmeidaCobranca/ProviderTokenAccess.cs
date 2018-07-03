@@ -10,7 +10,7 @@ using System.Web.Http.Cors;
 
 namespace CostaAlmeidaCobranca
 {
-    //[EnableCors(origins: "*", headers: "*", methods: "*", SupportsCredentials = true)]
+    [EnableCors(origins: "*", headers: "*", methods: "*", SupportsCredentials = true)]
     internal class ProviderTokenAccess : OAuthAuthorizationServerProvider
     {
         public override async Task ValidateClientAuthentication

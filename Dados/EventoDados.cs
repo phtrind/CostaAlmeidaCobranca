@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Projecao;
 
 namespace Dados
 {
@@ -21,6 +22,19 @@ namespace Dados
                                             ON EVE_EVENTOS.END_CODIGO = END_ENDERECOS.END_CODIGO ");
 
             return DadosParaEntidade(resultado);
+        }
+
+        public IEnumerable<ComboProjecao> getComboEventos()
+        {
+            var resultado = db.Query($@"SELECT EVE_CODIGO, EVE_NOME
+                                        FROM EVE_EVENTOS
+                                        ORDER BY EVE_NOME");
+
+            return resultado.Select(x => new ComboProjecao()
+            {
+                Codigo = Convert.ToInt64(x.EVE_CODIGO),
+                Descricao = x.EVE_NOME
+            });
         }
 
         public override EventoEntidade Listar(long aCodigo)

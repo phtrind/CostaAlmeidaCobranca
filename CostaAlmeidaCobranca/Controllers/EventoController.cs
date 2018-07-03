@@ -31,6 +31,10 @@ namespace CostaAlmeidaCobranca.Controllers
         {
             aEntidade.DataCadastro = DateTime.Now;
 
+            aEntidade.Endereco.DataCadastro = DateTime.Now;
+
+            aEntidade.IdEndereco = new EnderecoNegocio().Inserir(aEntidade.Endereco);
+
             return new EventoNegocio().Inserir(aEntidade);
         }
 

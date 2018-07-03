@@ -1,5 +1,6 @@
 ﻿using Dados;
 using Entidade;
+using Projecao;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,11 @@ namespace Negocio
         public ClienteEntidade ListarCompleto(long aCodigo)
         {
             return new ClienteDados().ListarCompleto(aCodigo);
+        }
+
+        public IEnumerable<ComboProjecao> getComboClientes()
+        {
+            return new ClienteDados().getComboClientes();
         }
     }
 }
