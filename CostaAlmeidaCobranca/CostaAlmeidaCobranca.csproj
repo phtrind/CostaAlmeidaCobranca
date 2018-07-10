@@ -202,6 +202,10 @@
       <Project>{51341A17-B20B-4A5F-8413-A378BF5F1FF1}</Project>
       <Name>Entidade</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Enumerador\Enumerador.csproj">
+      <Project>{19877F9A-65D7-49EF-88B5-15CA40A34C0D}</Project>
+      <Name>Enumerador</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Negocio\Negocio.csproj">
       <Project>{62C43A07-6900-4140-8A11-198387E4A133}</Project>
       <Name>Negocio</Name>

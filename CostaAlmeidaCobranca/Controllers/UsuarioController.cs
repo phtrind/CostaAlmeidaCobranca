@@ -28,7 +28,7 @@ namespace CostaAlmeidaCobranca.Controllers
         }
 
         [Authorize]
-        [Route("api/Usuario/Username/{aUsername}")]
+        [Route("api/Usuario/Username/{aEmail}")]
         [HttpGet]
         public UsuarioEntidade getUserByEmail(string aEmail)
         {

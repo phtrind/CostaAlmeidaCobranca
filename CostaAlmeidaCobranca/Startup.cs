@@ -50,7 +50,7 @@ namespace CostaAlmeidaCobranca
                 AllowInsecureHttp = true,
 
                 //Configurando o endereço do fornecimento do token de acesso (TokenEndpointPath).
-                TokenEndpointPath = new PathString("/token"),
+                TokenEndpointPath = new PathString("/api/token"),
 
                 //Configurando por quanto tempo um token de acesso já forncedido valerá (AccessTokenExpireTimeSpan).
                 AccessTokenExpireTimeSpan = TimeSpan.FromHours(20),

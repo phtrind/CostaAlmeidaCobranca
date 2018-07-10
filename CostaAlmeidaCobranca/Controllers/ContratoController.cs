@@ -1,4 +1,5 @@
 ﻿using Entidade;
+using Enumerador;
 using Negocio;
 using Projecao;
 using System;
@@ -33,8 +34,20 @@ namespace CostaAlmeidaCobranca.Controllers
         public long Post([FromBody]ContratoEntidade aEntidade)
         {
             aEntidade.DataCadastro = DateTime.Now;
+            aEntidade.Status = StatusContratoEnum.Ativo;
 
-            return new ContratoNegocio().Inserir(aEntidade);
+            var idContrato = new ContratoNegocio().Inserir(aEntidade);
+
+            foreach (var parcela in aEntidade.Parcelas)
+            {
+                parcela.IdContrato = idContrato;
+                parcela.DataCadastro = DateTime.Now;
+                parcela.Status = StatusParcelaEnum.Pendente;
+
+                new ParcelaNegocio().Inserir(parcela);
+            }
+
+            return idContrato;
         }
 
         [Authorize]
