@@ -18,7 +18,9 @@ namespace CostaAlmeidaCobranca.Controllers
         // GET: api/Cliente
         public IEnumerable<ClienteEntidade> Get()
         {
-            return new ClienteNegocio().ListarTodosCompleto();
+            //return new ClienteNegocio().ListarTodosCompleto();
+
+            return new ClienteNegocio().ListarTodos().OrderBy(x => x.Nome);
         }
 
         [Authorize]
