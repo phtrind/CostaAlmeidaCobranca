@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Projecao;
+using Enumerador;
 
 namespace Negocio
 {
@@ -28,6 +29,21 @@ namespace Negocio
                 Clientes = new ClienteNegocio().getComboClientes().ToList(),
                 Eventos = new EventoNegocio().getComboEventos().ToList()
             };
+        }
+
+        public string TraduzirStatus(StatusContratoEnum status)
+        {
+            switch (status)
+            {
+                case StatusContratoEnum.Ativo:
+                    return "Ativo";
+                case StatusContratoEnum.Suspenso:
+                    return "Suspenso";
+                case StatusContratoEnum.Cancelado:
+                    return "Cancelado";
+                default:
+                    return string.Empty;
+            }
         }
     }
 }

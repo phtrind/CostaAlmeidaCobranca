@@ -214,6 +214,10 @@
       <Project>{D1355808-F79E-4ED7-A3F2-5BC0D351A546}</Project>
       <Name>Projecao</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utilitario\Utilitario.csproj">
+      <Project>{C95A8B6B-6BEA-4140-A6ED-74E0E3641D4B}</Project>
+      <Name>Utilitario</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

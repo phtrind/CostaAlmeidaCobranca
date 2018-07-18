@@ -21,7 +21,8 @@ namespace Dados.Mapeamento
             Map(x => x.Valor).ToColumn("PAR_VALOR");
             Map(x => x.Vencimento).ToColumn("PAR_DTHVENCIMENTO");
             Map(x => x.Status).ToColumn("PAR_STATUS");
-            Map(x => x.Juros).ToColumn("PAR_JUROS");
+            Map(x => x.ValorPago).ToColumn("PAR_VALORPAGO");
+            Map(x => x.DataPagamento).ToColumn("PAR_DATAPAGAMENTO");
 
             Map(x => x.IdContrato).ToColumn("CON_CODIGO");
 

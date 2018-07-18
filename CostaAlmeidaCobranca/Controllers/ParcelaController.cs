@@ -50,5 +50,13 @@ namespace CostaAlmeidaCobranca.Controllers
 
             return negocio.Excluir(entidade);
         }
+
+        [Authorize]
+        [Route("api/Parcelas/Contrato/{id}")]
+        [HttpGet]
+        public IEnumerable<ParcelasEntidade> ParcelasPorContrato(int id)
+        {
+            return new ParcelaNegocio().ParcelasPorContrato(id);
+        }
     }
 }

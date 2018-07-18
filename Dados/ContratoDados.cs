@@ -15,7 +15,7 @@ namespace Dados
         {
             var resultado = db.Query(@" SELECT *
                                         FROM CON_CONTRATOS
-                                            INNER JOIN EVE_EVENTOS
+                                            LEFT JOIN EVE_EVENTOS
                                             ON CON_CONTRATOS.EVE_CODIGO = EVE_EVENTOS.EVE_CODIGO
                                             INNER JOIN USU_USUARIOS
                                             ON CON_CONTRATOS.USU_CODIGO = USU_USUARIOS.USU_CODIGO ");
@@ -39,11 +39,11 @@ namespace Dados
         {
             var resultado = db.Query($@" SELECT *
                                          FROM CON_CONTRATOS
-                                             INNER JOIN EVE_EVENTOS
+                                             LEFT JOIN EVE_EVENTOS
                                              ON CON_CONTRATOS.EVE_CODIGO = EVE_EVENTOS.EVE_CODIGO
                                              INNER JOIN USU_USUARIOS
                                              ON CON_CONTRATOS.USU_CODIGO = USU_USUARIOS.USU_CODIGO 
-                                          WHERE CON_CONTRATOS.COD_CODCONTRATO = {aCodigo} ");
+                                          WHERE CON_CONTRATOS.CON_CODIGO = {aCodigo} ");
 
             var retorno = DadosParaEntidade(resultado).FirstOrDefault();
 
@@ -59,36 +59,49 @@ namespace Dados
 
         private IEnumerable<ContratoEntidade> DadosParaEntidade(IEnumerable<dynamic> aResultado)
         {
-            return aResultado.Select(x => new ContratoEntidade()
+            var retorno = new List<ContratoEntidade>();
+
+            foreach (var x in aResultado)
             {
-                Id = Convert.ToInt64(x.CON_CODIGO),
-                Valor = Convert.ToDecimal(x.CON_VALOR),
-                TaxaLucro = Convert.ToDecimal(x.CON_TAXALUCRO),
-                Observacao = x.CON_OBSERVACAO,
-                Status = (StatusContratoEnum)Convert.ToInt32(x.CON_STATUS),
-                IdUsuario = Convert.ToInt64(x.USU_CODIGO),
-                IdEvento = Convert.ToInt64(x.EVE_CODIGO),
-                IdVendedor = Convert.ToInt64(x.CON_VENDEDOR),
-                IdComprador = Convert.ToInt64(x.CON_COMPRADOR),
-                DataCadastro = x.CON_DTHCADASTRO,
-                Usuario = new UsuarioEntidade()
+                var contrato = new ContratoEntidade()
                 {
-                    Id = Convert.ToInt64(x.USU_CODIGO),
-                    Email = x.USU_EMAIL,
-                    Senha = x.USU_SENHA,
-                    Tipo = (TipoUsuarioEnum)Convert.ToInt32(x.USU_TIPO),
-                    DataCadastro = x.USU_DTHCADASTRO
-                },
-                Evento = new EventoEntidade()
-                {
-                    Id = Convert.ToInt64(x.EVE_CODIGO),
-                    Nome = x.EVE_NOME,
-                    Data = x.EVE_DATA,
+                    Id = Convert.ToInt64(x.CON_CODIGO),
+                    Valor = Convert.ToDecimal(x.CON_VALOR),
+                    TaxaLucro = Convert.ToDecimal(x.CON_TAXALUCRO),
+                    Observacao = x.CON_OBSERVACAO,
+                    Status = (StatusContratoEnum)Convert.ToInt32(x.CON_STATUS),
                     IdUsuario = Convert.ToInt64(x.USU_CODIGO),
-                    IdEndereco = Convert.ToInt64(x.END_CODIGO),
-                    DataCadastro = x.EVE_DTHCADASTRO
+                    IdEvento = Convert.ToInt64(x.EVE_CODIGO),
+                    IdVendedor = Convert.ToInt64(x.CON_VENDEDOR),
+                    IdComprador = Convert.ToInt64(x.CON_COMPRADOR),
+                    DataCadastro = x.CON_DTHCADASTRO,
+                    Usuario = new UsuarioEntidade()
+                    {
+                        Id = Convert.ToInt64(x.USU_CODIGO),
+                        Email = x.USU_EMAIL,
+                        Senha = x.USU_SENHA,
+                        Tipo = (TipoUsuarioEnum)Convert.ToInt32(x.USU_TIPO),
+                        DataCadastro = x.USU_DTHCADASTRO
+                    }
+                };
+
+                if (x.EVE_CODIGO != null)
+                {
+                    contrato.Evento = new EventoEntidade()
+                    {
+                        Id = Convert.ToInt64(x.EVE_CODIGO),
+                        Nome = x.EVE_NOME,
+                        Data = x.EVE_DATA,
+                        IdUsuario = Convert.ToInt64(x.USU_CODIGO),
+                        IdEndereco = Convert.ToInt64(x.END_CODIGO),
+                        DataCadastro = x.EVE_DTHCADASTRO
+                    };
                 }
-            });
+
+                retorno.Add(contrato);
+            }
+
+            return retorno;
         }
     }
 }

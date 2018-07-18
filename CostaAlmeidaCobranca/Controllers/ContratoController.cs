@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using Utilitario;
 
 namespace CostaAlmeidaCobranca.Controllers
 {
@@ -73,6 +74,25 @@ namespace CostaAlmeidaCobranca.Controllers
         public getCombosCadastroContratoResponse getCombosCadastroContrato()
         {
             return new ContratoNegocio().getCombosCadastroContrato();
+        }
+
+        [Authorize]
+        [Route("api/Contrato/Relatorio")]
+        [HttpGet]
+        public IEnumerable<RelatorioContratoResponse> Relatorio()
+        {
+            var lista = new ContratoNegocio().ListarTodosCompleto();
+
+            return lista.Select(x => new RelatorioContratoResponse()
+            {
+                Id = x.Id.ToString(),
+                Comprador = x.Comprador.Nome,
+                Vendedor = x.Vendedor.Nome,
+                Evento = x.Evento != null ? x.Evento.Nome : string.Empty,
+                Valor = StringUtilitario.ValorReais(x.Valor),
+                Status = new ContratoNegocio().TraduzirStatus(x.Status),
+                Parcelas = x.Parcelas.Count.ToString()
+            });
         }
     }
 }

@@ -19,5 +19,10 @@ namespace Negocio
         {
             return new ParcelaDados().ListarCompleto(aCodigo);
         }
+
+        public IEnumerable<ParcelasEntidade> ParcelasPorContrato(int id)
+        {
+            return new ParcelaDados().ParcelasPorContrato(id);
+        }
     }
 }

@@ -15,7 +15,8 @@ namespace Entidade
         public decimal Valor { get; set; }
         public DateTime Vencimento { get; set; }
         public StatusParcelaEnum Status { get; set; }
-        public decimal Juros { get; set; }
+        public decimal? ValorPago { get; set; }
+        public DateTime? DataPagamento { get; set; }
 
         public long? IdContrato { get; set; }
 
