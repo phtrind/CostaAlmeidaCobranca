@@ -1,5 +1,6 @@
 ﻿using Entidade;
 using Negocio;
+using Projecao;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -54,9 +55,11 @@ namespace CostaAlmeidaCobranca.Controllers
         [Authorize]
         [Route("api/Parcelas/Contrato/{id}")]
         [HttpGet]
-        public IEnumerable<ParcelasEntidade> ParcelasPorContrato(int id)
+        public IEnumerable<ParcelasPorContratoProjecao> ParcelasPorContrato(int id)
         {
-            return new ParcelaNegocio().ParcelasPorContrato(id);
+            var negocio = new ParcelaNegocio();
+
+            return negocio.EntidadeParaProjecaoRelatorio(negocio.ParcelasPorContrato(id));
         }
     }
 }
