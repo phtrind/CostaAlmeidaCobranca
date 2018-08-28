@@ -67,7 +67,7 @@ namespace Dados
                 {
                     Id = Convert.ToInt64(x.CON_CODIGO),
                     Valor = Convert.ToDecimal(x.CON_VALOR),
-                    TaxaLucro = Convert.ToDecimal(x.CON_TAXALUCRO),
+                    Animal = x.CON_ANIMAL,
                     Observacao = x.CON_OBSERVACAO,
                     Status = (StatusContratoEnum)Convert.ToInt32(x.CON_STATUS),
                     IdUsuario = Convert.ToInt64(x.USU_CODIGO),

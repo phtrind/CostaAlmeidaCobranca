@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Enumerador
 {
-    public enum TipoUsuarioEnum
+    public enum PermissaoFuncionarioEnum
     {
-        Funcionario = 1,
-        Cliente = 2
+        Master = 1,
+        Basico = 2
     }
 }

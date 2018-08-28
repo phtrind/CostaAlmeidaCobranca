@@ -1,5 +1,6 @@
 ﻿using Entidade;
 using Negocio;
+using Projecao;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,11 +29,11 @@ namespace CostaAlmeidaCobranca.Controllers
         }
 
         [Authorize]
-        [Route("api/Usuario/Username/{aEmail}")]
+        [Route("api/Usuario/InformacoesLogin/{aEmail}")]
         [HttpGet]
-        public UsuarioEntidade getUserByEmail(string aEmail)
+        public InformacoesUsuarioResponse InformacoesLogin(string aEmail)
         {
-            return new UsuarioNegocio().ListarTodos().Where(x => x.Email == aEmail).FirstOrDefault();
+            return new UsuarioNegocio().InformacoesLogin(aEmail);
         }
 
         [Authorize]

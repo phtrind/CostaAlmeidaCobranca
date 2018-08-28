@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Enumerador
+namespace Utilitario
 {
-    public enum TipoUsuarioEnum
+    public static class Constantes
     {
-        Funcionario = 1,
-        Cliente = 2
+
     }
 }

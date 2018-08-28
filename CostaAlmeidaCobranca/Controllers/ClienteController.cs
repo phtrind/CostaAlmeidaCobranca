@@ -1,4 +1,5 @@
 ﻿using Entidade;
+using Enumerador;
 using Negocio;
 using Projecao;
 using System;
@@ -8,10 +9,11 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using Utilitario;
 
 namespace CostaAlmeidaCobranca.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    //[EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ClienteController : ApiController
     {
         [Authorize]
@@ -34,11 +36,21 @@ namespace CostaAlmeidaCobranca.Controllers
         // POST: api/Cliente
         public long Post([FromBody]ClienteEntidade aEntidade)
         {
-            aEntidade.DataCadastro = DateTime.Now;
+            var usuario = new UsuarioEntidade()
+            {
+                DataCadastro = DateTime.Now,
+                Email = aEntidade.Email,
+                Senha = StringUtilitario.GerarSenhaAlatoria(),
+                Tipo = TipoUsuarioEnum.Cliente
+            };
+
+            aEntidade.IdUsuario = new UsuarioNegocio().Inserir(usuario);
 
             aEntidade.Endereco.DataCadastro = DateTime.Now;
 
             aEntidade.IdEndereco = new EnderecoNegocio().Inserir(aEntidade.Endereco);
+
+            aEntidade.DataCadastro = DateTime.Now;
 
             return new ClienteNegocio().Inserir(aEntidade);
         }

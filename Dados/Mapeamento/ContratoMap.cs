@@ -16,7 +16,7 @@ namespace Dados.Mapeamento
 
             Map(x => x.Id).ToColumn("CON_CODIGO").IsKey().IsIdentity();
             Map(x => x.Valor).ToColumn("CON_VALOR");
-            Map(x => x.TaxaLucro).ToColumn("CON_TAXALUCRO");
+            Map(x => x.Animal).ToColumn("CON_ANIMAL");
             Map(x => x.Observacao).ToColumn("CON_OBSERVACAO");
             Map(x => x.Status).ToColumn("CON_STATUS");
 

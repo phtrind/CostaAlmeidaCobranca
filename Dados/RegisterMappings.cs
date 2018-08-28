@@ -22,6 +22,7 @@ namespace Dados
                 config.AddMap(new EventoMap());
                 config.AddMap(new ContratoMap());
                 config.AddMap(new ParcelaMap());
+                config.AddMap(new FuncionarioMap());
                 config.ForDommel();
             });
         }

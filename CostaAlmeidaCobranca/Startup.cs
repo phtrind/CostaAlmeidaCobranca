@@ -11,7 +11,7 @@ using System.Web.Http.Cors;
 
 namespace CostaAlmeidaCobranca
 {
-    //[EnableCors(origins: "*", headers: "*", methods: "*", SupportsCredentials = true)]
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class Startup
     {
         public void Configuration(IAppBuilder app)

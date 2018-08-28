@@ -49,6 +49,7 @@
     <Compile Include="EnderecoNegocio.cs" />
     <Compile Include="EventoNegocio.cs" />
     <Compile Include="FinanceiroNegocio.cs" />
+    <Compile Include="FuncionarioNegocio.cs" />
     <Compile Include="Interface\INegocioBase.cs" />
     <Compile Include="NegocioBase.cs" />
     <Compile Include="ParcelaNegocio.cs" />

@@ -22,9 +22,9 @@ namespace Negocio
             return new ContratoDados().ListarCompleto(aCodigo);
         }
 
-        public getCombosCadastroContratoResponse getCombosCadastroContrato()
+        public GetCombosCadastroContratoResponse getCombosCadastroContrato()
         {
-            return new getCombosCadastroContratoResponse()
+            return new GetCombosCadastroContratoResponse()
             {
                 Clientes = new ClienteNegocio().getComboClientes().ToList(),
                 Eventos = new EventoNegocio().getComboEventos().ToList()
@@ -44,6 +44,28 @@ namespace Negocio
                 default:
                     return string.Empty;
             }
+        }
+
+        public bool ValidarCadastroContrato(ContratoEntidade aEntidade)
+        {
+            if (aEntidade.Valor == 0 || 
+                aEntidade.Parcelas == null || 
+                !aEntidade.Parcelas.Any() || 
+                aEntidade.Parcelas.Any(x => x.Valor == 0))
+            {
+                return false;
+            }
+
+            if (aEntidade.Parcelas.Sum(x => x.Valor) != aEntidade.Valor)
+                return false;
+
+            if (string.IsNullOrEmpty(aEntidade.Animal))
+                return false;
+
+            if (!aEntidade.IdVendedor.HasValue || !aEntidade.IdComprador.HasValue || !aEntidade.IdUsuario.HasValue)
+                return false;
+
+            return true;
         }
     }
 }

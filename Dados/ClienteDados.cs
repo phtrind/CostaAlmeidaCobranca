@@ -27,12 +27,12 @@ namespace Dados
         public ClienteEntidade ListarCompleto(long aCodigo)
         {
             var resultado = db.Query($@" SELECT *
-                                        FROM CLI_CLIENTES
-                                            INNER JOIN END_ENDERECOS
-                                            ON CLI_CLIENTES.END_CODIGO = END_ENDERECOS.END_CODIGO
-                                            INNER JOIN USU_USUARIOS
-                                            ON CLI_CLIENTES.USU_CODIGO = USU_USUARIOS.USU_CODIGO 
-                                         WHERE CLI_CLIENTES.CLI_CODIGO = {aCodigo} ");
+                                         FROM CLI_CLIENTES
+                                             INNER JOIN END_ENDERECOS
+                                             ON CLI_CLIENTES.END_CODIGO = END_ENDERECOS.END_CODIGO
+                                             INNER JOIN USU_USUARIOS
+                                             ON CLI_CLIENTES.USU_CODIGO = USU_USUARIOS.USU_CODIGO 
+                                          WHERE CLI_CLIENTES.CLI_CODIGO = {aCodigo} ");
 
             return DadosParaEntidade(resultado).FirstOrDefault();
         }

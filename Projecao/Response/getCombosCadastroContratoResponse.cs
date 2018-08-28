@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Projecao
 {
-    public class getCombosCadastroContratoResponse
+    public class GetCombosCadastroContratoResponse
     {
         public List<ComboProjecao> Clientes { get; set; }
         public List<ComboProjecao> Eventos { get; set; }

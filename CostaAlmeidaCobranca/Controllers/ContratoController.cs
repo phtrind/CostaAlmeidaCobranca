@@ -34,10 +34,17 @@ namespace CostaAlmeidaCobranca.Controllers
         // POST: api/Contrato
         public long Post([FromBody]ContratoEntidade aEntidade)
         {
+            var negocio = new ContratoNegocio();
+
+            if (!negocio.ValidarCadastroContrato(aEntidade))
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+
             aEntidade.DataCadastro = DateTime.Now;
             aEntidade.Status = StatusContratoEnum.Ativo;
 
-            var idContrato = new ContratoNegocio().Inserir(aEntidade);
+            var idContrato = negocio.Inserir(aEntidade);
 
             foreach (var parcela in aEntidade.Parcelas)
             {
@@ -71,7 +78,7 @@ namespace CostaAlmeidaCobranca.Controllers
         [Authorize]
         [Route("api/Contrato/getCombosCadastro")]
         [HttpGet]
-        public getCombosCadastroContratoResponse getCombosCadastroContrato()
+        public GetCombosCadastroContratoResponse getCombosCadastroContrato()
         {
             return new ContratoNegocio().getCombosCadastroContrato();
         }
