@@ -62,6 +62,15 @@ namespace CostaAlmeidaCobranca.Controllers
         // PUT: api/Contrato/5
         public bool Put([FromBody]ContratoEntidade aEntidade)
         {
+            var negocioParcela = new ParcelaNegocio();
+
+            foreach (var parcela in aEntidade.Parcelas)
+            {
+                parcela.IdContrato = aEntidade.Id;
+
+                negocioParcela.Atualizar(parcela);
+            }
+
             return new ContratoNegocio().Atualizar(aEntidade);
         }
 
