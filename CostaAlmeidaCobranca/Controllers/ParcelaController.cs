@@ -16,14 +16,14 @@ namespace CostaAlmeidaCobranca.Controllers
         // GET: api/Parcela
         public IEnumerable<ParcelasEntidade> Get()
         {
-            return new ParcelaNegocio().ListarTodosCompleto();
+            return new ParcelaNegocio().ListarTodos();
         }
 
         [Authorize]
         // GET: api/Parcela/5
         public ParcelasEntidade Get(int id)
         {
-            return new ParcelaNegocio().ListarCompleto(id);
+            return new ParcelaNegocio().Listar(id);
         }
 
         [Authorize]

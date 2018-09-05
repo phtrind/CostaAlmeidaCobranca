@@ -10,7 +10,6 @@ namespace Entidade
     public class FuncionarioEntidade : EntidadeBase
     {
         public long? Id { get; set; }
-        public DateTime? DataCadastro { get; set; }
 
         public string Nome { get; set; }
         public string Cpf { get; set; }
@@ -18,7 +17,13 @@ namespace Entidade
         public string TelefoneCelular { get; set; }
         public PermissaoFuncionarioEnum Permissao { get; set; }
 
+        public DateTime? DataCadastro { get; set; }
+        public DateTime? DataAlteracao { get; set; }
+
         public long? IdUsuario { get; set; }
         public UsuarioEntidade Usuario { get; set; }
+
+        public long? IdUsuarioAlteracao { get; set; }
+        public UsuarioEntidade UsuarioAlteracao { get; set; }
     }
 }

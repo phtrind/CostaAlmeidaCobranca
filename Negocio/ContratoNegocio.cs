@@ -24,10 +24,12 @@ namespace Negocio
 
         public GetCombosCadastroContratoResponse getCombosCadastroContrato()
         {
+            var comboClientes = new ClienteNegocio().getComboClientes().ToList();
+
             return new GetCombosCadastroContratoResponse()
             {
-                Clientes = new ClienteNegocio().getComboClientes().ToList(),
-                Eventos = new EventoNegocio().getComboEventos().ToList()
+                Clientes = comboClientes,
+                Eventos = comboClientes
             };
         }
 

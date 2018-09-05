@@ -13,16 +13,6 @@ namespace Negocio
 {
     public class ParcelaNegocio : NegocioBase<ParcelasEntidade>
     {
-        public IEnumerable<ParcelasEntidade> ListarTodosCompleto()
-        {
-            return new ParcelaDados().ListarTodosCompleto();
-        }
-
-        public ParcelasEntidade ListarCompleto(long aCodigo)
-        {
-            return new ParcelaDados().ListarCompleto(aCodigo);
-        }
-
         public IEnumerable<ParcelasEntidade> ParcelasPorContrato(int id)
         {
             return new ParcelaDados().ParcelasPorContrato(id);

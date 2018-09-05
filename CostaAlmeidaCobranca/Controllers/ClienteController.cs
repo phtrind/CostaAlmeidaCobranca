@@ -1,27 +1,20 @@
 ﻿using Entidade;
 using Enumerador;
 using Negocio;
-using Projecao;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using Utilitario;
 
 namespace CostaAlmeidaCobranca.Controllers
 {
-    //[EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ClienteController : ApiController
     {
         [Authorize]
         // GET: api/Cliente
         public IEnumerable<ClienteEntidade> Get()
         {
-            //return new ClienteNegocio().ListarTodosCompleto();
-
             return new ClienteNegocio().ListarTodos().OrderBy(x => x.Nome);
         }
 
@@ -29,7 +22,7 @@ namespace CostaAlmeidaCobranca.Controllers
         // GET: api/Cliente/5
         public ClienteEntidade Get(int id)
         {
-            return new ClienteNegocio().ListarCompleto(id);
+            return new ClienteNegocio().Listar(id);
         }
 
         [Authorize]
@@ -39,18 +32,19 @@ namespace CostaAlmeidaCobranca.Controllers
             var usuario = new UsuarioEntidade()
             {
                 DataCadastro = DateTime.Now,
+                DataAlteracao = DateTime.Now,
                 Email = aEntidade.Email,
                 Senha = StringUtilitario.GerarSenhaAlatoria(),
-                Tipo = TipoUsuarioEnum.Cliente
+                Tipo = TipoUsuarioEnum.Cliente,
+                IdUsuarioAlteracao = aEntidade.IdUsuarioAlteracao
             };
 
             aEntidade.IdUsuario = new UsuarioNegocio().Inserir(usuario);
 
-            aEntidade.Endereco.DataCadastro = DateTime.Now;
-
             aEntidade.IdEndereco = new EnderecoNegocio().Inserir(aEntidade.Endereco);
 
-            aEntidade.DataCadastro = DateTime.Now;
+            aEntidade.Endereco.DataCadastro = DateTime.Now;
+            aEntidade.Endereco.DataAlteracao = DateTime.Now;
 
             return new ClienteNegocio().Inserir(aEntidade);
         }
@@ -59,6 +53,8 @@ namespace CostaAlmeidaCobranca.Controllers
         // PUT: api/Cliente/5
         public bool Put([FromBody]ClienteEntidade aEntidade)
         {
+            aEntidade.DataAlteracao = DateTime.Now;
+
             return new ClienteNegocio().Atualizar(aEntidade);
         }
 

@@ -17,10 +17,13 @@ namespace Dados.Mapeamento
             Map(x => x.TelefoneCelular).ToColumn("FUN_TELCELULAR");
 
             Map(x => x.IdUsuario).ToColumn("USU_CODIGO");
+            Map(x => x.IdUsuarioAlteracao).ToColumn("USU_ALTERACAO");
 
             Map(x => x.DataCadastro).ToColumn("FUN_DTHCADASTRO");
+            Map(x => x.DataAlteracao).ToColumn("FUN_DTHALTERACAO");
 
             Map(x => x.Usuario).Ignore();
+            Map(x => x.UsuarioAlteracao).Ignore();
         }
     }
 }

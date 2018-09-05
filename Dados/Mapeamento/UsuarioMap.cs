@@ -1,10 +1,5 @@
 ﻿using Dapper.FluentMap.Dommel.Mapping;
 using Entidade;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dados.Mapeamento
 {
@@ -19,6 +14,10 @@ namespace Dados.Mapeamento
             Map(x => x.Senha).ToColumn("USU_SENHA");
             Map(x => x.Tipo).ToColumn("USU_TIPO");
             Map(x => x.DataCadastro).ToColumn("USU_DTHCADASTRO");
+            Map(x => x.DataAlteracao).ToColumn("USU_DTHALTERACAO");
+            Map(x => x.IdUsuarioAlteracao).ToColumn("USU_ALTERACAO");
+
+            Map(x => x.UsuarioAlteracao).Ignore();
         }
     }
 }

@@ -74,7 +74,8 @@ namespace Dados
                     IdEvento = Convert.ToInt64(x.EVE_CODIGO),
                     IdVendedor = Convert.ToInt64(x.CON_VENDEDOR),
                     IdComprador = Convert.ToInt64(x.CON_COMPRADOR),
-                    DataCadastro = x.CON_DTHCADASTRO,
+                    DataCadastro = Convert.ToDateTime(x.CON_DTHCADASTRO),
+                    DataAlteracao = Convert.ToDateTime(x.CON_DTHALTERACAO),
                     Usuario = new UsuarioEntidade()
                     {
                         Id = Convert.ToInt64(x.USU_CODIGO),

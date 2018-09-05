@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Entidade
 {
     public class EventoEntidade : EntidadeBase
     {
         public long Id { get; set; }
-        public DateTime DataCadastro { get; set; }
 
         public string Nome { get; set; }
         public DateTime Data { get; set; }
+
+        public DateTime? DataCadastro { get; set; }
+        public DateTime? DataAlteracao { get; set; }
 
         public long? IdUsuario { get; set; }
         public long? IdEndereco { get; set; }

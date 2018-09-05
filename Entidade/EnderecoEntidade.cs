@@ -9,7 +9,6 @@ namespace Entidade
     public class EnderecoEntidade : EntidadeBase
     {
         public long? Id { get; set; }
-        public DateTime? DataCadastro { get; set; }
 
         public string Logradouro { get; set; }
         public string Numero { get; set; }
@@ -18,5 +17,11 @@ namespace Entidade
         public long Cep { get; set; }
         public string Cidade { get; set; }
         public string Estado { get; set; }
+
+        public DateTime? DataCadastro { get; set; }
+        public DateTime? DataAlteracao { get; set; }
+
+        public long? IdUsuarioAlteracao { get; set; }
+        public UsuarioEntidade UsuarioAlteracao { get; set; }
     }
 }
