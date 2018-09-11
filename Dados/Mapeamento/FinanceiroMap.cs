@@ -10,6 +10,7 @@ namespace Dados.Mapeamento
             ToTable("TRA_TRANSACOES");
 
             Map(x => x.Id).ToColumn("TRA_CODIGO").IsKey().IsIdentity();
+
             Map(x => x.Valor).ToColumn("TRA_VALOR");
             Map(x => x.Tipo).ToColumn("TRA_TIPO");
             Map(x => x.Data).ToColumn("TRA_DATA");
@@ -18,9 +19,11 @@ namespace Dados.Mapeamento
             Map(x => x.DataCadastro).ToColumn("TRA_DTHCADASTRO");
             Map(x => x.DataAlteracao).ToColumn("TRA_DTHALTERACAO");
 
-            Map(x => x.IdUsuario).ToColumn("USU_CODIGO");
+            Map(x => x.IdUsuarioCadastro).ToColumn("USU_CADASTRO");
+            Map(x => x.IdUsuarioAlteracao).ToColumn("USU_ALTERACAO");
 
-            Map(x => x.Usuario).Ignore();
+            Map(x => x.UsuarioCadastro).Ignore();
+            Map(x => x.UsuarioAlteracao).Ignore();
         }
     }
 }

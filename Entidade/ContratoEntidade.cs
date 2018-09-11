@@ -1,18 +1,11 @@
 ﻿using Enumerador;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Entidade
 {
     public class ContratoEntidade : EntidadeBase
     {
-        public ContratoEntidade()
-        {
-            this.DataCadastro = DateTime.Now;
-        }
-
         public long Id { get; set; }
 
         public decimal Valor { get; set; }
@@ -26,12 +19,15 @@ namespace Entidade
         public long? IdVendedor { get; set; }
         public long? IdComprador { get; set; }
         public long? IdEvento { get; set; }
-        public long? IdUsuario { get; set; }
+        public long? IdUsuarioCadastro { get; set; }
+        public long? IdUsuarioAlteracao { get; set; }
 
-        public EventoEntidade Evento { get; set; }
         public ClienteEntidade Vendedor { get; set; }
         public ClienteEntidade Comprador { get; set; }
-        public UsuarioEntidade Usuario { get; set; }
+        public EventoEntidade Evento { get; set; }
+        public UsuarioEntidade UsuarioCadastro { get; set; }
+        public UsuarioEntidade UsuarioAlteracao { get; set; }
+
         public List<ParcelasEntidade> Parcelas { get; set; }
     }
 }

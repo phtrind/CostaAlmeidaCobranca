@@ -3,10 +3,7 @@ using Entidade;
 using Enumerador;
 using Projecao;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Negocio
 {
@@ -36,6 +33,24 @@ namespace Negocio
                     return dados.BuscarInfoLoginCliente(usuario.Id);
                 default:
                     return null;
+            }
+        }
+
+        public override void ValidateRegister(UsuarioEntidade aEntidade)
+        {
+            if (string.IsNullOrEmpty(aEntidade.Email))
+            {
+                throw new Exception("É obrigatório informar o e-mail do usuário.");
+            }
+
+            if (string.IsNullOrEmpty(aEntidade.Senha))
+            {
+                throw new Exception("É obrigatório informar senha do usuário.");
+            }
+
+            if (!aEntidade.IdUsuarioCadastro.HasValue)
+            {
+                throw new Exception("É obrigatório informar o usuário responsável pelo cadastro.");
             }
         }
     }

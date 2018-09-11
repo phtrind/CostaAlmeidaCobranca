@@ -22,9 +22,11 @@ namespace Dados.Mapeamento
             Map(x => x.DataAlteracao).ToColumn("PAR_DTHALTERACAO");
 
             Map(x => x.IdContrato).ToColumn("CON_CODIGO");
-            Map(x => x.IdUsuarioAlteracao).ToColumn("USU_CODIGO");
+            Map(x => x.IdUsuarioCadastro).ToColumn("USU_CADASTRO");
+            Map(x => x.IdUsuarioAlteracao).ToColumn("USU_ALTERACAO");
 
             Map(x => x.Contrato).Ignore();
+            Map(x => x.UsuarioCadastro).Ignore();
             Map(x => x.UsuarioAlteracao).Ignore();
         }
     }

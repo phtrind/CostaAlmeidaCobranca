@@ -10,6 +10,7 @@ namespace Dados.Mapeamento
             ToTable("EVE_EVENTOS");
 
             Map(x => x.Id).ToColumn("EVE_CODIGO").IsKey().IsIdentity();
+
             Map(x => x.Nome).ToColumn("EVE_NOME");
             Map(x => x.Data).ToColumn("EVE_DATA");
 
@@ -17,10 +18,13 @@ namespace Dados.Mapeamento
             Map(x => x.DataAlteracao).ToColumn("EVE_DTHALTERACAO");
 
             Map(x => x.IdEndereco).ToColumn("END_CODIGO");
-            Map(x => x.IdUsuario).ToColumn("USU_CODIGO");
+            Map(x => x.IdUsuarioCadastro).ToColumn("USU_CADASTRO");
+            Map(x => x.IdUsuarioAlteracao).ToColumn("USU_ALTERACAO");
 
-            Map(x => x.Usuario).Ignore();
             Map(x => x.Endereco).Ignore();
+            Map(x => x.UsuarioCadastro).Ignore();
+            Map(x => x.UsuarioAlteracao).Ignore();
+
             Map(x => x.Contratos).Ignore();
         }
     }

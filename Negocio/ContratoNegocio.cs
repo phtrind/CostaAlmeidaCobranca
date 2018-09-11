@@ -1,12 +1,10 @@
 ﻿using Dados;
 using Entidade;
+using Enumerador;
+using Projecao;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Projecao;
-using Enumerador;
 
 namespace Negocio
 {
@@ -64,10 +62,42 @@ namespace Negocio
             if (string.IsNullOrEmpty(aEntidade.Animal))
                 return false;
 
-            if (!aEntidade.IdVendedor.HasValue || !aEntidade.IdComprador.HasValue || !aEntidade.IdUsuario.HasValue)
+            if (!aEntidade.IdVendedor.HasValue || !aEntidade.IdComprador.HasValue || !aEntidade.IdUsuarioCadastro.HasValue)
+            {
                 return false;
+            }
 
             return true;
+        }
+
+        public override void ValidateRegister(ContratoEntidade aEntidade)
+        {
+            if (aEntidade.Valor == default(decimal))
+            {
+                throw new Exception("O valor do contrato é inválido.");
+            }
+
+            if (aEntidade.Parcelas == null)
+            {
+                throw new Exception("Não é possível cadastrar um contrato sem parcelas.");
+            }
+
+            if (aEntidade.Valor != aEntidade.Parcelas.Sum(x => x.Valor))
+            {
+                throw new Exception("O valor do contrato não pode ser diferente da soma do valor das parcelas");
+            }
+
+            if (!aEntidade.IdUsuarioCadastro.HasValue)
+            {
+                throw new Exception("É obrigatório informar o usuário resposável pelo cadastro.");
+            }
+
+            var negocioParcelas = new ParcelaNegocio();
+
+            foreach (var parcela in aEntidade.Parcelas)
+            {
+                negocioParcelas.ValidateRegister(parcela);
+            }
         }
     }
 }

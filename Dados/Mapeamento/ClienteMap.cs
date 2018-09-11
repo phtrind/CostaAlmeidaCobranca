@@ -10,6 +10,7 @@ namespace Dados.Mapeamento
             ToTable("CLI_CLIENTES");
 
             Map(x => x.Id).ToColumn("CLI_CODIGO").IsKey().IsIdentity();
+
             Map(x => x.Nome).ToColumn("CLI_NOME");
             Map(x => x.Cpf).ToColumn("CLI_CPF");
             Map(x => x.Email).ToColumn("CLI_EMAIL");
@@ -17,16 +18,20 @@ namespace Dados.Mapeamento
             Map(x => x.TelefoneFixo).ToColumn("CLI_TELFIXO");
             Map(x => x.TelefoneCelular).ToColumn("CLI_TELCELULAR");
 
-            Map(x => x.IdEndereco).ToColumn("END_CODIGO");
-            Map(x => x.IdUsuario).ToColumn("USU_CODIGO");
-            Map(x => x.IdUsuarioAlteracao).ToColumn("USU_ALTERACAO");
-
             Map(x => x.DataCadastro).ToColumn("CLI_DTHCADASTRO");
             Map(x => x.DataAlteracao).ToColumn("CLI_DTHALTERACAO");
 
+            Map(x => x.IdUsuario).ToColumn("USU_CODIGO");
+            Map(x => x.IdEndereco).ToColumn("END_CODIGO");
+            Map(x => x.IdUsuarioCadastro).ToColumn("USU_CADASTRO");
+            Map(x => x.IdUsuarioAlteracao).ToColumn("USU_ALTERACAO");
+
             Map(x => x.Usuario).Ignore();
-            Map(x => x.UsuarioAlteracao).Ignore();
             Map(x => x.Endereco).Ignore();
+
+            Map(x => x.UsuarioCadastro).Ignore();
+            Map(x => x.UsuarioAlteracao).Ignore();
+
             Map(x => x.Contratos).Ignore();
             Map(x => x.ContasBancarias).Ignore();
         }

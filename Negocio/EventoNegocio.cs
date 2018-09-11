@@ -1,11 +1,8 @@
 ﻿using Dados;
 using Entidade;
+using Projecao;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Projecao;
 
 namespace Negocio
 {
@@ -24,6 +21,24 @@ namespace Negocio
         public IEnumerable<ComboProjecao> getComboEventos()
         {
             return new EventoDados().getComboEventos();
+        }
+
+        public override void ValidateRegister(EventoEntidade aEntidade)
+        {
+            if (string.IsNullOrEmpty(aEntidade.Nome))
+            {
+                throw new Exception("É obrigatório informar o nome do evento.");
+            }
+
+            if (aEntidade.Data == default(DateTime))
+            {
+                throw new Exception("A data do evento informada é inválida.");
+            }
+
+            if (!aEntidade.IdUsuarioCadastro.HasValue)
+            {
+                throw new Exception("É obrigatório informar o usuário resposável pelo cadastro.");
+            }
         }
     }
 }

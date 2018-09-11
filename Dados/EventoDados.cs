@@ -57,17 +57,8 @@ namespace Dados
                 Id = Convert.ToInt64(x.EVE_CODIGO),
                 Nome = x.EVE_NOME,
                 Data = x.EVE_DATA,
-                IdUsuario = Convert.ToInt64(x.USU_CODIGO),
                 IdEndereco = Convert.ToInt64(x.END_CODIGO),
                 DataCadastro = x.EVE_DTHCADASTRO,
-                Usuario = new UsuarioEntidade()
-                {
-                    Id = Convert.ToInt64(x.USU_CODIGO),
-                    Email = x.USU_EMAIL,
-                    Senha = x.USU_SENHA,
-                    Tipo = (TipoUsuarioEnum)Convert.ToInt32(x.USU_TIPO),
-                    DataCadastro = x.USU_DTHCADASTRO
-                },
                 Endereco = new EnderecoEntidade()
                 {
                     Id = Convert.ToInt64(x.END_CODIGO),

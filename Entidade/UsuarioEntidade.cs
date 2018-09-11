@@ -14,7 +14,10 @@ namespace Entidade
         public DateTime? DataCadastro { get; set; }
         public DateTime? DataAlteracao { get; set; }
 
+        public long? IdUsuarioCadastro { get; set; }
         public long? IdUsuarioAlteracao { get; set; }
+
+        public UsuarioEntidade UsuarioCadastro { get; set; }
         public UsuarioEntidade UsuarioAlteracao { get; set; }
     }
 }

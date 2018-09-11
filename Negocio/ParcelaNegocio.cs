@@ -1,13 +1,11 @@
 ﻿using Dados;
 using Entidade;
+using Enumerador;
+using Projecao;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Projecao;
 using Utilitario;
-using Enumerador;
 
 namespace Negocio
 {
@@ -42,6 +40,24 @@ namespace Negocio
                     return "Cancelada";
                 default:
                     return null;
+            }
+        }
+
+        public override void ValidateRegister(ParcelasEntidade aEntidade)
+        {
+            if (aEntidade.Valor == default(decimal))
+            {
+                throw new Exception("O valor da parcela é inválido.");
+            }
+
+            if (aEntidade.Vencimento == default(DateTime))
+            {
+                throw new Exception("A data de vencimento da parcela é inválida.");
+            }
+
+            if (!aEntidade.IdUsuarioCadastro.HasValue)
+            {
+                throw new Exception("É obrigatório informar o usuário resposável pelo cadastro.");
             }
         }
     }

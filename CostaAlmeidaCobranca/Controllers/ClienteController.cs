@@ -29,6 +29,10 @@ namespace CostaAlmeidaCobranca.Controllers
         // POST: api/Cliente
         public long Post([FromBody]ClienteEntidade aEntidade)
         {
+            var clienteNegocio = new ClienteNegocio();
+
+            //clienteNegocio.ValidateRegister(aEntidade);
+
             var usuario = new UsuarioEntidade()
             {
                 DataCadastro = DateTime.Now,
@@ -36,17 +40,23 @@ namespace CostaAlmeidaCobranca.Controllers
                 Email = aEntidade.Email,
                 Senha = StringUtilitario.GerarSenhaAlatoria(),
                 Tipo = TipoUsuarioEnum.Cliente,
-                IdUsuarioAlteracao = aEntidade.IdUsuarioAlteracao
+                IdUsuarioCadastro = aEntidade.IdUsuarioCadastro
             };
 
             aEntidade.IdUsuario = new UsuarioNegocio().Inserir(usuario);
 
-            aEntidade.IdEndereco = new EnderecoNegocio().Inserir(aEntidade.Endereco);
+            var enderecoNegocio = new EnderecoNegocio();
 
+            aEntidade.Endereco.IdUsuarioCadastro = aEntidade.IdUsuarioCadastro;
             aEntidade.Endereco.DataCadastro = DateTime.Now;
-            aEntidade.Endereco.DataAlteracao = DateTime.Now;
 
-            return new ClienteNegocio().Inserir(aEntidade);
+            //enderecoNegocio.ValidateRegister(aEntidade.Endereco);
+
+            aEntidade.IdEndereco = enderecoNegocio.Inserir(aEntidade.Endereco);
+
+            aEntidade.DataCadastro = DateTime.Now;
+
+            return clienteNegocio.Inserir(aEntidade);
         }
 
         [Authorize]

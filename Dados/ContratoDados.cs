@@ -70,20 +70,12 @@ namespace Dados
                     Animal = x.CON_ANIMAL,
                     Observacao = x.CON_OBSERVACAO,
                     Status = (StatusContratoEnum)Convert.ToInt32(x.CON_STATUS),
-                    IdUsuario = Convert.ToInt64(x.USU_CODIGO),
+                    IdUsuarioCadastro = Convert.ToInt64(x.USU_CADASTRO),
                     IdEvento = Convert.ToInt64(x.EVE_CODIGO),
                     IdVendedor = Convert.ToInt64(x.CON_VENDEDOR),
                     IdComprador = Convert.ToInt64(x.CON_COMPRADOR),
                     DataCadastro = Convert.ToDateTime(x.CON_DTHCADASTRO),
-                    DataAlteracao = Convert.ToDateTime(x.CON_DTHALTERACAO),
-                    Usuario = new UsuarioEntidade()
-                    {
-                        Id = Convert.ToInt64(x.USU_CODIGO),
-                        Email = x.USU_EMAIL,
-                        Senha = x.USU_SENHA,
-                        Tipo = (TipoUsuarioEnum)Convert.ToInt32(x.USU_TIPO),
-                        DataCadastro = x.USU_DTHCADASTRO
-                    }
+                    DataAlteracao = Convert.ToDateTime(x.CON_DTHALTERACAO)
                 };
 
                 if (x.EVE_CODIGO != null)
@@ -93,7 +85,6 @@ namespace Dados
                         Id = Convert.ToInt64(x.EVE_CODIGO),
                         Nome = x.EVE_NOME,
                         Data = x.EVE_DATA,
-                        IdUsuario = Convert.ToInt64(x.USU_CODIGO),
                         IdEndereco = Convert.ToInt64(x.END_CODIGO),
                         DataCadastro = x.EVE_DTHCADASTRO
                     };
