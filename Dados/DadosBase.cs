@@ -25,7 +25,7 @@ namespace Dados
 
         public virtual IEnumerable<T> ListarTodos()
         {
-            return db.GetAll<T>().ToList();
+            return db.GetAll<T>().ToList(); 
         }
 
         public virtual long Inserir(T aObjeto)

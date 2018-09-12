@@ -53,6 +53,11 @@ namespace Negocio
                 throw new Exception("É obrigatório informar o usuário responsável pelo cadastro.");
             }
 
+            VerificarChaves(aEntidade);
+        }
+
+        private void VerificarChaves(UsuarioEntidade aEntidade)
+        {
             if (new UsuarioDados().BuscarUsuarioPeloEmail(aEntidade.Email) != null)
             {
                 throw new Exception("Já existe um usuário cadastrado com esse e-mail.");

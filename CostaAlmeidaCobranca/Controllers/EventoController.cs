@@ -1,10 +1,12 @@
 ﻿using Entidade;
 using Negocio;
+using Projecao;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Transactions;
 using System.Web.Http;
 
 namespace CostaAlmeidaCobranca.Controllers
@@ -29,13 +31,41 @@ namespace CostaAlmeidaCobranca.Controllers
         // POST: api/Evento
         public long Post([FromBody]EventoEntidade aEntidade)
         {
-            aEntidade.DataCadastro = DateTime.Now;
+            using (var transation = new TransactionScope())
+            {
+                try
+                {
+                    #region .: Endereço :.
 
-            aEntidade.Endereco.DataCadastro = DateTime.Now;
+                    aEntidade.Endereco.IdUsuarioCadastro = aEntidade.IdUsuarioCadastro;
+                    aEntidade.Endereco.DataCadastro = DateTime.Now;
 
-            aEntidade.IdEndereco = new EnderecoNegocio().Inserir(aEntidade.Endereco);
+                    aEntidade.IdEndereco = new EnderecoNegocio().Inserir(aEntidade.Endereco);
 
-            return new EventoNegocio().Inserir(aEntidade);
+                    #endregion
+
+                    #region .: Evento :.
+
+                    aEntidade.DataCadastro = DateTime.Now;
+
+                    var codEndereco = new EventoNegocio().Inserir(aEntidade);
+
+                    #endregion
+
+                    transation.Complete();
+
+                    return codEndereco;
+                }
+                catch (Exception ex)
+                {
+                    var erro = new HttpResponseMessage(HttpStatusCode.NotAcceptable)
+                    {
+                        Content = new StringContent(ex.Message)
+                    };
+
+                    throw new HttpResponseException(erro);
+                } 
+            }
         }
 
         [Authorize]
@@ -54,5 +84,17 @@ namespace CostaAlmeidaCobranca.Controllers
 
             return negocio.Excluir(entidade);
         }
+
+        #region .: Relatórios :.
+
+        //[Authorize]
+        //[Route("api/Evento/Relatorio")]
+        //[HttpGet]
+        //public IEnumerable<RelatorioEventoResponse> Relatorio()
+        //{
+        //    return new EventoNegocio().Relatorio();
+        //}
+
+        #endregion
     }
 }

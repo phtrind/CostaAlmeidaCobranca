@@ -39,6 +39,16 @@ namespace Negocio
             {
                 throw new Exception("É obrigatório informar o usuário resposável pelo cadastro.");
             }
+
+            VerificarChaves(aEntidade);
+        }
+
+        private void VerificarChaves(EventoEntidade aEntidade)
+        {
+            if (!new EventoDados().ValidarChaves(aEntidade))
+            {
+                throw new Exception("Já existe um evento com esse nome e essa data cadastrado.");
+            }
         }
     }
 }

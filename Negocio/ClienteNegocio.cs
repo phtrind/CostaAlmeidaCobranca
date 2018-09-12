@@ -3,6 +3,7 @@ using Entidade;
 using Projecao;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Utilitario;
 
 namespace Negocio
@@ -36,15 +37,36 @@ namespace Negocio
                 throw new Exception("O usuário responsável pelo cadastro do cliente não foi informado.");
             }
 
-            if (new ClienteDados().BuscarClientePeloEmail(aEntidade.Email) != null)
+            VerificarChaves(aEntidade);
+        }
+
+        private void VerificarChaves(ClienteEntidade aEntidade)
+        {
+            var dados = new ClienteDados();
+
+            if (dados.BuscarClientePeloEmail(aEntidade.Email) != null)
             {
                 throw new Exception("Já existe um cliente cadastrado com esse e-mail.");
             }
 
-            if (new ClienteDados().BuscarClientePeloCpfCnpj(aEntidade.Cpf) != null)
+            if (dados.BuscarClientePeloCpfCnpj(aEntidade.Cpf) != null)
             {
                 throw new Exception("Já existe um cliente cadastrado com esse CPF/CNPJ.");
             }
+        }
+
+        public IEnumerable<RelatorioClienteResponse> Relatorio()
+        {
+            return new ClienteDados().ListarTodos().Select(x => new RelatorioClienteResponse()
+            {
+                Id = x.Id.Value,
+                Nome = x.Nome,
+                Cpf = x.Cpf,
+                Email = x.Email,
+                Telefone = string.IsNullOrEmpty(x.TelefoneFixo) ? string.Empty : x.TelefoneFixo,
+                Celular = string.IsNullOrEmpty(x.TelefoneCelular) ? string.Empty : x.TelefoneCelular,
+                Fazenda = string.IsNullOrEmpty(x.Fazenda) ? string.Empty : x.Fazenda
+            });
         }
     }
 }

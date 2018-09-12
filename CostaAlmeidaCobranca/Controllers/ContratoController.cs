@@ -85,7 +85,7 @@ namespace CostaAlmeidaCobranca.Controllers
         [Authorize]
         [Route("api/Contrato/getCombosCadastro")]
         [HttpGet]
-        public GetCombosCadastroContratoResponse getCombosCadastroContrato()
+        public GetCombosCadastroContratoResponse GetCombosCadastroContrato()
         {
             return new ContratoNegocio().getCombosCadastroContrato();
         }

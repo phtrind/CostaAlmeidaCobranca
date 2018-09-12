@@ -42,10 +42,12 @@
   <ItemGroup>
     <Compile Include="ComboProjecao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Response\GetCombosCadastroContratoResponse.cs" />
-    <Compile Include="Response\InformacoesUsuarioResponse.cs" />
-    <Compile Include="Response\ParcelasPorContratoProjecao.cs" />
-    <Compile Include="Response\RelatorioContratoResponse.cs" />
+    <Compile Include="Response\Cliente\RelatorioEventoResponse.cs" />
+    <Compile Include="Response\Cliente\RelatorioClienteResponse.cs" />
+    <Compile Include="Response\Contrato\GetCombosCadastroContratoResponse.cs" />
+    <Compile Include="Response\Usuario\InformacoesUsuarioResponse.cs" />
+    <Compile Include="Response\Parcela\ParcelasPorContratoProjecao.cs" />
+    <Compile Include="Response\Contrato\RelatorioContratoResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Request\" />

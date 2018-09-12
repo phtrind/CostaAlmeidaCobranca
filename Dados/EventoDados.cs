@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Projecao;
+using Dommel;
 
 namespace Dados
 {
@@ -48,6 +49,13 @@ namespace Dados
                                          WHERE EVE_EVENTOS.EVE_CODIGO = {aCodigo} ");
 
             return DadosParaEntidade(resultado).FirstOrDefault();
+        }
+
+        public bool ValidarChaves(EventoEntidade aEntidade)
+        {
+            var evento = db.Select<EventoEntidade>(x => x.Nome == aEntidade.Nome && x.Data == aEntidade.Data).FirstOrDefault();
+
+            return evento == null;
         }
 
         private IEnumerable<EventoEntidade> DadosParaEntidade(IEnumerable<dynamic> aResultado)

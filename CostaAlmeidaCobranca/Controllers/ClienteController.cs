@@ -1,9 +1,11 @@
 ﻿using Entidade;
 using Enumerador;
 using Negocio;
+using Projecao;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Transactions;
 using System.Web.Http;
@@ -61,8 +63,6 @@ namespace CostaAlmeidaCobranca.Controllers
             {
                 try
                 {
-                    var clienteNegocio = new ClienteNegocio();
-
                     #region .: Usuário :.
 
                     var usuario = new UsuarioEntidade()
@@ -78,7 +78,7 @@ namespace CostaAlmeidaCobranca.Controllers
 
                     #endregion
 
-                    #region .: Cliente :.
+                    #region .: Endereço :.
 
                     aEntidade.Endereco.IdUsuarioCadastro = aEntidade.IdUsuarioCadastro;
                     aEntidade.Endereco.DataCadastro = DateTime.Now;
@@ -87,9 +87,13 @@ namespace CostaAlmeidaCobranca.Controllers
 
                     #endregion
 
+                    #region .: Cliente :.
+
                     aEntidade.DataCadastro = DateTime.Now;
 
-                    var codCliente = clienteNegocio.Inserir(aEntidade);
+                    var codCliente = new ClienteNegocio().Inserir(aEntidade); 
+
+                    #endregion
 
                     transation.Complete();
 
@@ -97,7 +101,7 @@ namespace CostaAlmeidaCobranca.Controllers
                 }
                 catch (Exception ex)
                 {
-                    var erro = new HttpResponseMessage(System.Net.HttpStatusCode.NotAcceptable)
+                    var erro = new HttpResponseMessage(HttpStatusCode.NotAcceptable)
                     {
                         Content = new StringContent(ex.Message)
                     };
@@ -125,5 +129,25 @@ namespace CostaAlmeidaCobranca.Controllers
 
             return negocio.Excluir(entidade);
         }
+
+        #region .: Relatórios :.
+
+        [Authorize]
+        [Route("api/Cliente/Relatorio")]
+        [HttpGet]
+        public IEnumerable<RelatorioClienteResponse> Relatorio()
+        {
+            return new ClienteNegocio().Relatorio();
+        }
+
+        [Authorize]
+        [Route("api/Cliente/Relatorio/{idCliente}")]
+        [HttpGet]
+        public IEnumerable<RelatorioClienteResponse> Relatorio(long idCliente)
+        {
+            return new ClienteNegocio().Relatorio(idCliente);
+        }
+
+        #endregion
     }
 }
