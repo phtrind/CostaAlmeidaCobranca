@@ -4,6 +4,8 @@ using Negocio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Transactions;
 using System.Web.Http;
 using Utilitario;
 
@@ -15,48 +17,94 @@ namespace CostaAlmeidaCobranca.Controllers
         // GET: api/Cliente
         public IEnumerable<ClienteEntidade> Get()
         {
-            return new ClienteNegocio().ListarTodos().OrderBy(x => x.Nome);
+            try
+            {
+                return new ClienteNegocio().ListarTodos().OrderBy(x => x.Nome);
+            }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError)
+                {
+                    Content = new StringContent(ex.Message),
+                    ReasonPhrase = ex.Message
+                };
+
+                throw new HttpResponseException(erro);
+            }
         }
 
         [Authorize]
         // GET: api/Cliente/5
         public ClienteEntidade Get(int id)
         {
-            return new ClienteNegocio().Listar(id);
+            try
+            {
+                return new ClienteNegocio().Listar(id);
+            }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError)
+                {
+                    Content = new StringContent(ex.Message),
+                    ReasonPhrase = ex.Message
+                };
+
+                throw new HttpResponseException(erro);
+            }
         }
 
         [Authorize]
         // POST: api/Cliente
         public long Post([FromBody]ClienteEntidade aEntidade)
         {
-            var clienteNegocio = new ClienteNegocio();
-
-            //clienteNegocio.ValidateRegister(aEntidade);
-
-            var usuario = new UsuarioEntidade()
+            using (var transation = new TransactionScope())
             {
-                DataCadastro = DateTime.Now,
-                DataAlteracao = DateTime.Now,
-                Email = aEntidade.Email,
-                Senha = StringUtilitario.GerarSenhaAlatoria(),
-                Tipo = TipoUsuarioEnum.Cliente,
-                IdUsuarioCadastro = aEntidade.IdUsuarioCadastro
-            };
+                try
+                {
+                    var clienteNegocio = new ClienteNegocio();
 
-            aEntidade.IdUsuario = new UsuarioNegocio().Inserir(usuario);
+                    #region .: Usuário :.
 
-            var enderecoNegocio = new EnderecoNegocio();
+                    var usuario = new UsuarioEntidade()
+                    {
+                        DataCadastro = DateTime.Now,
+                        Email = aEntidade.Email,
+                        Senha = StringUtilitario.GerarSenhaAlatoria(),
+                        Tipo = TipoUsuarioEnum.Cliente,
+                        IdUsuarioCadastro = aEntidade.IdUsuarioCadastro
+                    };
 
-            aEntidade.Endereco.IdUsuarioCadastro = aEntidade.IdUsuarioCadastro;
-            aEntidade.Endereco.DataCadastro = DateTime.Now;
+                    aEntidade.IdUsuario = new UsuarioNegocio().Inserir(usuario);
 
-            //enderecoNegocio.ValidateRegister(aEntidade.Endereco);
+                    #endregion
 
-            aEntidade.IdEndereco = enderecoNegocio.Inserir(aEntidade.Endereco);
+                    #region .: Cliente :.
 
-            aEntidade.DataCadastro = DateTime.Now;
+                    aEntidade.Endereco.IdUsuarioCadastro = aEntidade.IdUsuarioCadastro;
+                    aEntidade.Endereco.DataCadastro = DateTime.Now;
 
-            return clienteNegocio.Inserir(aEntidade);
+                    aEntidade.IdEndereco = new EnderecoNegocio().Inserir(aEntidade.Endereco);
+
+                    #endregion
+
+                    aEntidade.DataCadastro = DateTime.Now;
+
+                    var codCliente = clienteNegocio.Inserir(aEntidade);
+
+                    transation.Complete();
+
+                    return codCliente;
+                }
+                catch (Exception ex)
+                {
+                    var erro = new HttpResponseMessage(System.Net.HttpStatusCode.NotAcceptable)
+                    {
+                        Content = new StringContent(ex.Message)
+                    };
+
+                    throw new HttpResponseException(erro);
+                }
+            }
         }
 
         [Authorize]

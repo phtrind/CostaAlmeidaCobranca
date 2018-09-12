@@ -18,7 +18,7 @@ namespace Dados
             return db.Select<UsuarioEntidade>(x => x.Email == aEmail && x.Senha == aSenha);
         }
 
-        public UsuarioEntidade BuscarUsuario(string aEmail)
+        public UsuarioEntidade BuscarUsuarioPeloEmail(string aEmail)
         {
             return db.Select<UsuarioEntidade>(x => x.Email == aEmail).FirstOrDefault();
         }

@@ -23,7 +23,7 @@ namespace Negocio
         {
             var dados = new UsuarioDados();
 
-            var usuario = dados.BuscarUsuario(aEmail);
+            var usuario = dados.BuscarUsuarioPeloEmail(aEmail);
 
             switch (usuario.Tipo)
             {
@@ -51,6 +51,11 @@ namespace Negocio
             if (!aEntidade.IdUsuarioCadastro.HasValue)
             {
                 throw new Exception("É obrigatório informar o usuário responsável pelo cadastro.");
+            }
+
+            if (new UsuarioDados().BuscarUsuarioPeloEmail(aEntidade.Email) != null)
+            {
+                throw new Exception("Já existe um usuário cadastrado com esse e-mail.");
             }
         }
     }

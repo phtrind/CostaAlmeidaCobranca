@@ -35,6 +35,16 @@ namespace Negocio
             {
                 throw new Exception("O usuário responsável pelo cadastro do cliente não foi informado.");
             }
+
+            if (new ClienteDados().BuscarClientePeloEmail(aEntidade.Email) != null)
+            {
+                throw new Exception("Já existe um cliente cadastrado com esse e-mail.");
+            }
+
+            if (new ClienteDados().BuscarClientePeloCpfCnpj(aEntidade.Cpf) != null)
+            {
+                throw new Exception("Já existe um cliente cadastrado com esse CPF/CNPJ.");
+            }
         }
     }
 }

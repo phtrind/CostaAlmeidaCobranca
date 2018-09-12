@@ -1,4 +1,5 @@
 ﻿using Entidade;
+using Negocio;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;

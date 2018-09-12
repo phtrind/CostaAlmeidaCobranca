@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Owin.Security.OAuth;
-using System.Web;
-using System.Security.Claims;
+﻿using Microsoft.Owin.Security.OAuth;
 using Negocio;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web.Http.Cors;
 
 namespace CostaAlmeidaCobranca
@@ -32,8 +28,7 @@ namespace CostaAlmeidaCobranca
             }
             else
             {
-                context.SetError("invalid_grant",
-                    "Credenciais não encontradas.");
+                context.SetError("-1", "Credenciais não encontradas.");
             }
         }
     }

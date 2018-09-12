@@ -2,9 +2,6 @@
 using Entidade;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Negocio
 {
@@ -18,6 +15,24 @@ namespace Negocio
         public override FinanceiroEntidade Listar(long aCodigo)
         {
             return new FinanceiroDados().Listar(aCodigo);
+        }
+
+        public override void ValidateRegister(FinanceiroEntidade aEntidade)
+        {
+            if (aEntidade.Valor == default(decimal))
+            {
+                throw new Exception("Valor da transação inválido");
+            }
+
+            if (aEntidade.Valor == default(decimal))
+            {
+                throw new Exception("Valor da transação inválido");
+            }
+
+            if (!aEntidade.IdUsuarioCadastro.HasValue)
+            {
+                throw new Exception("É obrigatório informar o usuário resposável pelo cadastro.");
+            }
         }
     }
 }

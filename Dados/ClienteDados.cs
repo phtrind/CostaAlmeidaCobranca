@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Dommel;
 using Entidade;
 using Projecao;
 using System;
@@ -20,6 +21,16 @@ namespace Dados
                 Codigo = Convert.ToInt64(x.CLI_CODIGO),
                 Descricao = x.CLI_NOME
             });
+        }
+
+        public ClienteEntidade BuscarClientePeloEmail(string aEmail)
+        {
+            return db.Select<ClienteEntidade>(x => x.Email == aEmail).FirstOrDefault();
+        }
+
+        public ClienteEntidade BuscarClientePeloCpfCnpj(string aCpf)
+        {
+            return db.Select<ClienteEntidade>(x => x.Cpf == aCpf).FirstOrDefault();
         }
     }
 }
