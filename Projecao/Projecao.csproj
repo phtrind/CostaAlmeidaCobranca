@@ -42,7 +42,8 @@
   <ItemGroup>
     <Compile Include="ComboProjecao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Response\Cliente\RelatorioEventoResponse.cs" />
+    <Compile Include="Response\Cliente\RelatorioDetalhadoClienteResponse.cs" />
+    <Compile Include="Response\Evento\RelatorioEventoResponse.cs" />
     <Compile Include="Response\Cliente\RelatorioClienteResponse.cs" />
     <Compile Include="Response\Contrato\GetCombosCadastroContratoResponse.cs" />
     <Compile Include="Response\Usuario\InformacoesUsuarioResponse.cs" />

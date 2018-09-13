@@ -43,7 +43,7 @@ namespace Negocio
             }
         }
 
-        public override void ValidateRegister(ParcelasEntidade aEntidade)
+        public override void ValidateRegister(ParcelasEntidade aEntidade, bool isEdicao)
         {
             if (aEntidade.Valor == default(decimal))
             {
@@ -55,7 +55,7 @@ namespace Negocio
                 throw new Exception("A data de vencimento da parcela é inválida.");
             }
 
-            if (!aEntidade.IdUsuarioCadastro.HasValue)
+            if (!aEntidade.IdUsuarioCadastro.HasValue && !isEdicao)
             {
                 throw new Exception("É obrigatório informar o usuário resposável pelo cadastro.");
             }

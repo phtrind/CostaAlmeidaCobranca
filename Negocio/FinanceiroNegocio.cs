@@ -17,7 +17,7 @@ namespace Negocio
             return new FinanceiroDados().Listar(aCodigo);
         }
 
-        public override void ValidateRegister(FinanceiroEntidade aEntidade)
+        public override void ValidateRegister(FinanceiroEntidade aEntidade, bool isEdicao)
         {
             if (aEntidade.Valor == default(decimal))
             {
@@ -29,7 +29,7 @@ namespace Negocio
                 throw new Exception("Valor da transação inválido");
             }
 
-            if (!aEntidade.IdUsuarioCadastro.HasValue)
+            if (!aEntidade.IdUsuarioCadastro.HasValue && !isEdicao)
             {
                 throw new Exception("É obrigatório informar o usuário resposável pelo cadastro.");
             }

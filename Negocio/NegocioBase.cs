@@ -9,7 +9,7 @@ namespace Negocio
 
         public virtual bool Atualizar(T aObjeto)
         {
-            this.ValidateRegister(aObjeto);
+            this.ValidateRegister(aObjeto, true);
 
             return new DadosBase<T>().Atualizar(aObjeto);
         }
@@ -21,7 +21,7 @@ namespace Negocio
 
         public virtual long Inserir(T aObjeto)
         {
-            this.ValidateRegister(aObjeto);
+            this.ValidateRegister(aObjeto, false);
 
             return new DadosBase<T>().Inserir(aObjeto);
         }
@@ -36,6 +36,6 @@ namespace Negocio
             return new DadosBase<T>().ListarTodos();
         }
 
-        public abstract void ValidateRegister(T aEntidade);
+        public abstract void ValidateRegister(T aEntidade, bool isEdicao);
     }
 }

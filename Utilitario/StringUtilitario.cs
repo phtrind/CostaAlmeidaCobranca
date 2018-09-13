@@ -87,17 +87,29 @@ namespace Utilitario
             return aCpf.EndsWith(digito);
         }
 
-        public static bool EmailIsValid(string email)
+        public static bool EmailIsValid(string aEmail)
         {
             try
             {
-                var addr = new System.Net.Mail.MailAddress(email);
+                var addr = new System.Net.Mail.MailAddress(aEmail);
 
-                return addr.Address == email;
+                return addr.Address == aEmail;
             }
             catch
             {
                 return false;
+            }
+        }
+
+        public static string VerificarStringNula(string aString)
+        {
+            if (string.IsNullOrEmpty(aString))
+            {
+                return string.Empty;
+            }
+            else
+            {
+                return aString;
             }
         }
     }

@@ -23,7 +23,7 @@ namespace Negocio
             return new EventoDados().getComboEventos();
         }
 
-        public override void ValidateRegister(EventoEntidade aEntidade)
+        public override void ValidateRegister(EventoEntidade aEntidade, bool isEdicao)
         {
             if (string.IsNullOrEmpty(aEntidade.Nome))
             {
@@ -35,12 +35,15 @@ namespace Negocio
                 throw new Exception("A data do evento informada é inválida.");
             }
 
-            if (!aEntidade.IdUsuarioCadastro.HasValue)
+            if (!isEdicao)
             {
-                throw new Exception("É obrigatório informar o usuário resposável pelo cadastro.");
-            }
+                if (!aEntidade.IdUsuarioCadastro.HasValue)
+                {
+                    throw new Exception("É obrigatório informar o usuário resposável pelo cadastro.");
+                }
 
-            VerificarChaves(aEntidade);
+                VerificarChaves(aEntidade);
+            }
         }
 
         private void VerificarChaves(EventoEntidade aEntidade)

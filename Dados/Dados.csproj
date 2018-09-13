@@ -73,6 +73,7 @@
   <ItemGroup>
     <Compile Include="ClienteDados.cs" />
     <Compile Include="ContratoDados.cs" />
+    <Compile Include="EnderecoDados.cs" />
     <Compile Include="EventoDados.cs" />
     <Compile Include="FinanceiroDados.cs" />
     <Compile Include="FuncionarioDados.cs" />

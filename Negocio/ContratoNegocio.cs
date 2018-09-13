@@ -70,7 +70,7 @@ namespace Negocio
             return true;
         }
 
-        public override void ValidateRegister(ContratoEntidade aEntidade)
+        public override void ValidateRegister(ContratoEntidade aEntidade, bool isEdicao)
         {
             if (aEntidade.Valor == default(decimal))
             {
@@ -87,7 +87,7 @@ namespace Negocio
                 throw new Exception("O valor do contrato não pode ser diferente da soma do valor das parcelas");
             }
 
-            if (!aEntidade.IdUsuarioCadastro.HasValue)
+            if (!aEntidade.IdUsuarioCadastro.HasValue && !isEdicao)
             {
                 throw new Exception("É obrigatório informar o usuário resposável pelo cadastro.");
             }
@@ -96,7 +96,7 @@ namespace Negocio
 
             foreach (var parcela in aEntidade.Parcelas)
             {
-                negocioParcelas.ValidateRegister(parcela);
+                negocioParcelas.ValidateRegister(parcela, isEdicao);
             }
         }
     }

@@ -1,9 +1,11 @@
 ﻿using Dados;
 using Entidade;
+using Enumerador;
 using Projecao;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Transactions;
 using Utilitario;
 
 namespace Negocio
@@ -15,7 +17,7 @@ namespace Negocio
             return new ClienteDados().getComboClientes();
         }
 
-        public override void ValidateRegister(ClienteEntidade aEntidade)
+        public override void ValidateRegister(ClienteEntidade aEntidade, bool isEdicao)
         {
             if (string.IsNullOrEmpty(aEntidade.Nome))
             {
@@ -32,12 +34,15 @@ namespace Negocio
                 throw new Exception("O e-mail do cliente informado é inválido.");
             }
 
-            if (!aEntidade.IdUsuarioCadastro.HasValue)
+            if (!isEdicao)
             {
-                throw new Exception("O usuário responsável pelo cadastro do cliente não foi informado.");
-            }
+                if (!aEntidade.IdUsuarioCadastro.HasValue)
+                {
+                    throw new Exception("O usuário responsável pelo cadastro do cliente não foi informado.");
+                }
 
-            VerificarChaves(aEntidade);
+                VerificarChaves(aEntidade);
+            }
         }
 
         private void VerificarChaves(ClienteEntidade aEntidade)
@@ -55,6 +60,100 @@ namespace Negocio
             }
         }
 
+        public long Cadastrar(ClienteEntidade aEntidade)
+        {
+            using (var transation = new TransactionScope())
+            {
+                #region .: Usuário :.
+
+                var usuario = new UsuarioEntidade()
+                {
+                    DataCadastro = DateTime.Now,
+                    Email = aEntidade.Email,
+                    Senha = StringUtilitario.GerarSenhaAlatoria(),
+                    Tipo = TipoUsuarioEnum.Cliente,
+                    IdUsuarioCadastro = aEntidade.IdUsuarioCadastro
+                };
+
+                aEntidade.IdUsuario = new UsuarioNegocio().Inserir(usuario);
+
+                #endregion
+
+                #region .: Endereço :.
+
+                aEntidade.Endereco.IdUsuarioCadastro = aEntidade.IdUsuarioCadastro;
+                aEntidade.Endereco.DataCadastro = DateTime.Now;
+
+                aEntidade.IdEndereco = new EnderecoNegocio().Inserir(aEntidade.Endereco);
+
+                #endregion
+
+                #region .: Cliente :.
+
+                aEntidade.DataCadastro = DateTime.Now;
+
+                var codCliente = new ClienteNegocio().Inserir(aEntidade);
+
+                #endregion
+
+                transation.Complete();
+
+                return codCliente;
+            }
+        }
+
+        public bool Editar(ClienteEntidade aEntidade)
+        {
+            ValidarEdicao(aEntidade);
+
+            var cliente = new ClienteDados().Listar(aEntidade.Id.Value);
+
+            aEntidade.IdUsuario = cliente.IdUsuario.Value;
+            aEntidade.IdUsuarioCadastro = cliente.IdUsuarioCadastro.Value;
+            aEntidade.IdEndereco = cliente.IdEndereco;
+            aEntidade.DataCadastro = cliente.DataCadastro;
+            aEntidade.DataAlteracao = DateTime.Now;
+
+            var negocioEndereco = new EnderecoNegocio();
+
+            negocioEndereco.ValidarEdicao(aEntidade.Endereco);
+
+            var endereco = negocioEndereco.Listar(aEntidade.Endereco.Id.Value);
+
+            aEntidade.Endereco.IdUsuarioCadastro = endereco.IdUsuarioCadastro.Value;
+            aEntidade.Endereco.DataCadastro = endereco.DataCadastro;
+            aEntidade.Endereco.DataAlteracao = DateTime.Now;
+
+            using (var transation = new TransactionScope())
+            {
+                negocioEndereco.Atualizar(aEntidade.Endereco);
+
+                Atualizar(aEntidade);
+
+                transation.Complete();
+            }
+
+            return true;
+        }
+
+        private void ValidarEdicao(ClienteEntidade aEntidade)
+        {
+            if (!aEntidade.IdUsuarioAlteracao.HasValue)
+            {
+                throw new Exception("O usuário responsável pela alteração do cadastro do cliente não foi informado.");
+            }
+
+            if (!aEntidade.Id.HasValue)
+            {
+                throw new Exception("O Id do cliente não foi informado.");
+            }
+
+            if (new ClienteDados().Listar(aEntidade.Id.Value) == null)
+            {
+                throw new Exception("O cliente informado não foi encontrado.");
+            }
+        }
+
         public IEnumerable<RelatorioClienteResponse> Relatorio()
         {
             return new ClienteDados().ListarTodos().Select(x => new RelatorioClienteResponse()
@@ -67,6 +166,41 @@ namespace Negocio
                 Celular = string.IsNullOrEmpty(x.TelefoneCelular) ? string.Empty : x.TelefoneCelular,
                 Fazenda = string.IsNullOrEmpty(x.Fazenda) ? string.Empty : x.Fazenda
             });
+        }
+
+        public RelatorioDetalhadoClienteResponse RelatorioDetalhado(long idCliente)
+        {
+            var dados = new ClienteDados().RelatorioDetalhado(idCliente);
+
+            if (dados != null)
+            {
+                var cliente = new RelatorioDetalhadoClienteResponse
+                {
+                    IdCliente = dados.CLI_CODIGO,
+                    Nome = dados.CLI_NOME,
+                    Email = dados.CLI_EMAIL,
+                    Fazenda = StringUtilitario.VerificarStringNula(dados.CLI_FAZENDA),
+                    Cpf = dados.CLI_CPF,
+                    Telefone = StringUtilitario.VerificarStringNula(dados.CLI_TELFIXO),
+                    Celular = StringUtilitario.VerificarStringNula(dados.CLI_TELCELULAR),
+                    IdEndereco = dados.END_CODIGO,
+                    Cep = Convert.ToString(dados.END_CEP),
+                    Logradouro = dados.END_LOGRADOURO,
+                    Numero = dados.END_NUMERO,
+                    Complemento = StringUtilitario.VerificarStringNula(dados.END_COMPLEMENTO),
+                    Bairro = dados.END_BAIRRO,
+                    Estado = dados.END_ESTADO,
+                    Cidade = dados.END_CIDADE
+                };
+
+                cliente.TipoDocumento = cliente.Cpf.Length == 11 ? "CPF" : "CNPJ";
+
+                return cliente;
+            }
+            else
+            {
+                throw new Exception("Cliente não encontrado.");
+            }
         }
     }
 }

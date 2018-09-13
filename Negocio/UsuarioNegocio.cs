@@ -36,7 +36,7 @@ namespace Negocio
             }
         }
 
-        public override void ValidateRegister(UsuarioEntidade aEntidade)
+        public override void ValidateRegister(UsuarioEntidade aEntidade, bool isEdicao)
         {
             if (string.IsNullOrEmpty(aEntidade.Email))
             {
@@ -48,12 +48,15 @@ namespace Negocio
                 throw new Exception("É obrigatório informar senha do usuário.");
             }
 
-            if (!aEntidade.IdUsuarioCadastro.HasValue)
+            if (!isEdicao)
             {
-                throw new Exception("É obrigatório informar o usuário responsável pelo cadastro.");
-            }
+                if (!aEntidade.IdUsuarioCadastro.HasValue)
+                {
+                    throw new Exception("É obrigatório informar o usuário responsável pelo cadastro.");
+                }
 
-            VerificarChaves(aEntidade);
+                VerificarChaves(aEntidade);
+            }
         }
 
         private void VerificarChaves(UsuarioEntidade aEntidade)

@@ -6,7 +6,7 @@ namespace Negocio
 {
     public class FuncionarioNegocio : NegocioBase<FuncionarioEntidade>
     {
-        public override void ValidateRegister(FuncionarioEntidade aEntidade)
+        public override void ValidateRegister(FuncionarioEntidade aEntidade, bool isEdicao)
         {
             if (string.IsNullOrEmpty(aEntidade.Nome))
             {
@@ -18,10 +18,20 @@ namespace Negocio
                 throw new Exception("O CPF do funcionário informado é inválido.");
             }
 
-            if (!aEntidade.IdUsuarioCadastro.HasValue)
+            if (!isEdicao)
             {
-                throw new Exception("O usuário responsável pelo cadastro do cliente não foi informado.");
+                if (!aEntidade.IdUsuarioCadastro.HasValue)
+                {
+                    throw new Exception("O usuário responsável pelo cadastro do cliente não foi informado.");
+                }
+
+                VerificarChaves(aEntidade);
             }
+        }
+
+        private void VerificarChaves(FuncionarioEntidade aEntidade)
+        {
+            //Necessário ainda implementar
         }
     }
 }

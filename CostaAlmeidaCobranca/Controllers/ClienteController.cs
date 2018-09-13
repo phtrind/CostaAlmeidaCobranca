@@ -59,55 +59,18 @@ namespace CostaAlmeidaCobranca.Controllers
         // POST: api/Cliente
         public long Post([FromBody]ClienteEntidade aEntidade)
         {
-            using (var transation = new TransactionScope())
+            try
             {
-                try
+                return new ClienteNegocio().Cadastrar(aEntidade);
+            }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(HttpStatusCode.NotAcceptable)
                 {
-                    #region .: Usuário :.
+                    Content = new StringContent(ex.Message)
+                };
 
-                    var usuario = new UsuarioEntidade()
-                    {
-                        DataCadastro = DateTime.Now,
-                        Email = aEntidade.Email,
-                        Senha = StringUtilitario.GerarSenhaAlatoria(),
-                        Tipo = TipoUsuarioEnum.Cliente,
-                        IdUsuarioCadastro = aEntidade.IdUsuarioCadastro
-                    };
-
-                    aEntidade.IdUsuario = new UsuarioNegocio().Inserir(usuario);
-
-                    #endregion
-
-                    #region .: Endereço :.
-
-                    aEntidade.Endereco.IdUsuarioCadastro = aEntidade.IdUsuarioCadastro;
-                    aEntidade.Endereco.DataCadastro = DateTime.Now;
-
-                    aEntidade.IdEndereco = new EnderecoNegocio().Inserir(aEntidade.Endereco);
-
-                    #endregion
-
-                    #region .: Cliente :.
-
-                    aEntidade.DataCadastro = DateTime.Now;
-
-                    var codCliente = new ClienteNegocio().Inserir(aEntidade); 
-
-                    #endregion
-
-                    transation.Complete();
-
-                    return codCliente;
-                }
-                catch (Exception ex)
-                {
-                    var erro = new HttpResponseMessage(HttpStatusCode.NotAcceptable)
-                    {
-                        Content = new StringContent(ex.Message)
-                    };
-
-                    throw new HttpResponseException(erro);
-                }
+                throw new HttpResponseException(erro);
             }
         }
 
@@ -115,9 +78,19 @@ namespace CostaAlmeidaCobranca.Controllers
         // PUT: api/Cliente/5
         public bool Put([FromBody]ClienteEntidade aEntidade)
         {
-            aEntidade.DataAlteracao = DateTime.Now;
+            try
+            {
+                return new ClienteNegocio().Editar(aEntidade);
+            }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(HttpStatusCode.NotAcceptable)
+                {
+                    Content = new StringContent(ex.Message)
+                };
 
-            return new ClienteNegocio().Atualizar(aEntidade);
+                throw new HttpResponseException(erro);
+            }
         }
 
         [Authorize]
@@ -141,11 +114,23 @@ namespace CostaAlmeidaCobranca.Controllers
         }
 
         [Authorize]
-        [Route("api/Cliente/Relatorio/{idCliente}")]
+        [Route("api/Cliente/RelatorioDetalhado/{idCliente}")]
         [HttpGet]
-        public IEnumerable<RelatorioClienteResponse> Relatorio(long idCliente)
+        public RelatorioDetalhadoClienteResponse RelatorioDetalhado(long idCliente)
         {
-            return new ClienteNegocio().Relatorio(idCliente);
+            try
+            {
+                return new ClienteNegocio().RelatorioDetalhado(idCliente);
+            }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(HttpStatusCode.NotAcceptable)
+                {
+                    Content = new StringContent(ex.Message)
+                };
+
+                throw new HttpResponseException(erro);
+            }
         }
 
         #endregion
