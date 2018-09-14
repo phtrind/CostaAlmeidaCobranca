@@ -87,6 +87,25 @@ namespace Utilitario
             return aCpf.EndsWith(digito);
         }
 
+        public static string TratarDataTime(dynamic aDateTime)
+        {
+            if (aDateTime == null)
+            {
+                return string.Empty;
+            }
+
+            try
+            {
+                DateTime data = Convert.ToDateTime(aDateTime);
+
+                return data.ToString("dd/MM/yyyy");
+            }
+            catch (Exception)
+            {
+                return string.Empty;
+            }
+        }
+
         public static bool EmailIsValid(string aEmail)
         {
             try

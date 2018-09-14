@@ -1,5 +1,4 @@
 ﻿using Entidade;
-using Enumerador;
 using Negocio;
 using Projecao;
 using System;
@@ -7,9 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Transactions;
 using System.Web.Http;
-using Utilitario;
 
 namespace CostaAlmeidaCobranca.Controllers
 {
@@ -25,7 +22,7 @@ namespace CostaAlmeidaCobranca.Controllers
             }
             catch (Exception ex)
             {
-                var erro = new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError)
+                var erro = new HttpResponseMessage(HttpStatusCode.InternalServerError)
                 {
                     Content = new StringContent(ex.Message),
                     ReasonPhrase = ex.Message
@@ -45,7 +42,7 @@ namespace CostaAlmeidaCobranca.Controllers
             }
             catch (Exception ex)
             {
-                var erro = new HttpResponseMessage(System.Net.HttpStatusCode.InternalServerError)
+                var erro = new HttpResponseMessage(HttpStatusCode.InternalServerError)
                 {
                     Content = new StringContent(ex.Message),
                     ReasonPhrase = ex.Message

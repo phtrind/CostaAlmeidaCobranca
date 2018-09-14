@@ -102,6 +102,8 @@ namespace Negocio
             }
         }
 
+        #region .: Edição :.
+
         public bool Editar(ClienteEntidade aEntidade)
         {
             ValidarEdicao(aEntidade);
@@ -152,7 +154,11 @@ namespace Negocio
             {
                 throw new Exception("O cliente informado não foi encontrado.");
             }
-        }
+        } 
+
+        #endregion
+
+        #region .: Relatório :.
 
         public IEnumerable<RelatorioClienteResponse> Relatorio()
         {
@@ -172,35 +178,35 @@ namespace Negocio
         {
             var dados = new ClienteDados().RelatorioDetalhado(idCliente);
 
-            if (dados != null)
-            {
-                var cliente = new RelatorioDetalhadoClienteResponse
-                {
-                    IdCliente = dados.CLI_CODIGO,
-                    Nome = dados.CLI_NOME,
-                    Email = dados.CLI_EMAIL,
-                    Fazenda = StringUtilitario.VerificarStringNula(dados.CLI_FAZENDA),
-                    Cpf = dados.CLI_CPF,
-                    Telefone = StringUtilitario.VerificarStringNula(dados.CLI_TELFIXO),
-                    Celular = StringUtilitario.VerificarStringNula(dados.CLI_TELCELULAR),
-                    IdEndereco = dados.END_CODIGO,
-                    Cep = Convert.ToString(dados.END_CEP),
-                    Logradouro = dados.END_LOGRADOURO,
-                    Numero = dados.END_NUMERO,
-                    Complemento = StringUtilitario.VerificarStringNula(dados.END_COMPLEMENTO),
-                    Bairro = dados.END_BAIRRO,
-                    Estado = dados.END_ESTADO,
-                    Cidade = dados.END_CIDADE
-                };
-
-                cliente.TipoDocumento = cliente.Cpf.Length == 11 ? "CPF" : "CNPJ";
-
-                return cliente;
-            }
-            else
+            if (dados == null)
             {
                 throw new Exception("Cliente não encontrado.");
             }
+
+            var cliente = new RelatorioDetalhadoClienteResponse
+            {
+                IdCliente = dados.CLI_CODIGO,
+                Nome = dados.CLI_NOME,
+                Email = dados.CLI_EMAIL,
+                Fazenda = StringUtilitario.VerificarStringNula(dados.CLI_FAZENDA),
+                Cpf = dados.CLI_CPF,
+                Telefone = StringUtilitario.VerificarStringNula(dados.CLI_TELFIXO),
+                Celular = StringUtilitario.VerificarStringNula(dados.CLI_TELCELULAR),
+                IdEndereco = dados.END_CODIGO,
+                Cep = Convert.ToString(dados.END_CEP),
+                Logradouro = dados.END_LOGRADOURO,
+                Numero = dados.END_NUMERO,
+                Complemento = StringUtilitario.VerificarStringNula(dados.END_COMPLEMENTO),
+                Bairro = dados.END_BAIRRO,
+                Estado = dados.END_ESTADO,
+                Cidade = dados.END_CIDADE
+            };
+
+            cliente.TipoDocumento = cliente.Cpf.Length == 11 ? "CPF" : "CNPJ";
+
+            return cliente;
         }
+
+        #endregion
     }
 }

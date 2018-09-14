@@ -35,7 +35,7 @@ namespace Dados
 
         public dynamic RelatorioDetalhado(long idCliente)
         {
-            return db.Query($@"SELECT C.CLI_CODIGO, 
+            return db.QueryFirstOrDefault($@"SELECT C.CLI_CODIGO, 
                                       C.CLI_NOME, 
                                       C.CLI_EMAIL, 
                                       C.CLI_FAZENDA, 
@@ -52,7 +52,7 @@ namespace Dados
                                       E.END_CIDADE
                                FROM CLI_CLIENTES C
                                     INNER JOIN END_ENDERECOS E ON C.END_CODIGO = E.END_CODIGO
-                               WHERE C.CLI_CODIGO = {idCliente};").FirstOrDefault();
+                               WHERE C.CLI_CODIGO = {idCliente};");
         }
     }
 }

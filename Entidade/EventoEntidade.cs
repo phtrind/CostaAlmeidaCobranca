@@ -5,7 +5,7 @@ namespace Entidade
 {
     public class EventoEntidade : EntidadeBase
     {
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         public string Nome { get; set; }
         public DateTime Data { get; set; }

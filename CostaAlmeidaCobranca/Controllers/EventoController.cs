@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Transactions;
 using System.Web.Http;
 
 namespace CostaAlmeidaCobranca.Controllers
@@ -17,54 +16,58 @@ namespace CostaAlmeidaCobranca.Controllers
         // GET: api/Evento
         public IEnumerable<EventoEntidade> Get()
         {
-            return new EventoNegocio().ListarTodos();
+            try
+            {
+                return new EventoNegocio().ListarTodos().OrderBy(x => x.Nome);
+            }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(HttpStatusCode.InternalServerError)
+                {
+                    Content = new StringContent(ex.Message),
+                    ReasonPhrase = ex.Message
+                };
+
+                throw new HttpResponseException(erro);
+            }
         }
 
         [Authorize]
         // GET: api/Evento/5
         public EventoEntidade Get(int id)
         {
-            return new EventoNegocio().Listar(id);
+            try
+            {
+                return new EventoNegocio().Listar(id);
+            }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(HttpStatusCode.InternalServerError)
+                {
+                    Content = new StringContent(ex.Message),
+                    ReasonPhrase = ex.Message
+                };
+
+                throw new HttpResponseException(erro);
+            }
         }
 
         [Authorize]
         // POST: api/Evento
         public long Post([FromBody]EventoEntidade aEntidade)
         {
-            using (var transation = new TransactionScope())
+            try
             {
-                try
+                return new EventoNegocio().Cadastrar(aEntidade);
+            }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(HttpStatusCode.NotAcceptable)
                 {
-                    #region .: Endereço :.
+                    Content = new StringContent(ex.Message)
+                };
 
-                    aEntidade.Endereco.IdUsuarioCadastro = aEntidade.IdUsuarioCadastro;
-                    aEntidade.Endereco.DataCadastro = DateTime.Now;
-
-                    aEntidade.IdEndereco = new EnderecoNegocio().Inserir(aEntidade.Endereco);
-
-                    #endregion
-
-                    #region .: Evento :.
-
-                    aEntidade.DataCadastro = DateTime.Now;
-
-                    var codEndereco = new EventoNegocio().Inserir(aEntidade);
-
-                    #endregion
-
-                    transation.Complete();
-
-                    return codEndereco;
-                }
-                catch (Exception ex)
-                {
-                    var erro = new HttpResponseMessage(HttpStatusCode.NotAcceptable)
-                    {
-                        Content = new StringContent(ex.Message)
-                    };
-
-                    throw new HttpResponseException(erro);
-                } 
+                throw new HttpResponseException(erro);
             }
         }
 
@@ -72,7 +75,19 @@ namespace CostaAlmeidaCobranca.Controllers
         // PUT: api/Evento/5
         public bool Put([FromBody]EventoEntidade aEntidade)
         {
-            return new EventoNegocio().Atualizar(aEntidade);
+            try
+            {
+                return new EventoNegocio().Editar(aEntidade);
+            }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(HttpStatusCode.NotAcceptable)
+                {
+                    Content = new StringContent(ex.Message)
+                };
+
+                throw new HttpResponseException(erro);
+            }
         }
 
         [Authorize]
@@ -87,13 +102,21 @@ namespace CostaAlmeidaCobranca.Controllers
 
         #region .: Relatórios :.
 
-        //[Authorize]
-        //[Route("api/Evento/Relatorio")]
-        //[HttpGet]
-        //public IEnumerable<RelatorioEventoResponse> Relatorio()
-        //{
-        //    return new EventoNegocio().Relatorio();
-        //}
+        [Authorize]
+        [Route("api/Evento/Relatorio")]
+        [HttpGet]
+        public IEnumerable<RelatorioEventoResponse> Relatorio()
+        {
+            return new EventoNegocio().Relatorio();
+        }
+
+        [Authorize]
+        [Route("api/Evento/RelatorioDetalhado/{idEvento}")]
+        [HttpGet]
+        public RelatorioDetalhadoEventoResponse RelatorioDetalhado(long idEvento)
+        {
+            return new EventoNegocio().RelatorioDetalhado(idEvento);
+        }
 
         #endregion
     }

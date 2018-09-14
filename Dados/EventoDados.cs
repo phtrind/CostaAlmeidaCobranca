@@ -13,42 +13,18 @@ namespace Dados
 {
     public class EventoDados : DadosBase<EventoEntidade>
     {
-        public override IEnumerable<EventoEntidade> ListarTodos()
-        {
-            var resultado = db.Query(@" SELECT *
-                                        FROM EVE_EVENTOS
-                                            INNER JOIN USU_USUARIOS
-                                            ON EVE_EVENTOS.USU_CODIGO = USU_USUARIOS.USU_CODIGO
-                                            INNER JOIN END_ENDERECOS
-                                            ON EVE_EVENTOS.END_CODIGO = END_ENDERECOS.END_CODIGO ");
-
-            return DadosParaEntidade(resultado);
-        }
-
         public IEnumerable<ComboProjecao> getComboEventos()
         {
-            var resultado = db.Query($@"SELECT EVE_CODIGO, EVE_NOME
+            var resultado = db.Query($@"SELECT EVE_CODIGO, 
+                                               EVE_NOME
                                         FROM EVE_EVENTOS
-                                        ORDER BY EVE_NOME");
+                                        ORDER BY EVE_NOME;");
 
             return resultado.Select(x => new ComboProjecao()
             {
                 Codigo = Convert.ToInt64(x.EVE_CODIGO),
                 Descricao = x.EVE_NOME
             });
-        }
-
-        public override EventoEntidade Listar(long aCodigo)
-        {
-            var resultado = db.Query($@" SELECT *
-                                        FROM EVE_EVENTOS
-                                            INNER JOIN USU_USUARIOS
-                                            ON EVE_EVENTOS.USU_CODIGO = USU_USUARIOS.USU_CODIGO
-                                            INNER JOIN END_ENDERECOS
-                                            ON EVE_EVENTOS.END_CODIGO = END_ENDERECOS.END_CODIGO 
-                                         WHERE EVE_EVENTOS.EVE_CODIGO = {aCodigo} ");
-
-            return DadosParaEntidade(resultado).FirstOrDefault();
         }
 
         public bool ValidarChaves(EventoEntidade aEntidade)
@@ -58,28 +34,32 @@ namespace Dados
             return evento == null;
         }
 
-        private IEnumerable<EventoEntidade> DadosParaEntidade(IEnumerable<dynamic> aResultado)
+        public IEnumerable<dynamic> Relatorio()
         {
-            return aResultado.Select(x => new EventoEntidade()
-            {
-                Id = Convert.ToInt64(x.EVE_CODIGO),
-                Nome = x.EVE_NOME,
-                Data = x.EVE_DATA,
-                IdEndereco = Convert.ToInt64(x.END_CODIGO),
-                DataCadastro = x.EVE_DTHCADASTRO,
-                Endereco = new EnderecoEntidade()
-                {
-                    Id = Convert.ToInt64(x.END_CODIGO),
-                    Logradouro = x.END_LOGRADOURO,
-                    Numero = x.END_NUMERO,
-                    Complemento = x.END_COMPLEMENTO,
-                    Bairro = x.END_BAIRRO,
-                    Cep = x.END_CEP,
-                    Cidade = x.END_CIDADE,
-                    Estado = x.END_ESTADO,
-                    DataCadastro = Convert.ToDateTime(x.END_DTHCADASTRO)
-                }
-            });
+            return db.Query($@"SELECT E.EVE_CODIGO, 
+                                      E.EVE_NOME, 
+                                      E.EVE_DATA, 
+                                      CONCAT(EN.END_CIDADE, ' / ', EN.END_ESTADO) AS LOCALIDADE
+                               FROM EVE_EVENTOS E
+                                    INNER JOIN END_ENDERECOS EN ON E.END_CODIGO = EN.END_CODIGO;");
+        }
+
+        public dynamic RelatorioDetalhado(long aIdEvento)
+        {
+            return db.QueryFirstOrDefault($@"SELECT E.EVE_CODIGO, 
+                                      E.EVE_NOME, 
+                                      E.EVE_DATA, 
+                                      EN.END_CODIGO, 
+                                      EN.END_CEP, 
+                                      EN.END_LOGRADOURO, 
+                                      EN.END_NUMERO, 
+                                      EN.END_COMPLEMENTO, 
+                                      EN.END_BAIRRO, 
+                                      EN.END_ESTADO, 
+                                      EN.END_CIDADE
+                               FROM EVE_EVENTOS E
+                                    INNER JOIN END_ENDERECOS EN ON E.END_CODIGO = EN.END_CODIGO
+                               WHERE E.EVE_CODIGO = {aIdEvento};");
         }
     }
 }
