@@ -12,9 +12,13 @@ namespace Negocio
 {
     public class ClienteNegocio : NegocioBase<ClienteEntidade>
     {
-        public IEnumerable<ComboProjecao> getComboClientes()
+        public List<ComboProjecao> getComboClientes()
         {
-            return new ClienteDados().getComboClientes();
+            return new ClienteDados().getComboClientes().Select(x => new ComboProjecao()
+            {
+                Codigo = Convert.ToInt64(x.CLI_CODIGO),
+                Descricao = x.CLI_NOME
+            }).ToList();
         }
 
         public override void ValidateRegister(ClienteEntidade aEntidade, bool isEdicao)
@@ -92,7 +96,7 @@ namespace Negocio
 
                 aEntidade.DataCadastro = DateTime.Now;
 
-                var codCliente = new ClienteNegocio().Inserir(aEntidade);
+                var codCliente = Inserir(aEntidade);
 
                 #endregion
 
@@ -112,6 +116,7 @@ namespace Negocio
 
             aEntidade.IdUsuario = cliente.IdUsuario.Value;
             aEntidade.IdUsuarioCadastro = cliente.IdUsuarioCadastro.Value;
+            aEntidade.IdUsuarioAlteracao = aEntidade.IdUsuarioAlteracao.Value;
             aEntidade.IdEndereco = cliente.IdEndereco;
             aEntidade.DataCadastro = cliente.DataCadastro;
             aEntidade.DataAlteracao = DateTime.Now;
@@ -123,6 +128,7 @@ namespace Negocio
             var endereco = negocioEndereco.Listar(aEntidade.Endereco.Id.Value);
 
             aEntidade.Endereco.IdUsuarioCadastro = endereco.IdUsuarioCadastro.Value;
+            aEntidade.Endereco.IdUsuarioAlteracao = aEntidade.IdUsuarioAlteracao.Value;
             aEntidade.Endereco.DataCadastro = endereco.DataCadastro;
             aEntidade.Endereco.DataAlteracao = DateTime.Now;
 

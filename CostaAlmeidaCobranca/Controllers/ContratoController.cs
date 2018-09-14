@@ -6,8 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Web.Http;
-using System.Web.Http.Cors;
 using Utilitario;
 
 namespace CostaAlmeidaCobranca.Controllers
@@ -18,58 +18,78 @@ namespace CostaAlmeidaCobranca.Controllers
         // GET: api/Contrato
         public IEnumerable<ContratoEntidade> Get()
         {
-            return new ContratoNegocio().ListarTodosCompleto();
+            try
+            {
+                return new ContratoNegocio().ListarTodos().OrderByDescending(x => x.DataCadastro);
+            }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(HttpStatusCode.InternalServerError)
+                {
+                    Content = new StringContent(ex.Message),
+                    ReasonPhrase = ex.Message
+                };
+
+                throw new HttpResponseException(erro);
+            }
         }
 
         [Authorize]
         // GET: api/Contrato/5
         public ContratoEntidade Get(int id)
         {
-            return new ContratoNegocio().ListarCompleto(id);
+            try
+            {
+                return new ContratoNegocio().Listar(id);
+            }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(HttpStatusCode.InternalServerError)
+                {
+                    Content = new StringContent(ex.Message),
+                    ReasonPhrase = ex.Message
+                };
+
+                throw new HttpResponseException(erro);
+            }
         }
 
         [Authorize]
         // POST: api/Contrato
         public long Post([FromBody]ContratoEntidade aEntidade)
         {
-            var negocio = new ContratoNegocio();
-
-            if (!negocio.ValidarCadastroContrato(aEntidade))
+            try
             {
-                throw new HttpResponseException(HttpStatusCode.BadRequest);
+                return new ContratoNegocio().Cadastrar(aEntidade);
             }
-
-            aEntidade.DataCadastro = DateTime.Now;
-            aEntidade.Status = StatusContratoEnum.Ativo;
-
-            var idContrato = negocio.Inserir(aEntidade);
-
-            foreach (var parcela in aEntidade.Parcelas)
+            catch (Exception ex)
             {
-                parcela.IdContrato = idContrato;
-                parcela.DataCadastro = DateTime.Now;
-                parcela.Status = StatusParcelaEnum.Pendente;
+                var erro = new HttpResponseMessage(HttpStatusCode.NotAcceptable)
+                {
+                    Content = new StringContent(ex.Message)
+                };
 
-                new ParcelaNegocio().Inserir(parcela);
+                throw new HttpResponseException(erro);
             }
-
-            return idContrato;
         }
 
         [Authorize]
         // PUT: api/Contrato/5
         public bool Put([FromBody]ContratoEntidade aEntidade)
         {
-            var negocioParcela = new ParcelaNegocio();
-
-            foreach (var parcela in aEntidade.Parcelas)
+            try
             {
-                parcela.IdContrato = aEntidade.Id;
-
-                negocioParcela.Atualizar(parcela);
+                return new ContratoNegocio().Editar(aEntidade);
             }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(HttpStatusCode.NotAcceptable)
+                {
+                    Content = new StringContent(ex.Message)
+                };
 
-            return new ContratoNegocio().Atualizar(aEntidade);
+                throw new HttpResponseException(erro);
+            }
         }
 
         [Authorize]
@@ -87,26 +107,31 @@ namespace CostaAlmeidaCobranca.Controllers
         [HttpGet]
         public GetCombosCadastroContratoResponse GetCombosCadastroContrato()
         {
-            return new ContratoNegocio().getCombosCadastroContrato();
-        }
-
-        [Authorize]
-        [Route("api/Contrato/Relatorio")]
-        [HttpGet]
-        public IEnumerable<RelatorioContratoResponse> Relatorio()
-        {
-            var lista = new ContratoNegocio().ListarTodosCompleto();
-
-            return lista.Select(x => new RelatorioContratoResponse()
+            try
             {
-                Id = x.Id.ToString(),
-                Comprador = x.Comprador.Nome,
-                Vendedor = x.Vendedor.Nome,
-                Evento = x.Evento != null ? x.Evento.Nome : string.Empty,
-                Valor = StringUtilitario.ValorReais(x.Valor),
-                Status = new ContratoNegocio().TraduzirStatus(x.Status),
-                Parcelas = x.Parcelas.Count.ToString()
-            });
+                return new ContratoNegocio().getCombosCadastroContrato();
+            }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(HttpStatusCode.NotAcceptable)
+                {
+                    Content = new StringContent(ex.Message)
+                };
+
+                throw new HttpResponseException(erro);
+            }
         }
+
+        #region .: Relatório :.
+
+        //[Authorize]
+        //[Route("api/Contrato/Relatorio")]
+        //[HttpGet]
+        //public IEnumerable<RelatorioContratoResponse> Relatorio()
+        //{
+        //    return new ContratoNegocio().Relatorio();
+        //} 
+
+        #endregion
     }
 }

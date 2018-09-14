@@ -10,17 +10,11 @@ namespace Dados
 {
     public class ClienteDados : DadosBase<ClienteEntidade>
     {
-        public IEnumerable<ComboProjecao> getComboClientes()
+        public IEnumerable<dynamic> getComboClientes()
         {
-            var resultado = db.Query($@"SELECT CLI_CODIGO, CLI_NOME
+            return db.Query($@"SELECT CLI_CODIGO, CLI_NOME
                                         FROM CLI_CLIENTES
                                         ORDER BY CLI_NOME");
-
-            return resultado.Select(x => new ComboProjecao()
-            {
-                Codigo = Convert.ToInt64(x.CLI_CODIGO),
-                Descricao = x.CLI_NOME
-            });
         }
 
         public ClienteEntidade BuscarClientePeloEmail(string aEmail)

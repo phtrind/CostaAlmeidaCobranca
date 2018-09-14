@@ -13,18 +13,12 @@ namespace Dados
 {
     public class EventoDados : DadosBase<EventoEntidade>
     {
-        public IEnumerable<ComboProjecao> getComboEventos()
+        public IEnumerable<dynamic> getComboEventos()
         {
-            var resultado = db.Query($@"SELECT EVE_CODIGO, 
+            return db.Query($@"SELECT EVE_CODIGO, 
                                                EVE_NOME
                                         FROM EVE_EVENTOS
                                         ORDER BY EVE_NOME;");
-
-            return resultado.Select(x => new ComboProjecao()
-            {
-                Codigo = Convert.ToInt64(x.EVE_CODIGO),
-                Descricao = x.EVE_NOME
-            });
         }
 
         public bool ValidarChaves(EventoEntidade aEntidade)

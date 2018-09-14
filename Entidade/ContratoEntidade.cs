@@ -6,7 +6,7 @@ namespace Entidade
 {
     public class ContratoEntidade : EntidadeBase
     {
-        public long Id { get; set; }
+        public long? Id { get; set; }
 
         public decimal Valor { get; set; }
         public string Animal { get; set; }

@@ -21,9 +21,13 @@ namespace Negocio
             return new EventoDados().Listar(aCodigo);
         }
 
-        public IEnumerable<ComboProjecao> getComboEventos()
+        public List<ComboProjecao> getComboEventos()
         {
-            return new EventoDados().getComboEventos();
+            return new EventoDados().getComboEventos().Select(x => new ComboProjecao()
+            {
+                Codigo = Convert.ToInt64(x.EVE_CODIGO),
+                Descricao = x.EVE_NOME
+            }).ToList();
         }
 
         public override void ValidateRegister(EventoEntidade aEntidade, bool isEdicao)
@@ -66,7 +70,7 @@ namespace Negocio
 
                 aEntidade.DataCadastro = DateTime.Now;
 
-                var codEndereco = new EventoNegocio().Inserir(aEntidade);
+                var codEndereco = Inserir(aEntidade);
 
                 #endregion
 
@@ -90,9 +94,10 @@ namespace Negocio
         {
             ValidarEdicao(aEntidade);
 
-            var evento = new ClienteDados().Listar(aEntidade.Id.Value);
+            var evento = new EventoDados().Listar(aEntidade.Id.Value);
 
             aEntidade.IdUsuarioCadastro = evento.IdUsuarioCadastro.Value;
+            aEntidade.IdUsuarioAlteracao = aEntidade.IdUsuarioAlteracao.Value;
             aEntidade.IdEndereco = evento.IdEndereco;
             aEntidade.DataCadastro = evento.DataCadastro;
             aEntidade.DataAlteracao = DateTime.Now;
@@ -104,6 +109,7 @@ namespace Negocio
             var endereco = negocioEndereco.Listar(aEntidade.Endereco.Id.Value);
 
             aEntidade.Endereco.IdUsuarioCadastro = endereco.IdUsuarioCadastro.Value;
+            aEntidade.Endereco.IdUsuarioAlteracao = aEntidade.IdUsuarioAlteracao.Value;
             aEntidade.Endereco.DataCadastro = endereco.DataCadastro;
             aEntidade.Endereco.DataAlteracao = DateTime.Now;
 
@@ -133,7 +139,7 @@ namespace Negocio
 
             if (new ClienteDados().Listar(aEntidade.Id.Value) == null)
             {
-                throw new Exception("O event informado não foi encontrado.");
+                throw new Exception("O evento informado não foi encontrado.");
             }
         } 
 

@@ -95,5 +95,15 @@ namespace Dados
 
             return retorno;
         }
+
+        public IEnumerable<dynamic> Relatorio()
+        {
+            return db.Query($@" SELECT *
+                                FROM CON_CONTRATOS
+                                    LEFT JOIN EVE_EVENTOS
+                                    ON CON_CONTRATOS.EVE_CODIGO = EVE_EVENTOS.EVE_CODIGO
+                                    INNER JOIN USU_USUARIOS
+                                    ON CON_CONTRATOS.USU_CODIGO = USU_USUARIOS.USU_CODIGO");
+        }
     }
 }

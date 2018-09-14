@@ -55,6 +55,11 @@ namespace Negocio
                 throw new Exception("A data de vencimento da parcela é inválida.");
             }
 
+            if (!aEntidade.IdContrato.HasValue)
+            {
+                throw new Exception("É obrigatório informar o contrato relacionado à essa parcela.");
+            }
+
             if (!aEntidade.IdUsuarioCadastro.HasValue && !isEdicao)
             {
                 throw new Exception("É obrigatório informar o usuário resposável pelo cadastro.");
