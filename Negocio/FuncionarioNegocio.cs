@@ -13,7 +13,7 @@ namespace Negocio
                 throw new Exception("É obrigatório inforar o nome do funcionário.");
             }
 
-            if (!StringUtilitario.CpfIsValid(aEntidade.Cpf))
+            if (!Validador.CpfIsValid(aEntidade.Cpf))
             {
                 throw new Exception("O CPF do funcionário informado é inválido.");
             }

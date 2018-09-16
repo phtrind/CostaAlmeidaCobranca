@@ -3,13 +3,55 @@ using Entidade;
 using Enumerador;
 using Projecao;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Transactions;
+using Utilitario;
 
 namespace Negocio
 {
     public class ContratoNegocio : NegocioBase<ContratoEntidade>
     {
+        #region .: Busca :.
+
+        public BuscarParaEditarContratoResponse BuscarParaEditar(long idContrato)
+        {
+            var dados = new ContratoDados().BuscarParaEditar(idContrato);
+
+            if (!dados.Any())
+            {
+                throw new Exception("Contrato não encontrado.");
+            }
+
+            var contrato = dados.FirstOrDefault();
+
+            var retorno = new BuscarParaEditarContratoResponse
+            {
+                Id = contrato.CON_CODIGO,
+                IdVendedor = contrato.CON_VENDEDOR,
+                IdComprador = contrato.CON_COMPRADOR,
+                Animal = contrato.CON_ANIMAL,
+                Observação = StringUtilitario.TratarStringNula(contrato.CON_OBSERVACAO),
+                IdEvento = StringUtilitario.TratarStringNula(Convert.ToString(contrato.EVE_CODIGO)),
+                Valor = Convert.ToDecimal(contrato.CON_VALOR),
+                QuantidadeParcelas = dados.Count(),
+                Parcelas = new List<BuscarParaEditarParcelaResponse>()
+            };
+
+            foreach (var par in dados)
+            {
+                retorno.Parcelas.Add(new BuscarParaEditarParcelaResponse
+                {
+                    Id = par.PAR_CODIGO,
+                    Valor = Convert.ToDecimal(par.PAR_VALOR),
+                    DataVencimento = Convert.ToDateTime(par.PAR_DTHVENCIMENTO),
+                    TaxaLucro = Convert.ToDecimal(par.PAR_TAXALUCRO)
+                });
+            }
+
+            return retorno;
+        }
+
         public GetCombosCadastroContratoResponse getCombosCadastroContrato()
         {
             return new GetCombosCadastroContratoResponse()
@@ -19,20 +61,9 @@ namespace Negocio
             };
         }
 
-        public string TraduzirStatus(StatusContratoEnum status)
-        {
-            switch (status)
-            {
-                case StatusContratoEnum.Ativo:
-                    return "Ativo";
-                case StatusContratoEnum.Suspenso:
-                    return "Suspenso";
-                case StatusContratoEnum.Cancelado:
-                    return "Cancelado";
-                default:
-                    return string.Empty;
-            }
-        }
+        #endregion
+
+        #region .: Cadastro / Edição :.
 
         public long Cadastrar(ContratoEntidade aEntidade)
         {
@@ -41,6 +72,7 @@ namespace Negocio
                 #region .: Contrato :.
 
                 aEntidade.DataCadastro = DateTime.Now;
+                aEntidade.Status = StatusContratoEnum.Ativo;
 
                 var idContrato = Inserir(aEntidade);
 
@@ -63,44 +95,6 @@ namespace Negocio
                 transation.Complete();
 
                 return idContrato;
-            }
-        }
-
-        public override void ValidateRegister(ContratoEntidade aEntidade, bool isEdicao)
-        {
-            if (aEntidade.Valor == default(decimal))
-            {
-                throw new Exception("O valor do contrato é inválido.");
-            }
-
-            if (aEntidade.Parcelas == null || !aEntidade.Parcelas.Any())
-            {
-                throw new Exception("Não é possível cadastrar um contrato sem parcelas.");
-            }
-
-            if (aEntidade.Valor != aEntidade.Parcelas.Sum(x => x.Valor))
-            {
-                throw new Exception("O valor do contrato não pode ser diferente da soma do valor das parcelas");
-            }
-
-            if (string.IsNullOrEmpty(aEntidade.Animal))
-            {
-                throw new Exception("É obrigatório informar o animal do contrato.");
-            }
-
-            if (!aEntidade.IdUsuarioCadastro.HasValue && !isEdicao)
-            {
-                throw new Exception("É obrigatório informar o usuário resposável pelo cadastro.");
-            }
-
-            if (!aEntidade.IdVendedor.HasValue)
-            {
-                throw new Exception("É obrigatório infomar o vendedor do contrato.");
-            }
-
-            if (!aEntidade.IdComprador.HasValue)
-            {
-                throw new Exception("É obrigatório infomar o comprador do contrato.");
             }
         }
 
@@ -154,6 +148,48 @@ namespace Negocio
             return true;
         }
 
+        #endregion
+
+        #region .: Validações :.
+
+        public override void ValidateRegister(ContratoEntidade aEntidade, bool isEdicao)
+        {
+            if (aEntidade.Valor == default(decimal))
+            {
+                throw new Exception("O valor do contrato é inválido.");
+            }
+
+            if (aEntidade.Parcelas == null || !aEntidade.Parcelas.Any())
+            {
+                throw new Exception("Não é possível cadastrar um contrato sem parcelas.");
+            }
+
+            if (aEntidade.Valor != aEntidade.Parcelas.Sum(x => x.Valor))
+            {
+                throw new Exception("O valor do contrato não pode ser diferente da soma do valor das parcelas");
+            }
+
+            if (string.IsNullOrEmpty(aEntidade.Animal))
+            {
+                throw new Exception("É obrigatório informar o animal do contrato.");
+            }
+
+            if (!aEntidade.IdUsuarioCadastro.HasValue && !isEdicao)
+            {
+                throw new Exception("É obrigatório informar o usuário resposável pelo cadastro.");
+            }
+
+            if (!aEntidade.IdVendedor.HasValue)
+            {
+                throw new Exception("É obrigatório infomar o vendedor do contrato.");
+            }
+
+            if (!aEntidade.IdComprador.HasValue)
+            {
+                throw new Exception("É obrigatório infomar o comprador do contrato.");
+            }
+        }
+
         private void ValidarEdicao(ContratoEntidade aEntidade)
         {
             if (!aEntidade.IdUsuarioAlteracao.HasValue)
@@ -172,9 +208,24 @@ namespace Negocio
             }
         }
 
-        //public IEnumerable<RelatorioContratoResponse> Relatorio()
-        //{
-        //    dynamic dados = new ContratoDados().Relatorio();
-        //}
+        #endregion
+
+        #region .: Relatórios :.
+
+        public IEnumerable<RelatorioContratoResponse> Relatorio()
+        {
+            return new ContratoDados().Relatorio().Select(x => new RelatorioContratoResponse()
+            {
+                Id = x.CON_CODIGO,
+                Vendedor = x.VENDEDOR,
+                Comprador = x.COMPRADOR,
+                Evento = x.EVE_NOME,
+                Valor = StringUtilitario.ValorReais(Convert.ToDecimal(x.CON_VALOR)),
+                Status = StringUtilitario.TraduzirEnum((StatusContratoEnum)x.CON_STATUS),
+                Parcelas = Convert.ToString(x.PARCELAS)
+            });
+        }
+
+        #endregion
     }
 }

@@ -43,10 +43,12 @@
     <Compile Include="ComboProjecao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Response\Cliente\RelatorioDetalhadoClienteResponse.cs" />
+    <Compile Include="Response\Contrato\BuscarParaEditarContratoResponse.cs" />
     <Compile Include="Response\Evento\RelatorioDetalhadoEventoResponse.cs" />
     <Compile Include="Response\Evento\RelatorioEventoResponse.cs" />
     <Compile Include="Response\Cliente\RelatorioClienteResponse.cs" />
     <Compile Include="Response\Contrato\GetCombosCadastroContratoResponse.cs" />
+    <Compile Include="Response\Parcela\BuscarParaEditarParcelaResponse.cs" />
     <Compile Include="Response\Usuario\InformacoesUsuarioResponse.cs" />
     <Compile Include="Response\Parcela\ParcelasPorContratoProjecao.cs" />
     <Compile Include="Response\Contrato\RelatorioContratoResponse.cs" />

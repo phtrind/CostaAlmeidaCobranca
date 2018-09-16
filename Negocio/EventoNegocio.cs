@@ -177,7 +177,7 @@ namespace Negocio
                 Cep = Convert.ToString(dados.END_CEP),
                 Logradouro = dados.END_LOGRADOURO,
                 Numero = dados.END_NUMERO,
-                Complemento = StringUtilitario.VerificarStringNula(dados.END_COMPLEMENTO),
+                Complemento = StringUtilitario.TratarStringNula(dados.END_COMPLEMENTO),
                 Bairro = dados.END_BAIRRO,
                 Estado = dados.END_ESTADO,
                 Cidade = dados.END_CIDADE,

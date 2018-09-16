@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Projecao
+﻿namespace Projecao
 {
     public class RelatorioContratoResponse
     {
-        public string Id { get; set; }
+        public long Id { get; set; }
         public string Vendedor { get; set; }
         public string Comprador { get; set; }
         public string Evento { get; set; }

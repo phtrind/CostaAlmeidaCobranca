@@ -14,6 +14,8 @@ namespace CostaAlmeidaCobranca.Controllers
 {
     public class ContratoController : ApiController
     {
+        #region .: Busca :.
+
         [Authorize]
         // GET: api/Contrato
         public IEnumerable<ContratoEntidade> Get()
@@ -53,6 +55,28 @@ namespace CostaAlmeidaCobranca.Controllers
                 throw new HttpResponseException(erro);
             }
         }
+
+        [Authorize]
+        [Route("api/Contrato/BuscarParaEditar/{idContrato}")]
+        [HttpGet]
+        public BuscarParaEditarContratoResponse BuscarParaEditar(long idContrato)
+        {
+            try
+            {
+                return new ContratoNegocio().BuscarParaEditar(idContrato);
+            }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(HttpStatusCode.NotAcceptable)
+                {
+                    Content = new StringContent(ex.Message)
+                };
+
+                throw new HttpResponseException(erro);
+            }
+        }
+
+        #endregion
 
         [Authorize]
         // POST: api/Contrato
@@ -124,13 +148,13 @@ namespace CostaAlmeidaCobranca.Controllers
 
         #region .: Relatório :.
 
-        //[Authorize]
-        //[Route("api/Contrato/Relatorio")]
-        //[HttpGet]
-        //public IEnumerable<RelatorioContratoResponse> Relatorio()
-        //{
-        //    return new ContratoNegocio().Relatorio();
-        //} 
+        [Authorize]
+        [Route("api/Contrato/Relatorio")]
+        [HttpGet]
+        public IEnumerable<RelatorioContratoResponse> Relatorio()
+        {
+            return new ContratoNegocio().Relatorio();
+        }
 
         #endregion
     }

@@ -28,12 +28,12 @@ namespace Negocio
                 throw new Exception("O nome do cliente não foi informado.");
             }
 
-            if (!StringUtilitario.CpfIsValid(aEntidade.Cpf))
+            if (!Validador.CpfIsValid(aEntidade.Cpf))
             {
                 throw new Exception("O CPF do cliente informado é inválido.");
             }
 
-            if (!StringUtilitario.EmailIsValid(aEntidade.Email))
+            if (!Validador.EmailIsValid(aEntidade.Email))
             {
                 throw new Exception("O e-mail do cliente informado é inválido.");
             }
@@ -194,15 +194,15 @@ namespace Negocio
                 IdCliente = dados.CLI_CODIGO,
                 Nome = dados.CLI_NOME,
                 Email = dados.CLI_EMAIL,
-                Fazenda = StringUtilitario.VerificarStringNula(dados.CLI_FAZENDA),
+                Fazenda = StringUtilitario.TratarStringNula(dados.CLI_FAZENDA),
                 Cpf = dados.CLI_CPF,
-                Telefone = StringUtilitario.VerificarStringNula(dados.CLI_TELFIXO),
-                Celular = StringUtilitario.VerificarStringNula(dados.CLI_TELCELULAR),
+                Telefone = StringUtilitario.TratarStringNula(dados.CLI_TELFIXO),
+                Celular = StringUtilitario.TratarStringNula(dados.CLI_TELCELULAR),
                 IdEndereco = dados.END_CODIGO,
                 Cep = Convert.ToString(dados.END_CEP),
                 Logradouro = dados.END_LOGRADOURO,
                 Numero = dados.END_NUMERO,
-                Complemento = StringUtilitario.VerificarStringNula(dados.END_COMPLEMENTO),
+                Complemento = StringUtilitario.TratarStringNula(dados.END_COMPLEMENTO),
                 Bairro = dados.END_BAIRRO,
                 Estado = dados.END_ESTADO,
                 Cidade = dados.END_CIDADE
