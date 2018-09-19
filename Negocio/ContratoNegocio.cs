@@ -116,12 +116,13 @@ namespace Negocio
 
                 foreach (var parcela in aEntidade.Parcelas)
                 {
-                    var parcelaAntiga = negocioParcela.Listar(parcela.Id.Value);
+                    var parcelaAntiga = parcela.Id.HasValue ? negocioParcela.Listar(parcela.Id.Value) : null;
 
                     if (parcelaAntiga != null)
                     {
+                        parcela.IdContrato = parcelaAntiga.IdContrato.Value;
                         parcela.IdUsuarioCadastro = parcelaAntiga.IdUsuarioCadastro.Value;
-                        parcela.IdUsuarioAlteracao = contrato.IdUsuarioAlteracao.Value;
+                        parcela.IdUsuarioAlteracao = aEntidade.IdUsuarioAlteracao.Value;
                         parcela.DataCadastro = parcelaAntiga.DataCadastro;
                         parcela.DataAlteracao = DateTime.Now;
                         parcela.ValorPago = parcelaAntiga.ValorPago;
