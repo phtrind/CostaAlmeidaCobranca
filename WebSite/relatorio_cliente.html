@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <title>Ela - Bootstrap Admin Dashboard Template</title>
+
+    <link href="css/lib/chartist/chartist.min.css" rel="stylesheet">
+    <link href="css/lib/owl.carousel.min.css" rel="stylesheet" />
+    <link href="css/lib/owl.theme.default.min.css" rel="stylesheet" />
+    <!-- Bootstrap Core CSS -->
+    <link href="css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/helper.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body class="fix-header fix-sidebar" ng-app="cobranca" ng-controller="controller" ng-init="verificarSession()">
+    <!-- Preloader - style you can find in spinners.css -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <!-- Main wrapper  -->
+    <div id="main-wrapper">
+        <!-- header header  -->
+        <div class="header">
+            <nav class="navbar top-navbar navbar-expand-md navbar-light">
+                <!-- Logo -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="admin.html">
+                        <!-- Logo icon -->
+                        <b>
+                            <img src="images/logo_cavalo.jpg" width="24px" alt="homepage" class="dark-logo" />
+                        </b>
+                        <!--End Logo icon -->
+                        <!-- Logo text -->
+                        <span>
+                            <img src="images/logo_escrita.png" height="30px" alt="homepage" class="dark-logo" />
+                        </span>
+                    </a>
+                </div>
+                <!-- End Logo -->
+                <div class="navbar-collapse">
+                    <!-- toggle and nav items -->
+                    <ul class="navbar-nav mr-auto mt-md-0">
+                        <!-- This is  -->
+                        <li class="nav-item">
+                            <a class="nav-link nav-toggler hidden-md-up text-muted" href="javascript:void(0)">
+                                <i class="mdi mdi-menu"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item m-l-10">
+                            <a class="nav-link sidebartoggler hidden-sm-down text-muted" href="javascript:void(0)">
+                                <i class="ti-menu"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- User profile and search -->
+                    <ul class="navbar-nav my-lg-0">
+                        <!-- Profile -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                {{RecuperarNomeUsuario()}}
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right animated zoomIn">
+                                <ul class="dropdown-user">
+                                    <li ng-click="doLogout()">
+                                        <a href="#">
+                                            <i class="fa fa-power-off"></i> Logout</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!-- End header header -->
+        <!-- Left Sidebar  -->
+        <div class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <li class="nav-label">Home</li>
+
+                        <li>
+                            <a href="admin.html" aria-expanded="false">
+                                <i class="fa fa-tachometer"></i>
+                                <span class="hide-menu">Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="has-arrow  " href="#" aria-expanded="false">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <span class="hide-menu">Cadastros
+                                </span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li>
+                                    <a href="cadastro_cliente.html" aria-expanded="false">
+                                        <i class="fa fa-address-card"></i>
+                                        <span class="show-menu">Cliente</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="cadastro_leilao.html" aria-expanded="false">
+                                        <i class="fa fa-legal"></i>
+                                        <span class="show-menu">Leilão</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="cadastro_contrato.html" aria-expanded="false">
+                                        <i class="fa fa-edit"></i>
+                                        <span class="show-menu">Contrato</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- <li>
+                                <a href="cadastro_transacao.html" aria-expanded="false">
+                                    <i class="fa fa-money"></i>
+                                    <span class="show-menu">Transação</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="cadastro_funcionario.html">
+                                    <i class="fa fa-group"></i>
+                                    <span class="show-menu">Funcionário</span>
+                                </a>
+                            </li> -->
+                        <li>
+                            <a class="has-arrow  " href="#" aria-expanded="false">
+                                <i class="fa fa-file-pdf-o"></i>
+                                <span class="hide-menu">Relatórios
+                                </span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li>
+                                    <a href="relatorio_cliente.html">
+                                        <i class="fa fa-address-card"></i>
+                                        <span class="show-menu">Cliente</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="relatorio_leilao.html">
+                                        <i class="fa fa-legal"></i>
+                                        <span class="show-menu">Leilão</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="relatorio_contrato.html">
+                                        <i class="fa fa-edit"></i>
+                                        <span class="show-menu">Contrato</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- <li>
+                                <a href="cadastro_transacao.html">
+                                    <i class="fa fa-money"></i>
+                                    <span class="show-menu">Transação</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="cadastro_funcionario.html">
+                                    <i class="fa fa-group"></i>
+                                    <span class="show-menu">Funcionário</span>
+                                </a>
+                            </li> -->
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </div>
+        <!-- End Left Sidebar  -->
+        <!-- Page wrapper  -->
+        <div class="page-wrapper">
+            <!-- Bread crumb -->
+            <div class="row page-titles">
+                <div class="col-md-5 align-self-center">
+                    <h3 class="text-primary">Relatório de Cliente</h3>
+                </div>
+                <div class="col-md-7 align-self-center">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="admin.html">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active">Relatório de Cliente</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- End Bread crumb -->
+            <!-- Container fluid  -->
+            <div class="container-fluid">
+                <!-- Start Page Content -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-outline-primary">
+                            <div class="card-body">
+                                <h4 class="card-title">Relatório de Clientes</h4>
+                                <h6 class="card-subtitle">Para editar um registro, clique em editar na última coluna</h6>
+                                <h6 class="card-subtitle">Exporte a tabela clicando nos botões abaixo</h6>
+                                <div class="table-responsive m-t-40">
+                                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered"
+                                        cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Nome</th>
+                                                <th>CPF</th>
+                                                <th>E-mail</th>
+                                                <th>Telefone</th>
+                                                <th>Celular</th>
+                                                <th>Fazenda</th>
+                                                <th style="text-align:center; width: 30px">Editar</th>
+                                                <th style="text-align:center; width: 30px">Abrir</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tabelaRelatorio"></tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Nome</th>
+                                                <th>CPF</th>
+                                                <th>E-mail</th>
+                                                <th>Telefone</th>
+                                                <th>Celular</th>
+                                                <th>Fazenda</th>
+                                                <th style="text-align:center; width: 30px">Editar</th>
+                                                <th style="text-align:center; width: 30px">Abrir</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Page Content -->
+                </div>
+                <div class="row" ng-show="exibirRelatorioClienteDetalhado" id="detalhesCiente">
+                    <div class="col-md-12">
+                        <div class="card card-outline-primary">
+                            <div class="card-body">
+                                <form action="#">
+                                    <div class="form-body">
+                                        <h3 class="box-title">Informações Pessoais<button style="float: right" type="button" class="btn btn-danger btn-rounded" ng-click="fecharRelatoroDetalhadoCliente()">Fechar</button></h3>
+                                        <hr>
+                                        <div class="row p-t-20">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Nome</label>
+                                                    <input type="text" ng-model="nomeCliente" class="form-control" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">E-mail</label>
+                                                    <input type="email" ng-model="emailCliente" class="form-control" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="control-label">Fazenda</label>
+                                                    <input type="text" ng-model="fazendaCliente" class="form-control" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">Tipo de documento</label>
+                                                    <input type="text" ng-model="TipoDocumentoCliente" class="form-control" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">CPF / CNPJ</label>
+                                                    <input type="text" ng-model="documentoCliente" class="form-control" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">Telefone fixo</label>
+                                                    <input type="text" ng-model="telefoneFixoCliente" class="form-control" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="control-label">Telefone celular</label>
+                                                    <input type="text" ng-model="telefoneCelularCliente" class="form-control" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h3 class="box-title m-t-40">Endereço</h3>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>CEP</label>
+                                                    <input type="text" ng-model="cepEnderecoCliente" class="form-control" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>Logradouro</label>
+                                                    <input type="text" ng-model="logradouroEnderecoCliente" class="form-control" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Número</label>
+                                                    <input type="text" ng-model="numeroEnderecoCliente" class="form-control" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label>Complemento</label>
+                                                    <input type="text" ng-model="complementoEnderecoCliente" class="form-control" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Bairro</label>
+                                                    <input type="text" ng-model="bairroEnderecoCliente" class="form-control" disabled>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Estado</label>
+                                                    <input type="text" ng-model="estadoCliente" class="form-control" disabled>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Cidade</label>
+                                                    <input type="text" ng-model="cidadeCliente" class="form-control" disabled>
+                                                </div>
+                                            </div>
+                                            <!--/span-->
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End PAge Content -->
+                </div>
+                <!-- End Container fluid  -->
+                <!-- footer -->
+                <footer class="footer">© 2018 All rights reserved. Developed by
+                    <a href="http://impulsesistemas.com.br" target="_blank">Impulse Sistemas</a>
+                </footer>
+                <!-- End footer -->
+            </div>
+            <!-- End Page wrapper  -->
+        </div>
+        <!-- End Wrapper -->
+        <!-- All Jquery -->
+        <script src="js/lib/jquery/jquery.min.js"></script>
+        <!-- Bootstrap tether Core JavaScript -->
+        <script src="js/lib/bootstrap/js/popper.min.js"></script>
+        <script src="js/lib/bootstrap/js/bootstrap.min.js"></script>
+        <!-- slimscrollbar scrollbar JavaScript -->
+        <script src="js/jquery.slimscroll.js"></script>
+        <!--Menu sidebar -->
+        <script src="js/sidebarmenu.js"></script>
+        <!--stickey kit -->
+        <script src="js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
+
+
+        <script src="js/lib/datamap/d3.min.js"></script>
+        <script src="js/lib/datamap/topojson.js"></script>
+        <script src="js/lib/datamap/datamaps.world.min.js"></script>
+        <script src="js/lib/datamap/datamap-init.js"></script>
+
+        <script src="js/lib/weather/jquery.simpleWeather.min.js"></script>
+        <script src="js/lib/weather/weather-init.js"></script>
+        <script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
+        <script src="js/lib/owl-carousel/owl.carousel-init.js"></script>
+
+
+        <script src="js/lib/chartist/chartist.min.js"></script>
+        <script src="js/lib/chartist/chartist-plugin-tooltip.min.js"></script>
+        <script src="js/lib/chartist/chartist-init.js"></script>
+
+        <script>
+
+            $.ajax({
+                headers: {
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('Token')
+                },
+                url: "http://localhost/CostaAlmeidaCobranca/api/Cliente/Relatorio",
+                type: 'GET',
+                async: false
+            }).done(function (data) {
+
+                for (var x = 0; x < data.length; x++) {
+
+                    $("#tabelaRelatorio").append("<tr><td>" + data[x].Nome + "</td><td>" + data[x].Cpf + "</td><td>" + data[x].Email + "</td><td>" + data[x].Telefone + "</td><td>" + data[x].Celular + "</td><td style='text-align: left'>" + data[x].Fazenda + "</td><td style='text-align:center; cursor: pointer' ng-click='RedirecionarEditarCliente(" + data[x].Id + ")'><i class='fa fa-edit' style='font-size:24px'></i></td><td style='text-align:center; cursor: pointer' ng-click='detalharRelatorioCliente(" + data[x].Id + ")'><i class='fa fa-search' style='font-size:24px'></i></td></tr>");
+                }
+
+            });
+
+        </script>
+
+        <!--Custom JavaScript -->
+        <script src="js/custom.min.js"></script>
+
+        <!-- AngularJS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+        <script src="js/angular.js"></script>
+
+        <script src="js/lib/datatables/datatables.min.js"></script>
+        <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+        <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.flash.min.js"></script>
+        <script src="js/lib/datatables/cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+        <script src="js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+        <script src="js/lib/datatables/cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+        <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+        <script src="js/lib/datatables/cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+        <script src="js/lib/datatables/datatables-init.js"></script>
+
+</body>
+
+</html>

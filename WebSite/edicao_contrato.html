@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
+    <title>Ela - Bootstrap Admin Dashboard Template</title>
+
+    <link href="css/lib/chartist/chartist.min.css" rel="stylesheet">
+    <link href="css/lib/owl.carousel.min.css" rel="stylesheet" />
+    <link href="css/lib/owl.theme.default.min.css" rel="stylesheet" />
+    <!-- Bootstrap Core CSS -->
+    <link href="css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/helper.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body class="fix-header fix-sidebar" ng-app="cobranca" ng-controller="controller" ng-init="loadEdicaoContrato()">
+    <!-- Preloader - style you can find in spinners.css -->
+    <div class="preloader">
+        <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
+        </svg>
+    </div>
+    <!-- Main wrapper  -->
+    <div id="main-wrapper">
+        <!-- header header  -->
+        <div class="header">
+            <nav class="navbar top-navbar navbar-expand-md navbar-light">
+                <!-- Logo -->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="admin.html">
+                        <!-- Logo icon -->
+                        <b>
+                            <img src="images/logo_cavalo.jpg" width="24px" alt="homepage" class="dark-logo" />
+                        </b>
+                        <!--End Logo icon -->
+                        <!-- Logo text -->
+                        <span>
+                            <img src="images/logo_escrita.png" height="30px" alt="homepage" class="dark-logo" />
+                        </span>
+                    </a>
+                </div>
+                <!-- End Logo -->
+                <div class="navbar-collapse">
+                    <!-- toggle and nav items -->
+                    <ul class="navbar-nav mr-auto mt-md-0">
+                        <!-- This is  -->
+                        <li class="nav-item">
+                            <a class="nav-link nav-toggler hidden-md-up text-muted" href="javascript:void(0)">
+                                <i class="mdi mdi-menu"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item m-l-10">
+                            <a class="nav-link sidebartoggler hidden-sm-down text-muted" href="javascript:void(0)">
+                                <i class="ti-menu"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- User profile and search -->
+                    <ul class="navbar-nav my-lg-0">
+                        <!-- Profile -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{RecuperarNomeUsuario()}}
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right animated zoomIn">
+                                <ul class="dropdown-user">
+                                    <li ng-click="doLogout()">
+                                        <a href="#">
+                                            <i class="fa fa-power-off"></i> Logout</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!-- End header header -->
+        <!-- Left Sidebar  -->
+        <div class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        <li class="nav-label">Home</li>
+
+                        <li>
+                            <a href="admin.html" aria-expanded="false">
+                                <i class="fa fa-tachometer"></i>
+                                <span class="hide-menu">Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="has-arrow" href="#" aria-expanded="false">
+                                <i class="fa fa-pencil-square-o"></i>
+                                <span class="hide-menu">Cadastros
+                                </span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li>
+                                    <a href="cadastro_cliente.html" aria-expanded="false">
+                                        <i class="fa fa-address-card"></i>
+                                        <span class="show-menu">Cliente</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="cadastro_leilao.html" aria-expanded="false">
+                                        <i class="fa fa-legal"></i>
+                                        <span class="show-menu">Leilão</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="cadastro_contrato.html" aria-expanded="false">
+                                        <i class="fa fa-edit"></i>
+                                        <span class="show-menu">Contrato</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- <li>
+                            <a href="cadastro_transacao.html" aria-expanded="false">
+                                <i class="fa fa-money"></i>
+                                <span class="show-menu">Transação</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="cadastro_funcionario.html">
+                                <i class="fa fa-group"></i>
+                                <span class="show-menu">Funcionário</span>
+                            </a>
+                        </li> -->
+                        <li>
+                            <a class="has-arrow  " href="#" aria-expanded="false">
+                                <i class="fa fa-file-pdf-o"></i>
+                                <span class="hide-menu">Relatórios
+                                </span>
+                            </a>
+                            <ul aria-expanded="false" class="collapse">
+                                <li>
+                                    <a href="relatorio_cliente.html">
+                                        <i class="fa fa-address-card"></i>
+                                        <span class="show-menu">Cliente</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="relatorio_leilao.html">
+                                        <i class="fa fa-legal"></i>
+                                        <span class="show-menu">Leilão</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="relatorio_contrato.html">
+                                        <i class="fa fa-edit"></i>
+                                        <span class="show-menu">Contrato</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- <li>
+                            <a href="cadastro_transacao.html">
+                                <i class="fa fa-money"></i>
+                                <span class="show-menu">Transação</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="cadastro_funcionario.html">
+                                <i class="fa fa-group"></i>
+                                <span class="show-menu">Funcionário</span>
+                            </a>
+                        </li> -->
+                    </ul>
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </div>
+        <!-- End Left Sidebar  -->
+        <!-- Page wrapper  -->
+        <div class="page-wrapper">
+            <!-- Bread crumb -->
+            <div class="row page-titles">
+                <div class="col-md-5 align-self-center">
+                    <h3 class="text-primary">Edição de Contrato</h3>
+                </div>
+                <div class="col-md-7 align-self-center">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="javascript:void(0)">Home</a>
+                        </li>
+                        <li class="breadcrumb-item active">Edição de Contrato</li>
+                    </ol>
+                </div>
+            </div>
+            <!-- End Bread crumb -->
+            <!-- Container fluid  -->
+            <div class="container-fluid">
+                <!-- Start Page Content -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-outline-primary">
+                            <div class="card-body">
+                                <div class="col-md-12 alert alert-info" align="center" ng-show="esconderFormularioCadastro">
+                                    <br>
+                                    <h3>Contrato editado com sucesso <i class="fa fa-check"></i></h3>
+                                    <br>
+                                </div>
+                                <form action="#" ng-hide="esconderFormularioCadastro">
+                                    <div class="form-body">
+                                        <h3 class="box-title">Informações Gerais</h3>
+                                        <input type="text" ng-model="idContrato" class="form-control" hidden>
+                                        <input type="date" ng-model="dataCadastro" class="form-control" hidden>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group" ng-class="{'has-error':erroVendedorContrato}">
+                                                    <label>Vendedor</label>
+                                                    <select class="form-control custom-select" ng-model="vendedorContrato">
+                                                        <option value="">Selecione</option>
+                                                        <option ng-repeat="x in listaVendedores" value="{{x.Codigo}}">{{x.Descricao}}</option>
+                                                    </select>
+                                                    <small class="form-control-feedback" ng-show="erroVendedorContrato">Selecione
+                                                        o vendedor.</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group" ng-class="{'has-error':erroCompradorContrato}">
+                                                    <label>Comprador</label>
+                                                    <select class="form-control custom-select" ng-model="compradorContrato">
+                                                        <option value="">Selecione</option>
+                                                        <option ng-repeat="x in listaCompradores" value="{{x.Codigo}}">{{x.Descricao}}</option>
+                                                    </select>
+                                                    <small class="form-control-feedback" ng-show="erroCompradorContrato">Selecione
+                                                        o comprador.</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group" ng-class="{'has-error':erroAnimal}">
+                                                    <label class="control-label">Animal</label>
+                                                    <input type="text" ng-model="animal" class="form-control">
+                                                    <small class="form-control-feedback" ng-show="erroAnimal">Preencha o
+                                                        nome do animal.</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="control-label">Observações</label>
+                                                    <textarea class="textarea_editor form-control" style="height:200px" ng-model="observacoesContrato"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Evento</label>
+                                                    <select class="form-control custom-select" ng-model="eventoContrato">
+                                                        <option value="">Selecione</option>
+                                                        <option ng-repeat="x in listaEventos" value="{{x.Codigo}}">{{x.Descricao}}</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group" ng-class="{'has-error':erroValorContrato || erroValorTotalContrato}">
+                                                    <label class="control-label">Valor total</label>
+                                                    <input type="text" ng-model="valorContrato" class="form-control" allow-only-numbers>
+                                                    <small class="form-control-feedback" ng-show="erroValorContrato">Valor
+                                                        inválido.
+                                                    </small>
+                                                    <small class="form-control-feedback" ng-show="erroValorTotalContrato">A
+                                                        soma das parcelas não é igual ao valor total do contrato.</small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group" ng-class="{'has-error':erroQuantidadeParcelas || erroDiferencaQuantidadeParcelas}">
+                                                    <label class="control-label">Quantidade de parcelas</label>
+                                                    <input type="number" ng-model="numeroParcelas" class="form-control" min="1" max="40" maxlength="2" ng-change="calcularTaxaParcelas()"
+                                                        allow-only-numbers>
+                                                    <small class="form-control-feedback" ng-show="erroQuantidadeParcelas">Quantidade
+                                                        de parcelas inválida.</small>
+                                                    <small class="form-control-feedback" ng-show="erroDiferencaQuantidadeParcelas">A
+                                                        quantidade de parcelas não confere com as parcelas lançadas abaixo.</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-show="numeroParcelas > 0">
+                                            <h3 class="box-title m-t-40">Parcelas</h3>
+                                            <hr>
+                                            <div class="row">
+                                                <div class="table-responsive">
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="text-align: center">Parcela</th>
+                                                                <th>Valor</th>
+                                                                <th>Vencimento</th>
+                                                                <th>Lucro (R$)</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="x in [].constructor(numeroParcelas) track by $index">
+                                                                <input type="text" ng-model="idParcela[$index]" class="form-control" hidden>
+                                                                <input type="date" ng-model="dataCadastroParcela[$index]" class="form-control" hidden>
+                                                                <th style="text-align: center" scope="row">{{$index + 1}}</th>
+                                                                <td>
+                                                                    <div ng-class="{'has-error':erroValorParcela[$index]}">
+                                                                        <input type="text" ng-model="valorParcela[$index]" class="form-control" maxlength="8" ng-change="calcularTaxaParcela($index)"
+                                                                            allow-only-numbers>
+                                                                        <small class="form-control-feedback" ng-show="erroValorParcela[$index]">Valor
+                                                                            inválido.
+                                                                        </small>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div ng-class="{'has-error':erroVencimentoParcela[$index]}">
+                                                                        <input type="date" ng-model="vencimentoParcela[$index]" class="form-control">
+                                                                        <small class="form-control-feedback" ng-show="erroVencimentoParcela[$index]">Data
+                                                                            inválida.
+                                                                        </small>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div ng-class="{'has-error':erroTaxaLucro[$index]}">
+                                                                        <input type="text" ng-model="taxaLucro[$index]" class="form-control" allow-only-numbers>
+                                                                        <small class="form-control-feedback" ng-show="erroTaxaLucro[$index]">Valor
+                                                                            inválido.
+                                                                        </small>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="col-md-12 form-actions" style="text-align: center">
+                                        <div ng-show="erroValidacaoFormulario">
+                                            <span style="color:#fc6180">Houve algum erro no preenchimento do formulário.</span>
+                                            <br>
+                                            <br>
+                                        </div>
+                                        <button type="button" class="col-md-2 btn btn-success" ng-hide="esconderBotaoCadastro" ng-click="editarContrato()">
+                                            <i class="fa fa-check"></i> Salvar
+                                        </button>
+                                        <img src="icons/loading.gif" width="50" style="margin: 10px" ng-show="esconderBotaoCadastro">
+                                        <br>
+                                        <br>
+                                        <button type="button" class="col-md-2 btn btn-default" ng-click="LimparCadastroContrato()">
+                                            <i class="fa fa-eraser"></i> Limpar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End PAge Content -->
+                </div>
+                <!-- End Container fluid  -->
+                <!-- footer -->
+                <footer class="footer">© 2018 All rights reserved. Developed by
+                    <a href="http://impulsesistemas.com.br" target="_blank">Impulse Sistemas</a>
+                </footer>
+                <!-- End footer -->
+            </div>
+            <!-- End Page wrapper  -->
+        </div>
+        <!-- End Wrapper -->
+        <!-- All Jquery -->
+        <script src="js/lib/jquery/jquery.min.js"></script>
+        <!-- Bootstrap tether Core JavaScript -->
+        <script src="js/lib/bootstrap/js/popper.min.js"></script>
+        <script src="js/lib/bootstrap/js/bootstrap.min.js"></script>
+        <!-- slimscrollbar scrollbar JavaScript -->
+        <script src="js/jquery.slimscroll.js"></script>
+        <!--Menu sidebar -->
+        <script src="js/sidebarmenu.js"></script>
+        <!--stickey kit -->
+        <script src="js/lib/sticky-kit-master/dist/sticky-kit.min.js"></script>
+
+
+        <script src="js/lib/datamap/d3.min.js"></script>
+        <script src="js/lib/datamap/topojson.js"></script>
+        <script src="js/lib/datamap/datamaps.world.min.js"></script>
+        <script src="js/lib/datamap/datamap-init.js"></script>
+
+        <script src="js/lib/weather/jquery.simpleWeather.min.js"></script>
+        <script src="js/lib/weather/weather-init.js"></script>
+        <script src="js/lib/owl-carousel/owl.carousel.min.js"></script>
+        <script src="js/lib/owl-carousel/owl.carousel-init.js"></script>
+
+
+        <script src="js/lib/chartist/chartist.min.js"></script>
+        <script src="js/lib/chartist/chartist-plugin-tooltip.min.js"></script>
+        <script src="js/lib/chartist/chartist-init.js"></script>
+        <!--Custom JavaScript -->
+        <script src="js/custom.min.js"></script>
+
+        <!-- AngularJS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+        <script src="js/angular.js"></script>
+
+</body>
+
+</html>
