@@ -16,50 +16,140 @@ namespace CostaAlmeidaCobranca.Controllers
         // GET: api/Parcela
         public IEnumerable<ParcelasEntidade> Get()
         {
-            return new ParcelaNegocio().ListarTodos();
+            try
+            {
+                return new ParcelaNegocio().ListarTodos();
+            }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(HttpStatusCode.NotAcceptable)
+                {
+                    Content = new StringContent(ex.Message)
+                };
+
+                throw new HttpResponseException(erro);
+            }
         }
 
         [Authorize]
         // GET: api/Parcela/5
         public ParcelasEntidade Get(int id)
         {
-            return new ParcelaNegocio().Listar(id);
+            try
+            {
+                return new ParcelaNegocio().Listar(id);
+            }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(HttpStatusCode.NotAcceptable)
+                {
+                    Content = new StringContent(ex.Message)
+                };
+
+                throw new HttpResponseException(erro);
+            }
         }
 
         [Authorize]
         // POST: api/Parcela
         public long Post([FromBody]ParcelasEntidade aEntidade)
         {
-            aEntidade.DataCadastro = DateTime.Now;
+            try
+            {
+                aEntidade.DataCadastro = DateTime.Now;
 
-            return new ParcelaNegocio().Inserir(aEntidade);
+                return new ParcelaNegocio().Inserir(aEntidade);
+            }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(HttpStatusCode.NotAcceptable)
+                {
+                    Content = new StringContent(ex.Message)
+                };
+
+                throw new HttpResponseException(erro);
+            }
         }
 
         [Authorize]
         // PUT: api/Parcela/5
         public bool Put([FromBody]ParcelasEntidade aEntidade)
         {
-            return new ParcelaNegocio().Atualizar(aEntidade);
+            try
+            {
+                return new ParcelaNegocio().Atualizar(aEntidade);
+            }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(HttpStatusCode.NotAcceptable)
+                {
+                    Content = new StringContent(ex.Message)
+                };
+
+                throw new HttpResponseException(erro);
+            }
         }
 
         [Authorize]
         // DELETE: api/Parcela/5
         public bool Delete(int id)
         {
-            var negocio = new ParcelaNegocio();
-            var entidade = negocio.Listar(id);
+            try
+            {
+                var negocio = new ParcelaNegocio();
+                var entidade = negocio.Listar(id);
 
-            return negocio.Excluir(entidade);
+                return negocio.Excluir(entidade);
+            }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(HttpStatusCode.NotAcceptable)
+                {
+                    Content = new StringContent(ex.Message)
+                };
+
+                throw new HttpResponseException(erro);
+            }
         }
 
         [Authorize]
-        [Route("api/Parcelas/Contrato/{id}")]
+        [Route("api/Parcelas/RelatorioPorContrato/{id}")]
         [HttpGet]
-        public IEnumerable<ParcelasPorContratoProjecao> ParcelasPorContrato(int id)
+        public IEnumerable<RelatorioParcelaPorContrato> RelatorioPorContrato(int id)
         {
-            var negocio = new ParcelaNegocio();
+            try
+            {
+                return new ParcelaNegocio().RelatorioPorContrato(id);
+            }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(HttpStatusCode.NotAcceptable)
+                {
+                    Content = new StringContent(ex.Message)
+                };
 
-            return negocio.EntidadeParaProjecaoRelatorio(negocio.ParcelasPorContrato(id));
+                throw new HttpResponseException(erro);
+            }
+        }
+
+        [Authorize]
+        [Route("api/Parcelas/BuscarParaEditar/{id}")]
+        [HttpGet]
+        public BuscarParaEditarParcelaResponse BuscarParaEditar(int id)
+        {
+            try
+            {
+                return new ParcelaNegocio().BuscarParaEditar(id);
+            }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(HttpStatusCode.NotAcceptable)
+                {
+                    Content = new StringContent(ex.Message)
+                };
+
+                throw new HttpResponseException(erro);
+            }
         }
     }
 }

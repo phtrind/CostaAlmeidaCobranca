@@ -33,7 +33,7 @@ app.controller('controller', function ($scope, $http, $sce) {
 
     $scope.erroInesperado = "Houve um erro inesperado. Tente novamente ou entre em contato com o administrador.";
 
-    //inicio login
+    //#region .: Login :.
 
     $scope.loginIncorreto = true;
 
@@ -72,9 +72,7 @@ app.controller('controller', function ($scope, $http, $sce) {
                 console.log("Login incorreto.");
             }
             else {
-                console.log("Erro na comunicação com o serviço de login.");
-
-                alert($scope.erroInesperado);
+                $scope.TratarErroRequisicao(err, status);
             }
 
             $scope.esconderBotaoLogin = false;
@@ -119,9 +117,9 @@ app.controller('controller', function ($scope, $http, $sce) {
         return sessionStorage.getItem('Nome');
     }
 
-    //fim login
+    //#endregion
 
-    //inicio logout
+    //#region .: Logout :.
 
     $scope.verificarSession = function () {
 
@@ -141,9 +139,9 @@ app.controller('controller', function ($scope, $http, $sce) {
         window.location.href = 'login.html';
     }
 
-    //fim logout
+    //#endregion
 
-    //inicio cadastro cliente
+    //#region .: Cadastro Cliente :.
 
     $scope.erroNomeCliente = false;
     $scope.erroEmailCliente = false;
@@ -415,9 +413,9 @@ app.controller('controller', function ($scope, $http, $sce) {
 
     }
 
-    //fim cadastro cliente
+    //#endregion
 
-    //inicio edição cliente
+    //#region .: Edição Cliente :.
 
     $scope.loadEdicaoCliente = function () {
 
@@ -515,9 +513,9 @@ app.controller('controller', function ($scope, $http, $sce) {
         $scope.esconderBotaoCadastro = false;
     }
 
-    //fim edição cliente
+    //#endregion
 
-    //inicio relatorio cliente
+    //#region .: Relatorio Cliente :.
 
     $scope.detalharRelatorioCliente = function (aIdCliente) {
         $scope.exibirRelatorioClienteDetalhado = true;
@@ -571,9 +569,9 @@ app.controller('controller', function ($scope, $http, $sce) {
         window.location.href = "edicao_cliente.html?IdCliente=" + aIdCliente;
     }
 
-    //fim relatorio cliente
+    //#endregion
 
-    //inicio cadastro leiao
+    //#region .: Cadastro Leilão :.
 
     $scope.novoCadastroLeilao = function () {
         $scope.LimparCadastroLeilao();
@@ -767,9 +765,9 @@ app.controller('controller', function ($scope, $http, $sce) {
 
     }
 
-    //fim cadastro leilao
+    //#endregion
 
-    //inicio edição leilao
+    //#region .: Edição Leilão :.
 
     $scope.loadEdicaoLeilao = function () {
 
@@ -865,9 +863,9 @@ app.controller('controller', function ($scope, $http, $sce) {
         $scope.esconderBotaoCadastro = false;
     }
 
-    //fim edição leilao
+    //#endregion
 
-    //inicio relatorio leilao
+    //#region .: Relatório Leilão :.
 
     $scope.detalharRelatorioLeilao = function (aIdLeilao) {
         $scope.exibirRelatorioLeilaoDetalhado = true;
@@ -917,11 +915,9 @@ app.controller('controller', function ($scope, $http, $sce) {
         window.location.href = "edicao_leilao.html?IdLeilao=" + aIdLeilao;
     }
 
-    //fim relatorio leilao
+    //#endregion
 
-
-
-    //inicio cadastro contrato
+    //#region .: Cadastro Contrato :.
 
     $scope.loadCadastroContrato = function () {
 
@@ -1011,7 +1007,6 @@ app.controller('controller', function ($scope, $http, $sce) {
             Observacao: $scope.observacoesContrato,
             IdEvento: $scope.eventoContrato,
             IdVendedor: $scope.vendedorContrato,
-            IdComprador: $scope.compradorContrato,
             IdComprador: $scope.compradorContrato,
             IdUsuarioCadastro: sessionStorage.getItem('IdUsuario'),
             Parcelas: arrayParcelas
@@ -1174,17 +1169,14 @@ app.controller('controller', function ($scope, $http, $sce) {
     }
 
     $scope.mostrarParcelasCadastroContrato = function () {
-        if ($scope.numeroParcelas.length > 0) {
-            return true;
-        }
-        else {
-            return false;
-        }
+
+        return $scope.numeroParcelas.length > 0;
+
     }
 
-    //fim cadastro contrato
+    //#endregion
 
-    //inicio relatorio contrato
+    //#region .: Relatório Contrato :.
 
     $scope.expandirParcelas = function (IdContrato) {
 
@@ -1192,7 +1184,7 @@ app.controller('controller', function ($scope, $http, $sce) {
 
         $http({
             method: 'GET',
-            url: $scope.webService + 'Parcelas/Contrato/' + IdContrato,
+            url: $scope.webService + 'Parcelas/RelatorioPorContrato/' + IdContrato,
             headers: {
                 'Authorization': 'Bearer ' + sessionStorage.getItem('Token'),
                 'Content-Type': 'application/json'
@@ -1220,9 +1212,59 @@ app.controller('controller', function ($scope, $http, $sce) {
         }, 'slow');
     }
 
-    //fim relatorio contrato
+    $scope.AbrirAlteracaoStatusParcela = function (aIdParcela) {
 
-    //inicio edicao contrato
+        $http({
+            method: 'GET',
+            url: $scope.webService + 'Parcelas/BuscarParaEditar/' + aIdParcela,
+            headers: {
+                'Authorization': 'Bearer ' + sessionStorage.getItem('Token'),
+                'Content-Type': 'application/json'
+            }
+        }).success(function (response) {
+
+            $scope.ComboStatus = response.StatusParcelas;
+
+            $scope.IdParcela = response.Id;
+            $scope.Valor = response.Valor;
+            $scope.TaxaLucro = response.TaxaLucro;
+            $scope.Vencimento = new Date(response.DataVencimento);
+            $scope.Status = response.Status.toString();
+            $scope.ValorPago = response.ValorPago;
+
+            if (response.DataPagamento != null) {
+                $scope.DataPagamento = new Date(response.DataPagamento);
+            }
+            else {
+                $scope.DataPagamento = null;
+            }
+
+            $('html, body').animate({
+                scrollTop: $(document).height()
+            }, 'slow');
+
+            $scope.atualizacaoParcela = true;
+
+        }).error(function (err, status) {
+            $scope.TratarErroRequisicao(err, status);
+
+            $scope.atualizacaoParcela = false;
+        });
+
+    }
+
+    $scope.fecharAtualizacaoParcela = function () {
+
+        $scope.atualizacaoParcela = false;
+
+        $('html, body').animate({
+            scrollTop: $('#RelatorioParcelas').position().top
+        }, 'slow');
+    }
+
+    //#endregion
+
+    //#region .: Edição Contrato :.
 
     $scope.RedirecionarEditarContrato = function (aIdContrato) {
         window.location.href = "edicao_contrato.html?IdContrato=" + aIdContrato;
@@ -1307,7 +1349,6 @@ app.controller('controller', function ($scope, $http, $sce) {
             IdEvento: $scope.eventoContrato,
             IdVendedor: $scope.vendedorContrato,
             IdComprador: $scope.compradorContrato,
-            IdComprador: $scope.compradorContrato,
             IdUsuarioAlteracao: sessionStorage.getItem('IdUsuario'),
             Parcelas: arrayParcelas
         };
@@ -1365,19 +1406,13 @@ app.controller('controller', function ($scope, $http, $sce) {
 
     }
 
-    //fim edicao contrato
+    //#endregion
 
-
-    //inicio validacao geral
+    //#region .: Validacao Geral :.
 
     $scope.IsEmpty = function (aField) {
 
-        if (aField == undefined || aField.length == 0) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return aField == undefined || aField.length == 0;
 
     }
 
@@ -1390,15 +1425,18 @@ app.controller('controller', function ($scope, $http, $sce) {
         var er = new RegExp(
             /^[A-Za-z0-9_\-\.]+@[A-Za-z0-9_\-\.]{2,}\.[A-Za-z0-9]{2,}(\.[A-Za-z0-9])?/
         );
+
         if (typeof aEmail == "string") {
             if (er.test(aEmail)) {
                 return true;
             }
-        } else if (typeof aEmail == "object") {
+        }
+        else if (typeof aEmail == "object") {
             if (er.test(aEmail.value)) {
                 return true;
             }
-        } else {
+        }
+        else {
             return false;
         }
 
@@ -1411,8 +1449,11 @@ app.controller('controller', function ($scope, $http, $sce) {
         }
 
         if (aType == "CPF") {
+
             aNumber = aNumber.replace(/[^\d]+/g, '');
+
             if (aNumber == '') return false;
+
             // Elimina CPFs invalidos conhecidos	
             if (aNumber.length != 11 ||
                 aNumber == "00000000000" ||
@@ -1427,23 +1468,34 @@ app.controller('controller', function ($scope, $http, $sce) {
                 aNumber == "99999999999")
                 return false;
             // Valida 1o digito	
-            add = 0;
+
+            var add = 0;
+
             for (i = 0; i < 9; i++)
                 add += parseInt(aNumber.charAt(i)) * (10 - i);
-            rev = 11 - (add % 11);
+
+            var rev = 11 - (add % 11);
+
             if (rev == 10 || rev == 11)
                 rev = 0;
+
             if (rev != parseInt(aNumber.charAt(9)))
                 return false;
+
             // Valida 2o digito	
             add = 0;
+
             for (i = 0; i < 10; i++)
                 add += parseInt(aNumber.charAt(i)) * (11 - i);
+
             rev = 11 - (add % 11);
+
             if (rev == 10 || rev == 11)
                 rev = 0;
+
             if (rev != parseInt(aNumber.charAt(10)))
                 return false;
+
             return true;
         }
         else if (aType == "CNPJ") {
@@ -1468,17 +1520,20 @@ app.controller('controller', function ($scope, $http, $sce) {
                 return false;
 
             // Valida DVs
-            tamanho = aNumber.length - 2
-            numeros = aNumber.substring(0, tamanho);
-            digitos = aNumber.substring(tamanho);
-            soma = 0;
-            pos = tamanho - 7;
+            var tamanho = aNumber.length - 2
+            var numeros = aNumber.substring(0, tamanho);
+            var digitos = aNumber.substring(tamanho);
+            var soma = 0;
+            var pos = tamanho - 7;
+
             for (i = tamanho; i >= 1; i--) {
                 soma += numeros.charAt(tamanho - i) * pos--;
                 if (pos < 2)
                     pos = 9;
             }
-            resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+
+            var resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+
             if (resultado != digitos.charAt(0))
                 return false;
 
@@ -1486,12 +1541,15 @@ app.controller('controller', function ($scope, $http, $sce) {
             numeros = aNumber.substring(0, tamanho);
             soma = 0;
             pos = tamanho - 7;
+
             for (i = tamanho; i >= 1; i--) {
                 soma += numeros.charAt(tamanho - i) * pos--;
                 if (pos < 2)
                     pos = 9;
             }
+
             resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+
             if (resultado != digitos.charAt(1))
                 return false;
 
@@ -1515,7 +1573,9 @@ app.controller('controller', function ($scope, $http, $sce) {
         return true;
     }
 
-    //fim validacao geral
+    //#endregion
+
+    //#region .: Tratamento de Erro :.
 
     $scope.TratarErroRequisicao = function (erro, status) {
         if (status == 406) {
@@ -1527,5 +1587,7 @@ app.controller('controller', function ($scope, $http, $sce) {
 
         console.log("Erro: " + erro + ". Status: " + status);
     }
+
+    //#endregion
 
 });

@@ -11,36 +11,42 @@ namespace Negocio
 {
     public class ParcelaNegocio : NegocioBase<ParcelasEntidade>
     {
-        public IEnumerable<ParcelasEntidade> ParcelasPorContrato(int id)
+        public IEnumerable<RelatorioParcelaPorContrato> RelatorioPorContrato(int aId)
         {
-            return new ParcelaDados().ParcelasPorContrato(id);
-        }
-
-        public IEnumerable<ParcelasPorContratoProjecao> EntidadeParaProjecaoRelatorio(IEnumerable<ParcelasEntidade> aListaEntidade)
-        {
-            return aListaEntidade.Select(x => new ParcelasPorContratoProjecao()
+            return new ParcelaDados().ParcelasPorContrato(aId).Select(x => new RelatorioParcelaPorContrato()
             {
-                Valor = StringUtilitario.ValorReais(x.Valor),
-                DataPagamento = x.DataPagamento.HasValue ? x.DataPagamento.Value.ToString("dd/MM/yyyy") : null,
-                Status = TraduzirStatus(x.Status),
-                ValorPago = x.ValorPago.HasValue ? StringUtilitario.ValorReais(x.ValorPago.Value) : null,
-                Vencimento = x.Vencimento.ToString("dd/MM/yyyy")
+                Id = Convert.ToString(x.PAR_CODIGO),
+                Valor = StringUtilitario.ValorReais(Convert.ToDecimal(x.PAR_VALOR)),
+                Vencimento = Convert.ToDateTime(x.PAR_DTHVENCIMENTO).ToString("dd/MM/yyyy"),
+                Status = StringUtilitario.TraduzirEnum((StatusParcelaEnum)x.PAR_STATUS),
+                ValorPago = x.PAR_VALORPAGO != null ?
+                                StringUtilitario.ValorReais(Convert.ToDecimal(x.PAR_VALORPAGO)) :
+                                string.Empty,
+                DataPagamento = x.PAR_DATAPAGAMENTO != null ?
+                                    Convert.ToDateTime(x.PAR_DATAPAGAMENTO).ToString("dd/MM/yyyy") :
+                                    string.Empty
             });
         }
 
-        private string TraduzirStatus(StatusParcelaEnum aStatus)
+        public BuscarParaEditarParcelaResponse BuscarParaEditar(int aId)
         {
-            switch (aStatus)
+            var parcela = new ParcelaDados().BuscarParaEditar(aId);
+
+            return new BuscarParaEditarParcelaResponse
             {
-                case StatusParcelaEnum.Pendente:
-                    return "Pendente";
-                case StatusParcelaEnum.Liquidada:
-                    return "Liquidada";
-                case StatusParcelaEnum.Cancelada:
-                    return "Cancelada";
-                default:
-                    return null;
-            }
+                Id = Convert.ToInt64(parcela.PAR_CODIGO),
+                Valor = Convert.ToDecimal(parcela.PAR_VALOR),
+                TaxaLucro = Convert.ToDecimal(parcela.PAR_TAXALUCRO),
+                DataVencimento = Convert.ToDateTime(parcela.PAR_DTHVENCIMENTO),
+                Status = Convert.ToInt32(parcela.PAR_STATUS),
+                ValorPago = parcela.PAR_VALORPAGO != null ?
+                            Convert.ToDecimal(parcela.PAR_VALORPAGO) :
+                            null,
+                DataPagamento = parcela.PAR_DATAPAGAMENTO != null ?
+                                Convert.ToDateTime(parcela.PAR_DATAPAGAMENTO) :
+                                null,
+                StatusParcelas = EnumUtilitario.ConverterParaCombo(typeof(StatusParcelaEnum)).ToList()
+            };
         }
 
         public override void ValidateRegister(ParcelasEntidade aEntidade, bool isEdicao)

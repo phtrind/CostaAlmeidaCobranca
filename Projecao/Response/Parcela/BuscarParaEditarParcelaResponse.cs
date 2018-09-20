@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Projecao
 {
@@ -8,5 +9,10 @@ namespace Projecao
         public decimal Valor { get; set; }
         public DateTime DataVencimento { get; set; }
         public decimal TaxaLucro { get; set; }
+        public int Status { get; set; }
+        public decimal? ValorPago { get; set; }
+        public DateTime? DataPagamento { get; set; }
+
+        public List<ComboProjecao> StatusParcelas { get; set; }
     }
 }

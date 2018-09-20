@@ -14,5 +14,11 @@ namespace CostaAlmeidaCobranca.Tests
 
             Assert.IsTrue("Ativo" == description);
         }
+
+        [TestMethod]
+        public void ConverterEnumParaCombo()
+        {
+            Assert.IsNotNull(EnumUtilitario.ConverterParaCombo(typeof(StatusParcelaEnum)));
+        }
     }
 }

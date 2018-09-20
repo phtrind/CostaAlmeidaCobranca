@@ -41,9 +41,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Constantes.cs" />
+    <Compile Include="EnumUtilitario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringUtilitario.cs" />
     <Compile Include="Validador.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Projecao\Projecao.csproj">
+      <Project>{D1355808-F79E-4ED7-A3F2-5BC0D351A546}</Project>
+      <Name>Projecao</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

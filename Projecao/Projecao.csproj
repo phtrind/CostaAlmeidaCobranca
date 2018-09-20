@@ -50,7 +50,7 @@
     <Compile Include="Response\Contrato\GetCombosCadastroContratoResponse.cs" />
     <Compile Include="Response\Parcela\BuscarParaEditarParcelaResponse.cs" />
     <Compile Include="Response\Usuario\InformacoesUsuarioResponse.cs" />
-    <Compile Include="Response\Parcela\ParcelasPorContratoProjecao.cs" />
+    <Compile Include="Response\Parcela\RelatorioParcelaPorContrato.cs" />
     <Compile Include="Response\Contrato\RelatorioContratoResponse.cs" />
   </ItemGroup>
   <ItemGroup>

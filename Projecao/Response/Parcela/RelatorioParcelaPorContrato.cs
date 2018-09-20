@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Projecao
+﻿namespace Projecao
 {
-    public class ParcelasPorContratoProjecao
+    public class RelatorioParcelaPorContrato
     {
+        public string Id { get; set; }
         public string Valor { get; set; }
         public string Vencimento { get; set; }
         public string Status { get; set; }
