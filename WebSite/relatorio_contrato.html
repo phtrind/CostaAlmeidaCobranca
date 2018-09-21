@@ -286,6 +286,7 @@
                                     </div>
                                     <div class="card-body">
                                         <form action="#">
+                                            <input type="text" ng-model="IdContrato" class="form-control" hidden>
                                             <input type="text" ng-model="IdParcela" class="form-control" hidden>
                                             <div class="row">
                                                 <div class="col-md-2 col-sm-12">
@@ -299,7 +300,8 @@
                                                     <div class="form-group" ng-class="{'has-error':erroTaxaLucro}">
                                                         <label class="control-label">Lucro</label>
                                                         <input type="text" ng-model="TaxaLucro" class="form-control" allow-only-numbers>
-                                                        <small class="form-control-feedback" ng-show="erroTaxaLucro">Valor inválido.</small>
+                                                        <small class="form-control-feedback" ng-show="erroTaxaLucro1">Valor inválido.</small>
+                                                        <small class="form-control-feedback" ng-show="erroTaxaLucro2">A taxa lucro não pode ser maior que o valor da parcela.</small>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-sm-12">
@@ -320,29 +322,35 @@
                                                 <div class="col-md-2 col-sm-12">
                                                     <div class="form-group" ng-class="{'has-error':erroValorPago}">
                                                         <label class="control-label">Valor Pago</label>
-                                                        <input type="text" ng-model="ValorPago" class="form-control" allow-only-numbers disabled>
+                                                        <input type="text" ng-model="ValorPago" class="form-control" allow-only-numbers ng-disabled="Status == 1 || Status == 3">
                                                         <small class="form-control-feedback" ng-show="erroValorPago">Valor inválido.</small>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-sm-12">
                                                     <div class="form-group" ng-class="{'has-error':erroDataPagamento}">
                                                         <label class="control-label">Data Pagamento</label>
-                                                        <input type="date" ng-model="DataPagamento" class="form-control" disabled>
+                                                        <input type="date" ng-model="DataPagamento" class="form-control" ng-disabled="Status == 1 || Status == 3">
                                                         <small class="form-control-feedback" ng-show="erroDataPagamento">Data inválida.</small>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-1 offset-md-5">
-                                                    <button type="button" class="btn btn-danger col-sm-12" ng-click="excluirParcela()">
+                                                    <button type="button" class="btn btn-danger col-sm-12" ng-hide="esconderBotaoCadastro" ng-click="excluirParcela()">
                                                         <i class="fa fa-remove"></i> Excluir
                                                     </button>
                                                 </div>
                                                 <br />
                                                 <div class="col-md-1">
-                                                    <button type="button" class="btn btn-success col-sm-12" ng-click="atualizarParcela()">
+                                                    <button type="button" class="btn btn-success col-sm-12" ng-hide="esconderBotaoCadastro" ng-click="atualizarParcela()">
                                                         <i class="fa fa-check"></i> Salvar
                                                     </button>
+                                                    <img src="icons/loading.gif" width="50" style="margin: 10px" ng-show="esconderBotaoCadastro">
+                                                </div>
+                                                <div class="col-md-12 alert alert-info" align="center" ng-show="parcelaAtualizadaSucesso" style="margin-top:20px">
+                                                    <br>
+                                                    <h3>Atualização realizada com sucesso </h3>
+                                                    <br>
                                                 </div>
                                             </div>
                                         </form>

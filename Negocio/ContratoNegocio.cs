@@ -149,6 +149,11 @@ namespace Negocio
             return true;
         }
 
+        public void AtualizarValorTotal(long aId)
+        {
+            new ContratoDados().AtualizarValorTotal(aId);
+        }
+
         #endregion
 
         #region .: Validações :.
@@ -195,7 +200,7 @@ namespace Negocio
         {
             if (!aEntidade.IdUsuarioAlteracao.HasValue)
             {
-                throw new Exception("O usuário responsável pela alteração do cadastro do contrato não foi informado.");
+                throw new Exception("O usuário responsável pela alteração do contrato não foi informado.");
             }
 
             if (!aEntidade.Id.HasValue)

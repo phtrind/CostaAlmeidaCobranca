@@ -77,7 +77,7 @@ namespace CostaAlmeidaCobranca.Controllers
         {
             try
             {
-                return new ParcelaNegocio().Atualizar(aEntidade);
+                return new ParcelaNegocio().Editar(aEntidade);
             }
             catch (Exception ex)
             {

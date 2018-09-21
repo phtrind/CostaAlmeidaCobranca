@@ -27,7 +27,7 @@ app.directive('allowOnlyNumbers', function () {
     }
 });
 
-app.controller('controller', function ($scope, $http, $sce) {
+app.controller('controller', function ($scope, $http, $compile, $sce) {
 
     $scope.webService = "http://localhost/CostaAlmeidaCobranca/api/";
 
@@ -698,7 +698,7 @@ app.controller('controller', function ($scope, $http, $sce) {
             $scope.erroNomeLeilao = false;
         }
 
-        //Auction E-mail
+        //Auction Data
         if ($scope.IsEmpty($scope.dataLeilao)) {
             contErro++;
             $scope.erroDataLeilao = true;
@@ -1180,6 +1180,8 @@ app.controller('controller', function ($scope, $http, $sce) {
 
     $scope.expandirParcelas = function (IdContrato) {
 
+        $scope.IdContrato = IdContrato;
+
         $scope.relatorioParcelas = true;
 
         $http({
@@ -1257,9 +1259,171 @@ app.controller('controller', function ($scope, $http, $sce) {
 
         $scope.atualizacaoParcela = false;
 
+        $scope.LimparAtualizacaoParcela();
+
+        $scope.parcelaAtualizadaSucesso = false;
+
         $('html, body').animate({
             scrollTop: $('#RelatorioParcelas').position().top
         }, 'slow');
+    }
+
+    $scope.atualizarParcela = function () {
+
+        $scope.esconderBotaoCadastro = true;
+
+        $scope.parcelaAtualizadaSucesso = false;
+
+        if ($scope.validarEdicaoParcela()) {
+
+            var parcela = {
+                Id: $scope.IdParcela,
+                Valor: $scope.Valor,
+                TaxaLucro: $scope.TaxaLucro,
+                Vencimento: $scope.Vencimento,
+                Status: $scope.Status,
+                ValorPago: $scope.ValorPago,
+                DataPagamento: $scope.DataPagamento,
+                IdUsuarioAlteracao: sessionStorage.getItem("IdUsuario")
+            };
+
+            console.log(JSON.stringify(parcela));
+
+            $http({
+                method: 'PUT',
+                url: $scope.webService + 'Parcela/' + parcela.Id,
+                headers: {
+                    'Authorization': 'Bearer ' + sessionStorage.getItem('Token'),
+                    'Content-Type': 'application/json'
+                },
+                data: parcela
+            }).success(function (response) {
+                $scope.LimparAtualizacaoParcela();
+
+                $scope.esconderBotaoCadastro = false;
+
+                $scope.parcelaAtualizadaSucesso = true;
+
+                if ($scope.Status == "1" || $scope.Status == "3") {
+
+                    $scope.ValorPago = null;
+                    $scope.DataPagamento = null;
+
+                }
+
+                $scope.AtualizarTabelasRelatoriosContrato();
+
+            }).error(function (err, status) {
+
+                $scope.TratarErroRequisicao(err, status);
+
+                $scope.esconderBotaoCadastro = false;
+            });
+
+        }
+        else {
+            $scope.esconderBotaoCadastro = false;
+        }
+
+    }
+
+    $scope.AtualizarTabelasRelatoriosContrato = function () {
+
+        $scope.AtualizarTabelaRelatorioContratos();
+
+        $http({
+            method: 'GET',
+            url: $scope.webService + 'Parcelas/RelatorioPorContrato/' + $scope.IdContrato,
+            headers: {
+                'Authorization': 'Bearer ' + sessionStorage.getItem('Token'),
+                'Content-Type': 'application/json'
+            }
+        }).success(function (response) {
+            $scope.parcelasContrato = response;
+            $scope.relatorioParcelas = true;
+        }).error(function (err, status) {
+            $scope.TratarErroRequisicao(err, status);
+        });
+    }
+
+    $scope.AtualizarTabelaRelatorioContratos = function () {
+
+        $("#tabelaRelatorio > tr").remove();
+
+        $http({
+            method: 'GET',
+            url: $scope.webService + 'Contrato/Relatorio/',
+            headers: {
+                'Authorization': 'Bearer ' + sessionStorage.getItem('Token'),
+                'Content-Type': 'application/json'
+            }
+        }).success(function (response) {
+
+            for (var x = 0; x < response.length; x++) {
+
+                $("#tabelaRelatorio").append($compile("<tr><td>" + response[x].Vendedor + "</td><td>" + response[x].Comprador + "</td><td>" + response[x].Evento + "</td><td>" + response[x].Valor + "</td><td>" + response[x].Status + "</td><td>" + response[x].Parcelas + "</td><td style='text-align:center; cursor: pointer' ng-click='RedirecionarEditarContrato(" + response[x].Id + ")'><i class='fa fa-edit' style='font-size:24px'></i></td><td style='text-align:center; cursor: pointer' ng-click='expandirParcelas(" + response[x].Id + ")'><i class='fa fa-search' style='font-size:24px'></i></td></tr>")($scope));
+
+            }
+
+        }).error(function (err, status) {
+            $scope.TratarErroRequisicao(err, status);
+        });
+
+    }
+
+    $scope.validarEdicaoParcela = function () {
+
+        var contErro = 0;
+
+        if ($scope.IsEmpty($scope.Valor)) {
+            contErro++;
+            $scope.erroValorParcela = true;
+        }
+
+        if ($scope.IsEmpty($scope.TaxaLucro)) {
+            contErro++;
+            $scope.erroTaxaLucro = true;
+            $scope.erroTaxaLucro1 = true;
+        }
+        else if (parseFloat($scope.TaxaLucro) > parseFloat($scope.Valor)) {
+            contErro++;
+            $scope.erroTaxaLucro = true;
+            $scope.erroTaxaLucro2 = true;
+        }
+
+        if ($scope.IsEmpty($scope.Vencimento)) {
+            contErro++;
+            $scope.erroVencimentoParcela = true;
+        }
+
+        if ($scope.Status == "2") {
+
+            if ($scope.IsEmpty($scope.ValorPago)) {
+                contErro++;
+                $scope.erroValorPago = true;
+            }
+
+            if ($scope.IsEmpty($scope.DataPagamento)) {
+                contErro++;
+                $scope.erroDataPagamento = true;
+            }
+
+        }
+
+        return contErro == 0;
+
+    }
+
+    $scope.LimparAtualizacaoParcela = function () {
+
+        $scope.erroValorParcela = false;
+        $scope.erroTaxaLucro = false;
+        $scope.erroTaxaLucro1 = false;
+        $scope.erroTaxaLucro2 = false;
+        $scope.erroVencimentoParcela = false;
+        $scope.erroValorPago = false;
+        $scope.erroDataPagamento = false;
+
     }
 
     //#endregion

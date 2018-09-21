@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Entidade;
+using System;
 using System.Collections.Generic;
 
 namespace Dados
@@ -52,6 +53,19 @@ namespace Dados
                                ) AS PARCELAS
                                FROM CON_CONTRATOS C
                                     INNER JOIN EVE_EVENTOS E ON C.EVE_CODIGO = E.EVE_CODIGO;");
+        }
+
+        public void AtualizarValorTotal(long aId)
+        {
+            db.Execute($@"UPDATE CON_CONTRATOS
+                             SET 
+                                 CON_VALOR =
+                           (
+                               SELECT SUM(PAR_VALOR)
+                               FROM PAR_PARCELAS
+                               WHERE CON_CODIGO = {aId}
+                           )
+                           WHERE CON_CODIGO = {aId};");
         }
     }
 }
