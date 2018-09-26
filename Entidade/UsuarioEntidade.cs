@@ -9,7 +9,7 @@ namespace Entidade
 
         public string Email { get; set; }
         public string Senha { get; set; }
-        public TipoUsuarioEnum Tipo { get; set; }
+        public TipoUsuario Tipo { get; set; }
 
         public DateTime? DataCadastro { get; set; }
         public DateTime? DataAlteracao { get; set; }

@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace Enumerador
 {
-    public enum StatusFinanceiroEnum
+    public enum PermissaoFuncionario
     {
-        Pendente = 1,
-        Concluido = 2,
-        Cancelado = 3
+        Master = 1,
+        Basico = 2
     }
 }

@@ -44,13 +44,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PermissaoFuncionarioEnum.cs" />
+    <Compile Include="PermissaoFuncionario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StatusContratoEnum.cs" />
-    <Compile Include="StatusFinanceiroEnum.cs" />
-    <Compile Include="StatusParcelaEnum.cs" />
-    <Compile Include="TipoFinanceiroEnum.cs" />
-    <Compile Include="TipoUsuarioEnum.cs" />
+    <Compile Include="StatusContrato.cs" />
+    <Compile Include="StatusFinanceiro.cs" />
+    <Compile Include="StatusParcela.cs" />
+    <Compile Include="TipoFinanceiro.cs" />
+    <Compile Include="TipoUsuario.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

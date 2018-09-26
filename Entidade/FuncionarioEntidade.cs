@@ -11,7 +11,7 @@ namespace Entidade
         public string Cpf { get; set; }
         public string TelefoneFixo { get; set; }
         public string TelefoneCelular { get; set; }
-        public PermissaoFuncionarioEnum Permissao { get; set; }
+        public PermissaoFuncionario Permissao { get; set; }
 
         public DateTime? DataCadastro { get; set; }
         public DateTime? DataAlteracao { get; set; }

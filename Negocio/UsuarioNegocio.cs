@@ -27,9 +27,9 @@ namespace Negocio
 
             switch (usuario.Tipo)
             {
-                case TipoUsuarioEnum.Funcionario:
+                case TipoUsuario.Funcionario:
                     return dados.BuscarInfoLoginFuncionario(usuario.Id);
-                case TipoUsuarioEnum.Cliente:
+                case TipoUsuario.Cliente:
                     return dados.BuscarInfoLoginCliente(usuario.Id);
                 default:
                     return null;

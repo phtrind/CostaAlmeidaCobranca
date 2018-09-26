@@ -72,7 +72,7 @@ namespace Negocio
                 #region .: Contrato :.
 
                 aEntidade.DataCadastro = DateTime.Now;
-                aEntidade.Status = StatusContratoEnum.Ativo;
+                aEntidade.Status = StatusContrato.Ativo;
 
                 var idContrato = Inserir(aEntidade);
 
@@ -85,7 +85,7 @@ namespace Negocio
                     parcela.IdUsuarioCadastro = aEntidade.IdUsuarioCadastro;
                     parcela.IdContrato = idContrato;
                     parcela.DataCadastro = DateTime.Now;
-                    parcela.Status = StatusParcelaEnum.Pendente;
+                    parcela.Status = StatusParcela.Pendente;
 
                     new ParcelaNegocio().Inserir(parcela);
                 }
@@ -135,7 +135,7 @@ namespace Negocio
                         parcela.IdUsuarioCadastro = aEntidade.IdUsuarioCadastro;
                         parcela.IdContrato = aEntidade.Id;
                         parcela.DataCadastro = DateTime.Now;
-                        parcela.Status = StatusParcelaEnum.Pendente;
+                        parcela.Status = StatusParcela.Pendente;
 
                         negocioParcela.Inserir(parcela);
                     }
@@ -227,7 +227,7 @@ namespace Negocio
                 Comprador = x.COMPRADOR,
                 Evento = x.EVE_NOME,
                 Valor = StringUtilitario.ValorReais(Convert.ToDecimal(x.CON_VALOR)),
-                Status = StringUtilitario.TraduzirEnum((StatusContratoEnum)x.CON_STATUS),
+                Status = StringUtilitario.TraduzirEnum((StatusContrato)x.CON_STATUS),
                 Parcelas = Convert.ToString(x.PARCELAS)
             });
         }

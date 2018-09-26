@@ -10,7 +10,7 @@ namespace CostaAlmeidaCobranca.Tests
         [TestMethod]
         public void GetEnumDescription()
         {
-            string description = StringUtilitario.TraduzirEnum(StatusContratoEnum.Ativo);
+            string description = StringUtilitario.TraduzirEnum(StatusContrato.Ativo);
 
             Assert.IsTrue("Ativo" == description);
         }
@@ -18,7 +18,7 @@ namespace CostaAlmeidaCobranca.Tests
         [TestMethod]
         public void ConverterEnumParaCombo()
         {
-            Assert.IsNotNull(EnumUtilitario.ConverterParaCombo(typeof(StatusParcelaEnum)));
+            Assert.IsNotNull(EnumUtilitario.ConverterParaCombo(typeof(StatusParcela)));
         }
     }
 }

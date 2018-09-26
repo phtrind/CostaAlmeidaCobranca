@@ -1,6 +1,6 @@
 ﻿namespace Enumerador
 {
-    public enum StatusContratoEnum
+    public enum StatusContrato
     {
         Ativo = 1,
         Suspenso = 2,

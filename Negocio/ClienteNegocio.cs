@@ -75,7 +75,7 @@ namespace Negocio
                     DataCadastro = DateTime.Now,
                     Email = aEntidade.Email,
                     Senha = StringUtilitario.GerarSenhaAlatoria(),
-                    Tipo = TipoUsuarioEnum.Cliente,
+                    Tipo = TipoUsuario.Cliente,
                     IdUsuarioCadastro = aEntidade.IdUsuarioCadastro
                 };
 

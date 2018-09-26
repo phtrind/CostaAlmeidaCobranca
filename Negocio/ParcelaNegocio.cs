@@ -19,7 +19,7 @@ namespace Negocio
                 Id = Convert.ToString(x.PAR_CODIGO),
                 Valor = StringUtilitario.ValorReais(Convert.ToDecimal(x.PAR_VALOR)),
                 Vencimento = Convert.ToDateTime(x.PAR_DTHVENCIMENTO).ToString("dd/MM/yyyy"),
-                Status = StringUtilitario.TraduzirEnum((StatusParcelaEnum)x.PAR_STATUS),
+                Status = StringUtilitario.TraduzirEnum((StatusParcela)x.PAR_STATUS),
                 ValorPago = x.PAR_VALORPAGO != null ?
                                 StringUtilitario.ValorReais(Convert.ToDecimal(x.PAR_VALORPAGO)) :
                                 string.Empty,
@@ -46,7 +46,7 @@ namespace Negocio
                 DataPagamento = parcela.PAR_DATAPAGAMENTO != null ?
                                 Convert.ToDateTime(parcela.PAR_DATAPAGAMENTO) :
                                 null,
-                StatusParcelas = EnumUtilitario.ConverterParaCombo(typeof(StatusParcelaEnum)).ToList()
+                StatusParcelas = EnumUtilitario.ConverterParaCombo(typeof(StatusParcela)).ToList()
             };
         }
 
@@ -61,7 +61,7 @@ namespace Negocio
             aEntidade.DataCadastro = parcelaAntiga.DataCadastro;
             aEntidade.DataAlteracao = DateTime.Now;
 
-            if (aEntidade.Status == StatusParcelaEnum.Cancelada || aEntidade.Status == StatusParcelaEnum.Pendente)
+            if (aEntidade.Status == StatusParcela.Cancelada || aEntidade.Status == StatusParcela.Pendente)
             {
                 aEntidade.ValorPago = null;
                 aEntidade.DataPagamento = null;
@@ -96,7 +96,7 @@ namespace Negocio
                 throw new Exception("A parcela informada não foi encontrada.");
             }
 
-            if (aEntidade.Status == StatusParcelaEnum.Liquidada)
+            if (aEntidade.Status == StatusParcela.Liquidada)
             {
                 if (!aEntidade.ValorPago.HasValue)
                 {

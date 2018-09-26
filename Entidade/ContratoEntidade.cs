@@ -11,7 +11,7 @@ namespace Entidade
         public decimal Valor { get; set; }
         public string Animal { get; set; }
         public string Observacao { get; set; }
-        public StatusContratoEnum Status { get; set; }
+        public StatusContrato Status { get; set; }
 
         public DateTime? DataCadastro { get; set; }
         public DateTime? DataAlteracao { get; set; }

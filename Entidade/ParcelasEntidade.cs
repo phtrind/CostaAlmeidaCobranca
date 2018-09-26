@@ -10,7 +10,7 @@ namespace Entidade
         public decimal Valor { get; set; }
         public decimal TaxaLucro { get; set; }
         public DateTime Vencimento { get; set; }
-        public StatusParcelaEnum Status { get; set; }
+        public StatusParcela Status { get; set; }
         public decimal? ValorPago { get; set; }
         public DateTime? DataPagamento { get; set; }
 

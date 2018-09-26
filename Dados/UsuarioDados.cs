@@ -38,7 +38,7 @@ namespace Dados
                     IdInterno = Convert.ToInt64(resultado.FUN_CODIGO),
                     Nome = resultado.FUN_NOME,
                     Permissao = Convert.ToInt32(resultado.FUN_PERMISSAO),
-                    TipoUsuario = TipoUsuarioEnum.Funcionario.GetHashCode(),
+                    TipoUsuario = TipoUsuario.Funcionario.GetHashCode(),
                     IdUsuario = id.Value
                 };
             }
@@ -60,7 +60,7 @@ namespace Dados
                 {
                     IdInterno = Convert.ToInt64(resultado.CLI_CODIGO),
                     Nome = resultado.CLI_NOME,
-                    TipoUsuario = TipoUsuarioEnum.Cliente.GetHashCode(),
+                    TipoUsuario = TipoUsuario.Cliente.GetHashCode(),
                     IdUsuario = id.Value
                 };
             }

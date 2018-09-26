@@ -8,9 +8,9 @@ namespace Entidade
         public long? Id { get; set; }
 
         public decimal Valor { get; set; }
-        public TipoFinanceiroEnum Tipo { get; set; }
+        public TipoFinanceiro Tipo { get; set; }
         public DateTime Data { get; set; }
-        public StatusFinanceiroEnum Status { get; set; }
+        public StatusFinanceiro Status { get; set; }
 
         public DateTime? DataCadastro { get; set; }
         public DateTime? DataAlteracao { get; set; }
