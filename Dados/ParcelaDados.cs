@@ -7,7 +7,7 @@ namespace Dados
 {
     public class ParcelaDados : DadosBase<ParcelasEntidade>
     {
-        public IEnumerable<dynamic> ParcelasPorContrato(int aCodigo)
+        public IEnumerable<dynamic> ParcelasPorContrato(long aCodigo)
         {
             return db.Query($@"SELECT PAR_CODIGO, 
                                       PAR_VALOR, 
@@ -19,7 +19,7 @@ namespace Dados
                                WHERE PAR_PARCELAS.CON_CODIGO = {aCodigo} ");
         }
 
-        public dynamic BuscarParaEditar(int aCodigo)
+        public dynamic BuscarParaEditar(long aCodigo)
         {
             return db.QueryFirstOrDefault($@"SELECT PAR_CODIGO, 
                                                      PAR_VALOR, 

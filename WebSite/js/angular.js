@@ -1184,6 +1184,8 @@ app.controller('controller', function ($scope, $http, $compile, $sce) {
 
         $scope.relatorioParcelas = true;
 
+        $scope.parcelaExcluidaSucesso = false;
+
         $http({
             method: 'GET',
             url: $scope.webService + 'Parcelas/RelatorioPorContrato/' + IdContrato,
@@ -1196,6 +1198,8 @@ app.controller('controller', function ($scope, $http, $compile, $sce) {
             $scope.parcelasContrato = response;
             $scope.relatorioParcelas = true;
 
+            $scope.desabilitarExcluir = $scope.parcelasContrato.length <= 1;
+
             $('html, body').animate({
                 scrollTop: $('#RelatorioParcelas').position().top
             }, 'slow');
@@ -1204,6 +1208,8 @@ app.controller('controller', function ($scope, $http, $compile, $sce) {
 
             $scope.relatorioParcelas = false;
         });
+
+        $scope.fecharAtualizacaoParcela();
 
     }
 
@@ -1215,6 +1221,8 @@ app.controller('controller', function ($scope, $http, $compile, $sce) {
     }
 
     $scope.AbrirAlteracaoStatusParcela = function (aIdParcela) {
+
+        $scope.parcelaExcluidaSucesso = false;
 
         $http({
             method: 'GET',
@@ -1327,6 +1335,35 @@ app.controller('controller', function ($scope, $http, $compile, $sce) {
 
     }
 
+    $scope.excluirParcela = function () {
+
+        var confirmacao = confirm("Deseja realmente excuir a parcela?");
+
+        if (!confirmacao) {
+            return;
+        }
+
+        $http({
+            method: 'DELETE',
+            url: $scope.webService + 'Parcela/' + $scope.IdParcela,
+            headers: {
+                'Authorization': 'Bearer ' + sessionStorage.getItem('Token'),
+                'Content-Type': 'application/json'
+            }
+        }).success(function (response) {
+
+            $scope.AtualizarTabelasRelatoriosContrato();
+
+            $scope.fecharAtualizacaoParcela();
+
+            $scope.parcelaExcluidaSucesso = true;
+
+        }).error(function (err, status) {
+            $scope.TratarErroRequisicao(err, status);
+        });
+
+    }
+
     $scope.AtualizarTabelasRelatoriosContrato = function () {
 
         $scope.AtualizarTabelaRelatorioContratos();
@@ -1339,8 +1376,10 @@ app.controller('controller', function ($scope, $http, $compile, $sce) {
                 'Content-Type': 'application/json'
             }
         }).success(function (response) {
+
             $scope.parcelasContrato = response;
             $scope.relatorioParcelas = true;
+
         }).error(function (err, status) {
             $scope.TratarErroRequisicao(err, status);
         });

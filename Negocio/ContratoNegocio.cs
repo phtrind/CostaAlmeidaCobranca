@@ -225,7 +225,7 @@ namespace Negocio
                 Id = x.CON_CODIGO,
                 Vendedor = x.VENDEDOR,
                 Comprador = x.COMPRADOR,
-                Evento = x.EVE_NOME,
+                Evento = x.EVE_NOME ?? string.Empty,
                 Valor = StringUtilitario.ValorReais(Convert.ToDecimal(x.CON_VALOR)),
                 Status = StringUtilitario.TraduzirEnum((StatusContrato)x.CON_STATUS),
                 Parcelas = Convert.ToString(x.PARCELAS)

@@ -1,5 +1,4 @@
 ﻿using Entidade;
-using Enumerador;
 using Negocio;
 using Projecao;
 using System;
@@ -8,7 +7,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using Utilitario;
 
 namespace CostaAlmeidaCobranca.Controllers
 {

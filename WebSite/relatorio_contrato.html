@@ -336,7 +336,7 @@
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-1 offset-md-5">
-                                                    <button type="button" class="btn btn-danger col-sm-12" ng-hide="esconderBotaoCadastro" ng-click="excluirParcela()">
+                                                    <button type="button" class="btn btn-danger col-sm-12" ng-hide="esconderBotaoCadastro" ng-click="excluirParcela()" ng-disabled="desabilitarExcluir">
                                                         <i class="fa fa-remove"></i> Excluir
                                                     </button>
                                                 </div>
@@ -355,6 +355,11 @@
                                             </div>
                                         </form>
                                     </div>
+                                </div>
+                                <div class="col-md-12 alert alert-info" align="center" ng-show="parcelaExcluidaSucesso" style="margin-top:20px">
+                                    <br>
+                                    <h3>Parcela excluída com sucesso </h3>
+                                    <br>
                                 </div>
                             </div>
                         </div>

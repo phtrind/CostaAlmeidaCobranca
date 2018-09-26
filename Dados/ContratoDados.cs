@@ -52,7 +52,7 @@ namespace Dados
                                    WHERE CON_CODIGO = C.CON_CODIGO
                                ) AS PARCELAS
                                FROM CON_CONTRATOS C
-                                    INNER JOIN EVE_EVENTOS E ON C.EVE_CODIGO = E.EVE_CODIGO;");
+                                    LEFT JOIN EVE_EVENTOS E ON C.EVE_CODIGO = E.EVE_CODIGO;");
         }
 
         public void AtualizarValorTotal(long aId)

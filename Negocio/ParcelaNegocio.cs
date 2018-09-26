@@ -12,7 +12,9 @@ namespace Negocio
 {
     public class ParcelaNegocio : NegocioBase<ParcelasEntidade>
     {
-        public IEnumerable<RelatorioParcelaPorContrato> RelatorioPorContrato(int aId)
+        #region .: Relatórios :.
+
+        public IEnumerable<RelatorioParcelaPorContrato> RelatorioPorContrato(long aId)
         {
             return new ParcelaDados().ParcelasPorContrato(aId).Select(x => new RelatorioParcelaPorContrato()
             {
@@ -27,6 +29,33 @@ namespace Negocio
                                     Convert.ToDateTime(x.PAR_DATAPAGAMENTO).ToString("dd/MM/yyyy") :
                                     string.Empty
             });
+        }
+
+        #endregion
+
+        #region .: Cadastro / Edição :.
+
+        public override void ValidateRegister(ParcelasEntidade aEntidade, bool isEdicao)
+        {
+            if (aEntidade.Valor == default(decimal))
+            {
+                throw new Exception("O valor da parcela é inválido.");
+            }
+
+            if (aEntidade.Vencimento == default(DateTime))
+            {
+                throw new Exception("A data de vencimento da parcela é inválida.");
+            }
+
+            if (!aEntidade.IdContrato.HasValue)
+            {
+                throw new Exception("É obrigatório informar o contrato relacionado à essa parcela.");
+            }
+
+            if (!aEntidade.IdUsuarioCadastro.HasValue && !isEdicao)
+            {
+                throw new Exception("É obrigatório informar o usuário resposável pelo cadastro.");
+            }
         }
 
         public BuscarParaEditarParcelaResponse BuscarParaEditar(int aId)
@@ -48,35 +77,6 @@ namespace Negocio
                                 null,
                 StatusParcelas = EnumUtilitario.ConverterParaCombo(typeof(StatusParcela)).ToList()
             };
-        }
-
-        public bool Editar(ParcelasEntidade aEntidade)
-        {
-            ValidarEdicao(aEntidade);
-
-            var parcelaAntiga = Listar(aEntidade.Id.Value);
-
-            aEntidade.IdContrato = parcelaAntiga.IdContrato.Value;
-            aEntidade.IdUsuarioCadastro = parcelaAntiga.IdUsuarioCadastro.Value;
-            aEntidade.DataCadastro = parcelaAntiga.DataCadastro;
-            aEntidade.DataAlteracao = DateTime.Now;
-
-            if (aEntidade.Status == StatusParcela.Cancelada || aEntidade.Status == StatusParcela.Pendente)
-            {
-                aEntidade.ValorPago = null;
-                aEntidade.DataPagamento = null;
-            }
-
-            using (var transation = new TransactionScope())
-            {
-                Atualizar(aEntidade);
-
-                new ContratoNegocio().AtualizarValorTotal(parcelaAntiga.IdContrato.Value);
-
-                transation.Complete();
-            }
-
-            return true;
         }
 
         private void ValidarEdicao(ParcelasEntidade aEntidade)
@@ -110,27 +110,92 @@ namespace Negocio
             }
         }
 
-        public override void ValidateRegister(ParcelasEntidade aEntidade, bool isEdicao)
+        public bool Editar(ParcelasEntidade aEntidade)
         {
-            if (aEntidade.Valor == default(decimal))
+            ValidarEdicao(aEntidade);
+
+            var parcelaAntiga = Listar(aEntidade.Id.Value);
+
+            aEntidade.IdContrato = parcelaAntiga.IdContrato.Value;
+            aEntidade.IdUsuarioCadastro = parcelaAntiga.IdUsuarioCadastro.Value;
+            aEntidade.DataCadastro = parcelaAntiga.DataCadastro;
+            aEntidade.DataAlteracao = DateTime.Now;
+
+            if (aEntidade.Status == StatusParcela.Cancelada || aEntidade.Status == StatusParcela.Pendente)
             {
-                throw new Exception("O valor da parcela é inválido.");
+                aEntidade.ValorPago = null;
+                aEntidade.DataPagamento = null;
             }
 
-            if (aEntidade.Vencimento == default(DateTime))
+            using (var transaction = new TransactionScope())
             {
-                throw new Exception("A data de vencimento da parcela é inválida.");
+                Atualizar(aEntidade);
+
+                new ContratoNegocio().AtualizarValorTotal(parcelaAntiga.IdContrato.Value);
+
+                transaction.Complete();
             }
 
-            if (!aEntidade.IdContrato.HasValue)
+            return true;
+        }
+
+        #endregion
+
+        #region .: Exclusão :.
+
+        public bool Deletar(long aId)
+        {
+            ValidarExclusao(aId);
+
+            var parcela = Listar(aId);
+
+            using (var transaction = new TransactionScope())
             {
-                throw new Exception("É obrigatório informar o contrato relacionado à essa parcela.");
+                Excluir(parcela);
+
+                var negocioContrato = new ContratoNegocio();
+
+                var contrato = negocioContrato.Listar(parcela.IdContrato.Value);
+
+                contrato.Valor -= parcela.Valor;
+
+                contrato.Parcelas = ListarTodos().Where(x => x.IdContrato == contrato.Id.Value).ToList();
+
+                negocioContrato.Atualizar(contrato);
+
+                transaction.Complete();
             }
 
-            if (!aEntidade.IdUsuarioCadastro.HasValue && !isEdicao)
+            return true;
+        }
+
+        private void ValidarExclusao(long aId)
+        {
+            var entidade = Listar(aId);
+
+            if (entidade == null)
             {
-                throw new Exception("É obrigatório informar o usuário resposável pelo cadastro.");
+                throw new Exception("Parcela não encontrada.");
+            }
+
+            if (!entidade.IdContrato.HasValue)
+            {
+                throw new Exception("Contrato não encontrada.");
+            }
+
+            var contrato = new ContratoNegocio().Listar(entidade.IdContrato.Value);
+
+            if (contrato == null)
+            {
+                throw new Exception("Contrato não encontrado.");
+            }
+
+            if (RelatorioPorContrato(entidade.IdContrato.Value).Count() == 1)
+            {
+                throw new Exception("Não é possível excluir a única parcela do contrato.");
             }
         }
+
+        #endregion
     }
 }
