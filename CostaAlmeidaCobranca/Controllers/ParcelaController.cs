@@ -96,9 +96,7 @@ namespace CostaAlmeidaCobranca.Controllers
         {
             try
             {
-                var negocio = new ParcelaNegocio();
-
-                return negocio.Deletar(id);
+                return new ParcelaNegocio().Deletar(id);
             }
             catch (Exception ex)
             {

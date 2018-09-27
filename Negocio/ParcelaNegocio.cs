@@ -145,23 +145,15 @@ namespace Negocio
 
         public bool Deletar(long aId)
         {
-            ValidarExclusao(aId);
-
             var parcela = Listar(aId);
+
+            ValidarExclusao(parcela);
 
             using (var transaction = new TransactionScope())
             {
                 Excluir(parcela);
 
-                var negocioContrato = new ContratoNegocio();
-
-                var contrato = negocioContrato.Listar(parcela.IdContrato.Value);
-
-                contrato.Valor -= parcela.Valor;
-
-                contrato.Parcelas = ListarTodos().Where(x => x.IdContrato == contrato.Id.Value).ToList();
-
-                negocioContrato.Atualizar(contrato);
+                new ContratoNegocio().AtualizarValorTotal(parcela.IdContrato.Value);
 
                 transaction.Complete();
             }
@@ -169,28 +161,26 @@ namespace Negocio
             return true;
         }
 
-        private void ValidarExclusao(long aId)
+        private void ValidarExclusao(ParcelasEntidade aEntidade)
         {
-            var entidade = Listar(aId);
-
-            if (entidade == null)
+            if (aEntidade == null)
             {
                 throw new Exception("Parcela não encontrada.");
             }
 
-            if (!entidade.IdContrato.HasValue)
+            if (!aEntidade.IdContrato.HasValue)
             {
                 throw new Exception("Contrato não encontrada.");
             }
 
-            var contrato = new ContratoNegocio().Listar(entidade.IdContrato.Value);
+            var contrato = new ContratoNegocio().Listar(aEntidade.IdContrato.Value);
 
             if (contrato == null)
             {
                 throw new Exception("Contrato não encontrado.");
             }
 
-            if (RelatorioPorContrato(entidade.IdContrato.Value).Count() == 1)
+            if (RelatorioPorContrato(aEntidade.IdContrato.Value).Count() == 1)
             {
                 throw new Exception("Não é possível excluir a única parcela do contrato.");
             }

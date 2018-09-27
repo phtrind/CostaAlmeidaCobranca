@@ -67,5 +67,13 @@ namespace Dados
                            )
                            WHERE CON_CODIGO = {aId};");
         }
+
+        public override bool Excluir(ContratoEntidade aObjeto)
+        {
+            db.Execute($"DELETE FROM PAR_PARCELAS WHERE CON_CODIGO = {aObjeto.Id.Value}");
+            db.Execute($"DELETE FROM CON_CONTRATOS WHERE CON_CODIGO = {aObjeto.Id.Value}");
+
+            return true;
+        }
     }
 }

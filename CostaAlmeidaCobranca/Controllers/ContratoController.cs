@@ -118,10 +118,19 @@ namespace CostaAlmeidaCobranca.Controllers
         // DELETE: api/Contrato/5
         public bool Delete(int id)
         {
-            var negocio = new ContratoNegocio();
-            var entidade = negocio.Listar(id);
+            try
+            {
+                return new ContratoNegocio().Deletar(id);
+            }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(HttpStatusCode.NotAcceptable)
+                {
+                    Content = new StringContent(ex.Message)
+                };
 
-            return negocio.Excluir(entidade);
+                throw new HttpResponseException(erro);
+            }
         }
 
         [Authorize]

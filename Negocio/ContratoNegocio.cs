@@ -149,6 +149,30 @@ namespace Negocio
             return true;
         }
 
+        public override bool Excluir(ContratoEntidade aObjeto)
+        {
+            return new ContratoDados().Excluir(aObjeto);
+        }
+
+        public bool Deletar(int aId)
+        {
+            var contrato = Listar(aId);
+
+            ValidarExclusao(contrato);
+
+            Excluir(contrato);
+
+            return true;
+        }
+
+        private void ValidarExclusao(ContratoEntidade aEntidade)
+        {
+            if (aEntidade == null)
+            {
+                throw new Exception("Contrato não encontrado");
+            }
+        }
+
         public void AtualizarValorTotal(long aId)
         {
             new ContratoDados().AtualizarValorTotal(aId);
