@@ -169,6 +169,7 @@
   <ItemGroup>
     <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\ContratoController.cs" />
+    <Compile Include="Controllers\CrmController.cs" />
     <Compile Include="Controllers\EnderecoController.cs" />
     <Compile Include="Controllers\EventoController.cs" />
     <Compile Include="Controllers\FinanceiroController.cs" />

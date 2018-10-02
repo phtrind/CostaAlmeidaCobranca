@@ -20,6 +20,13 @@
     <!-- Custom CSS -->
     <link href="css/helper.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+
+    <style>
+        .btn-primary:disabled{
+            background-color: #5c4ac7; 
+            cursor: not-allowed;
+        }
+    </style>
 </head>
 
 <body class="fix-header fix-sidebar" ng-app="cobranca" ng-controller="controller" ng-init="verificarSession()">
@@ -68,7 +75,8 @@
                     <ul class="navbar-nav my-lg-0">
                         <!-- Profile -->
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle text-muted  " href="#" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
                                 {{RecuperarNomeUsuario()}}
                             </a>
                             <div class="dropdown-menu dropdown-menu-right animated zoomIn">
@@ -214,7 +222,8 @@
                             <div class="card-body">
                                 <h4 class="card-title">Relatório de Contrato</h4>
                                 <div class="table-responsive m-t-40">
-                                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered"
+                                        cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
                                                 <th>Vendedor</th>
@@ -225,6 +234,7 @@
                                                 <th>Parcelas</th>
                                                 <th style="text-align: center; width: 30px">Editar</th>
                                                 <th style="text-align: center; width: 30px">Abrir</th>
+                                                <th style="text-align: center; width: 30px">CRM</th>
                                             </tr>
                                         </thead>
                                         <tfoot>
@@ -237,6 +247,7 @@
                                                 <th>Parcelas</th>
                                                 <th style="text-align: center; width: 30px">Editar</th>
                                                 <th style="text-align: center; width: 30px">Abrir</th>
+                                                <th style="text-align: center; width: 30px">CRM</th>
                                             </tr>
                                         </tfoot>
                                         <tbody id="tabelaRelatorio"></tbody>
@@ -246,7 +257,8 @@
                                     <br><br>
                                     <div class="card-title">
                                         <h4>Parcelas</h4>
-                                        <button style="float: right" type="button" class="btn btn-danger btn-rounded m-b-5 m-l-5" ng-click="fecharRelatorioParcelas()">Fechar</button>
+                                        <button style="float: right" type="button" class="btn btn-danger btn-rounded m-b-5 m-l-5"
+                                            ng-click="fecharRelatorioParcelas()">Fechar</button>
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
@@ -270,7 +282,8 @@
                                                         <td style="text-align: center;">{{x.Status}}</td>
                                                         <td style="text-align: center;">{{x.ValorPago}}</td>
                                                         <td style="text-align: center;">{{x.DataPagamento}}</td>
-                                                        <td style="text-align: center; cursor: pointer" ng-click="AbrirAlteracaoStatusParcela(x.Id)"><i class="fa fa-refresh"></i></td>
+                                                        <td style="text-align: center; cursor: pointer" ng-click="AbrirAlteracaoStatusParcela(x.Id)"><i
+                                                                class="fa fa-refresh"></i></td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -281,7 +294,8 @@
                                     <br><br>
                                     <div class="card-title">
                                         <h4>Atualização Parcela</h4>
-                                        <button style="float: right" type="button" class="btn btn-danger btn-rounded m-b-5 m-l-5" ng-click="fecharAtualizacaoParcela()">Fechar</button>
+                                        <button style="float: right" type="button" class="btn btn-danger btn-rounded m-b-5 m-l-5"
+                                            ng-click="fecharAtualizacaoParcela()">Fechar</button>
                                         <hr />
                                     </div>
                                     <div class="card-body">
@@ -292,23 +306,29 @@
                                                 <div class="col-md-2 col-sm-12">
                                                     <div class="form-group" ng-class="{'has-error':erroValorParcela}">
                                                         <label class="control-label">Valor</label>
-                                                        <input type="text" ng-model="Valor" class="form-control" allow-only-numbers>
-                                                        <small class="form-control-feedback" ng-show="erroValorParcela">Valor inválido.</small>
+                                                        <input type="text" ng-model="Valor" class="form-control"
+                                                            allow-only-numbers>
+                                                        <small class="form-control-feedback" ng-show="erroValorParcela">Valor
+                                                            inválido.</small>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-sm-12">
                                                     <div class="form-group" ng-class="{'has-error':erroTaxaLucro}">
                                                         <label class="control-label">Lucro</label>
-                                                        <input type="text" ng-model="TaxaLucro" class="form-control" allow-only-numbers>
-                                                        <small class="form-control-feedback" ng-show="erroTaxaLucro1">Valor inválido.</small>
-                                                        <small class="form-control-feedback" ng-show="erroTaxaLucro2">A taxa lucro não pode ser maior que o valor da parcela.</small>
+                                                        <input type="text" ng-model="TaxaLucro" class="form-control"
+                                                            allow-only-numbers>
+                                                        <small class="form-control-feedback" ng-show="erroTaxaLucro1">Valor
+                                                            inválido.</small>
+                                                        <small class="form-control-feedback" ng-show="erroTaxaLucro2">A
+                                                            taxa lucro não pode ser maior que o valor da parcela.</small>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-sm-12">
                                                     <div class="form-group" ng-class="{'has-error':erroVencimentoParcela}">
                                                         <label class="control-label">Data de Vencimento</label>
                                                         <input type="date" ng-model="Vencimento" class="form-control">
-                                                        <small class="form-control-feedback" ng-show="erroVencimentoParcela">Data inválida.</small>
+                                                        <small class="form-control-feedback" ng-show="erroVencimentoParcela">Data
+                                                            inválida.</small>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-sm-12">
@@ -322,32 +342,40 @@
                                                 <div class="col-md-2 col-sm-12">
                                                     <div class="form-group" ng-class="{'has-error':erroValorPago}">
                                                         <label class="control-label">Valor Pago</label>
-                                                        <input type="text" ng-model="ValorPago" class="form-control" allow-only-numbers ng-disabled="Status == 1 || Status == 3">
-                                                        <small class="form-control-feedback" ng-show="erroValorPago">Valor inválido.</small>
+                                                        <input type="text" ng-model="ValorPago" class="form-control"
+                                                            allow-only-numbers ng-disabled="Status == 1 || Status == 3">
+                                                        <small class="form-control-feedback" ng-show="erroValorPago">Valor
+                                                            inválido.</small>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-2 col-sm-12">
                                                     <div class="form-group" ng-class="{'has-error':erroDataPagamento}">
                                                         <label class="control-label">Data Pagamento</label>
-                                                        <input type="date" ng-model="DataPagamento" class="form-control" ng-disabled="Status == 1 || Status == 3">
-                                                        <small class="form-control-feedback" ng-show="erroDataPagamento">Data inválida.</small>
+                                                        <input type="date" ng-model="DataPagamento" class="form-control"
+                                                            ng-disabled="Status == 1 || Status == 3">
+                                                        <small class="form-control-feedback" ng-show="erroDataPagamento">Data
+                                                            inválida.</small>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-1 offset-md-5">
-                                                    <button type="button" class="btn btn-danger col-sm-12" ng-hide="esconderBotaoCadastro" ng-click="excluirParcela()" ng-disabled="desabilitarExcluir">
+                                                    <button type="button" class="btn btn-danger col-sm-12" ng-hide="esconderBotaoCadastro"
+                                                        ng-click="excluirParcela()" ng-disabled="desabilitarExcluir">
                                                         <i class="fa fa-remove"></i> Excluir
                                                     </button>
                                                 </div>
                                                 <br />
                                                 <div class="col-md-1">
-                                                    <button type="button" class="btn btn-success col-sm-12" ng-hide="esconderBotaoCadastro" ng-click="atualizarParcela()">
+                                                    <button type="button" class="btn btn-success col-sm-12" ng-hide="esconderBotaoCadastro"
+                                                        ng-click="atualizarParcela()">
                                                         <i class="fa fa-check"></i> Salvar
                                                     </button>
-                                                    <img src="icons/loading.gif" width="50" style="margin: 10px" ng-show="esconderBotaoCadastro">
+                                                    <img src="icons/loading.gif" width="50" style="margin: 10px"
+                                                        ng-show="esconderBotaoCadastro">
                                                 </div>
-                                                <div class="col-md-12 alert alert-info" align="center" ng-show="parcelaAtualizadaSucesso" style="margin-top:20px">
+                                                <div class="col-md-12 alert alert-info" align="center" ng-show="parcelaAtualizadaSucesso"
+                                                    style="margin-top:20px">
                                                     <br>
                                                     <h3>Atualização realizada com sucesso </h3>
                                                     <br>
@@ -356,10 +384,49 @@
                                         </form>
                                     </div>
                                 </div>
-                                <div class="col-md-12 alert alert-info" align="center" ng-show="parcelaExcluidaSucesso" style="margin-top:20px">
+                                <div class="col-md-12 alert alert-info" align="center" ng-show="parcelaExcluidaSucesso"
+                                    style="margin-top:20px">
                                     <br>
                                     <h3>Parcela excluída com sucesso </h3>
                                     <br>
+                                </div>
+                                <div id="RelatorioCrm" class="col-md-12" ng-show="relatorioCrm">
+                                    <br><br>
+                                    <div class="card-title" style="margin-bottom: 15px">
+                                        <h4>CRM</h4>
+                                        <button style="float: right" type="button" class="btn btn-danger btn-rounded m-b-5 m-l-5"
+                                            ng-click="fecharRelatorioCrm()">Fechar</button>
+                                    </div>
+                                    <div class="row col-md-12" style="padding: 0px; margin: 0px; margin-top: 10px">
+                                        <div class="col-md-4 col-sm-12 col-xs-12" style="background-color: #F0F1F6; border: solid 5px white; border-radius: 10px; padding: 20px;"
+                                            ng-repeat="x in crmContrato">
+                                            <p style="font-size: 20px; color: #212529">{{x.Descricao}}</p>
+                                            <p style="font-style: italic">{{x.UsuarioCadastro}}</p>
+                                            <p style="font-style: italic">{{x.DataHoraCadastro}}</p>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12 col-xs-12" ng-show="teste">
+                                            <button class="btn btn-primary btn-lg col-xs-12 col-sm-12" style="height: 100%; border: solid 5px white; border-radius: 10px;">Novo
+                                                <i class="fa fa-plus-square"></i></button>
+                                        </div>
+                                        <div class="col-md-4 col-sm-12 col-xs-12" style="background-color: #F0F1F6; border: solid 5px white; border-radius: 10px; padding: 20px;">
+                                            <form>
+                                                <div class="form-body">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Descrição</label>
+                                                            <textarea onkeyup="textAreaAdjust(this)" class="textarea_editor form-control"
+                                                                ng-model="descricao"></textarea>
+                                                            <br>
+                                                            <button ng-disabled="descricao.length == 0 || descricao.length == undefined" class="btn btn-primary col-md-12" style="text-align: center" ng-click="InserirCrm()">Inserir <i class="fa fa-plus-square"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <p style="font-size: 20px; color: #212529">{{x.Descricao}}</p>
+                                            <p style="font-style: italic">{{x.UsuarioCadastro}}</p>
+                                            <p style="font-style: italic">{{x.DataHoraCadastro}}</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -368,7 +435,7 @@
                 </div>
                 <!-- End Container fluid  -->
                 <!-- footer -->
-                <footer class="footer">
+                <footer class="footer" id="footer">
                     © 2018 All rights reserved. Developed by
                     <a href="http://impulsesistemas.com.br" target="_blank">Impulse Sistemas</a>
                 </footer>
@@ -408,6 +475,11 @@
 
     <script>
 
+        function textAreaAdjust(o) {
+            o.style.height = "1px";
+            o.style.height = (25 + o.scrollHeight) + "px";
+        }
+
         $.ajax({
             headers: {
                 'Authorization': 'Bearer ' + sessionStorage.getItem('Token')
@@ -421,7 +493,7 @@
 
             for (var x = 0; x < data.length; x++) {
 
-                $("#tabelaRelatorio").append("<tr><td>" + data[x].Vendedor + "</td><td>" + data[x].Comprador + "</td><td>" + data[x].Evento + "</td><td>" + data[x].Valor + "</td><td>" + data[x].Status + "</td><td>" + data[x].Parcelas + "</td><td style='text-align:center; cursor: pointer' ng-click='RedirecionarEditarContrato(" + data[x].Id + ")'><i class='fa fa-edit' style='font-size:24px'></i></td><td style='text-align:center; cursor: pointer' ng-click='expandirParcelas(" + data[x].Id + ")'><i class='fa fa-search' style='font-size:24px'></i></td></tr>");
+                $("#tabelaRelatorio").append("<tr><td>" + data[x].Vendedor + "</td><td>" + data[x].Comprador + "</td><td>" + data[x].Evento + "</td><td>" + data[x].Valor + "</td><td>" + data[x].Status + "</td><td>" + data[x].Parcelas + "</td><td style='text-align:center; cursor: pointer' ng-click='RedirecionarEditarContrato(" + data[x].Id + ")'><i class='fa fa-edit' style='font-size:24px'></i></td><td style='text-align:center; cursor: pointer' ng-click='expandirParcelas(" + data[x].Id + ")'><i class='fa fa-search' style='font-size:24px'></i></td><td style='text-align: center; cursor: pointer;' ng-click='expandirCrm(" + data[x].Id + ")'><i class='fa fa-comment' style='font-size: 24px'></td></tr>");
 
             }
 

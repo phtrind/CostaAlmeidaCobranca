@@ -10,9 +10,9 @@ using System.Web.Http;
 
 namespace CostaAlmeidaCobranca.Controllers
 {
+    [Authorize]
     public class ClienteController : ApiController
     {
-        [Authorize]
         // GET: api/Cliente
         public IEnumerable<ClienteEntidade> Get()
         {
@@ -32,7 +32,6 @@ namespace CostaAlmeidaCobranca.Controllers
             }
         }
 
-        [Authorize]
         // GET: api/Cliente/5
         public ClienteEntidade Get(int id)
         {
@@ -52,7 +51,6 @@ namespace CostaAlmeidaCobranca.Controllers
             }
         }
 
-        [Authorize]
         // POST: api/Cliente
         public long Post([FromBody]ClienteEntidade aEntidade)
         {
@@ -71,7 +69,6 @@ namespace CostaAlmeidaCobranca.Controllers
             }
         }
 
-        [Authorize]
         // PUT: api/Cliente/5
         public bool Put([FromBody]ClienteEntidade aEntidade)
         {
@@ -90,7 +87,6 @@ namespace CostaAlmeidaCobranca.Controllers
             }
         }
 
-        [Authorize]
         // DELETE: api/Cliente/5
         public bool Delete(int id)
         {
@@ -102,15 +98,25 @@ namespace CostaAlmeidaCobranca.Controllers
 
         #region .: Relatórios :.
 
-        [Authorize]
         [Route("api/Cliente/Relatorio")]
         [HttpGet]
         public IEnumerable<RelatorioClienteResponse> Relatorio()
         {
-            return new ClienteNegocio().Relatorio();
+            try
+            {
+                return new ClienteNegocio().Relatorio();
+            }
+            catch (Exception ex)
+            {
+                var erro = new HttpResponseMessage(HttpStatusCode.NotAcceptable)
+                {
+                    Content = new StringContent(ex.Message)
+                };
+
+                throw new HttpResponseException(erro);
+            }
         }
 
-        [Authorize]
         [Route("api/Cliente/RelatorioDetalhado/{idCliente}")]
         [HttpGet]
         public RelatorioDetalhadoClienteResponse RelatorioDetalhado(long idCliente)

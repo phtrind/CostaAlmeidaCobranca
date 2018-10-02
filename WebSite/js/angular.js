@@ -1178,7 +1178,92 @@ app.controller('controller', function ($scope, $http, $compile, $sce) {
 
     //#region .: Relatório Contrato :.
 
+    $scope.expandirCrm = function (IdContrato) {
+
+        $scope.crmContrato = null;
+
+        $scope.relatorioParcelas = false;
+
+        $scope.atualizacaoParcela = false;
+
+        $scope.LimparAtualizacaoParcela();
+
+        $scope.parcelaAtualizadaSucesso = false;
+
+        $scope.parcelaExcluidaSucesso = false;
+
+        $scope.IdContrato = IdContrato;
+
+        $http({
+            method: 'GET',
+            url: $scope.webService + 'Crm/Contrato/' + IdContrato,
+            headers: {
+                'Authorization': 'Bearer ' + sessionStorage.getItem('Token'),
+                'Content-Type': 'application/json'
+            }
+        }).success(function (response) {
+            console.log(response);
+
+            $scope.crmContrato = response;
+
+            $scope.relatorioCrm = true;
+
+            $('html, body').animate({
+                scrollTop: $(document).height()
+            }, 'slow');
+        }).error(function (err, status) {
+            $scope.TratarErroRequisicao(err, status);
+
+            $scope.relatorioCrm = false;
+        });
+
+    }
+
+    $scope.fecharRelatorioCrm = function () {
+        $scope.relatorioCrm = false;
+
+        $scope.crmContrato = null;
+
+        $('html, body').animate({
+            scrollTop: $(window).position().top
+        }, 'slow');
+    }
+
+    $scope.InserirCrm = function () {
+
+        var crm = {
+            Descricao: $scope.descricao,
+            IdContrato: $scope.IdContrato,
+            IdUsuarioCadastro: sessionStorage.getItem("IdUsuario")
+        };
+
+        $http({
+            method: 'POST',
+            url: $scope.webService + 'Crm',
+            headers: {
+                'Authorization': 'Bearer ' + sessionStorage.getItem('Token'),
+                'Content-Type': 'application/json'
+            },
+            data: crm
+        }).success(function (response) {
+
+            $scope.descricao = "";
+
+            $scope.expandirCrm($scope.IdContrato);
+
+        }).error(function (err, status) {
+
+            $scope.TratarErroRequisicao(err, status);
+
+        });
+
+    }
+
     $scope.expandirParcelas = function (IdContrato) {
+
+        $scope.relatorioCrm = false;
+
+        $scope.crmContrato = null;
 
         $scope.IdContrato = IdContrato;
 
@@ -1221,6 +1306,10 @@ app.controller('controller', function ($scope, $http, $compile, $sce) {
     }
 
     $scope.AbrirAlteracaoStatusParcela = function (aIdParcela) {
+
+        $scope.relatorioCrm = false;
+
+        $scope.crmContrato = null;
 
         $scope.parcelaExcluidaSucesso = false;
 
@@ -1396,11 +1485,11 @@ app.controller('controller', function ($scope, $http, $compile, $sce) {
                 'Authorization': 'Bearer ' + sessionStorage.getItem('Token'),
                 'Content-Type': 'application/json'
             }
-        }).success(function (response) {
+        }).success(function (data) {
 
-            for (var x = 0; x < response.length; x++) {
+            for (var x = 0; x < data.length; x++) {
 
-                $("#tabelaRelatorio").append($compile("<tr><td>" + response[x].Vendedor + "</td><td>" + response[x].Comprador + "</td><td>" + response[x].Evento + "</td><td>" + response[x].Valor + "</td><td>" + response[x].Status + "</td><td>" + response[x].Parcelas + "</td><td style='text-align:center; cursor: pointer' ng-click='RedirecionarEditarContrato(" + response[x].Id + ")'><i class='fa fa-edit' style='font-size:24px'></i></td><td style='text-align:center; cursor: pointer' ng-click='expandirParcelas(" + response[x].Id + ")'><i class='fa fa-search' style='font-size:24px'></i></td></tr>")($scope));
+                $("#tabelaRelatorio").append($compile("<tr><td>" + data[x].Vendedor + "</td><td>" + data[x].Comprador + "</td><td>" + data[x].Evento + "</td><td>" + data[x].Valor + "</td><td>" + data[x].Status + "</td><td>" + data[x].Parcelas + "</td><td style='text-align:center; cursor: pointer' ng-click='RedirecionarEditarContrato(" + data[x].Id + ")'><i class='fa fa-edit' style='font-size:24px'></i></td><td style='text-align:center; cursor: pointer' ng-click='expandirParcelas(" + data[x].Id + ")'><i class='fa fa-search' style='font-size:24px'></i></td><td style='text-align: center; cursor: pointer;' ng-click='expandirCrm(" + data[x].Id + ")'><i class='fa fa-comment' style='font-size: 24px'></td></tr>")($scope));
 
             }
 

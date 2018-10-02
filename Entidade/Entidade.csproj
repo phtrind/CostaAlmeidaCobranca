@@ -52,6 +52,7 @@
     <Compile Include="ClienteEntidade.cs" />
     <Compile Include="ContasBancariasEntidade.cs" />
     <Compile Include="ContratoEntidade.cs" />
+    <Compile Include="CrmEntidade.cs" />
     <Compile Include="EnderecoEntidade.cs" />
     <Compile Include="EntidadeBase.cs" />
     <Compile Include="EventoEntidade.cs" />

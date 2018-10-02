@@ -1,5 +1,6 @@
 ﻿using Entidade;
 using System;
+using System.Linq;
 using Utilitario;
 
 namespace Negocio
@@ -32,6 +33,11 @@ namespace Negocio
         private void VerificarChaves(FuncionarioEntidade aEntidade)
         {
             //Necessário ainda implementar
+        }
+
+        public FuncionarioEntidade BuscarPeloUsuario(long aId)
+        {
+            return ListarTodos().FirstOrDefault(x => x.IdUsuario == aId);
         }
     }
 }

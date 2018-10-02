@@ -1,11 +1,6 @@
 ﻿using Dados.Mapeamento;
 using Dapper.FluentMap;
 using Dapper.FluentMap.Dommel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dados
 {
@@ -23,6 +18,7 @@ namespace Dados
                 config.AddMap(new ContratoMap());
                 config.AddMap(new ParcelaMap());
                 config.AddMap(new FuncionarioMap());
+                config.AddMap(new CrmMap());
                 config.ForDommel();
             });
         }
