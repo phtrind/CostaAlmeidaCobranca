@@ -29,7 +29,8 @@ app.directive('allowOnlyNumbers', function () {
 
 app.controller('controller', function ($scope, $http, $compile, $sce) {
 
-    $scope.webService = "http://localhost/CostaAlmeidaCobranca/api/";
+    $scope.webService = "http://173.193.169.235:3000/api/";
+    // $scope.webService = "http://localhost/CostaAlmeidaCobranca/api/";
 
     $scope.erroInesperado = "Houve um erro inesperado. Tente novamente ou entre em contato com o administrador.";
 
@@ -61,8 +62,8 @@ app.controller('controller', function ($scope, $http, $compile, $sce) {
             $scope.esconderBotaoLogin = false;
         }).error(function (err, status) {
             sessionStorage.clear();
-
-            if (err.error == -1) {
+            
+            if (status == -1) {
                 $scope.loginIncorreto = false;
                 $scope.erroUsuario = true;
                 $scope.erroSenha = true;

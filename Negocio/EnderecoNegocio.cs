@@ -23,7 +23,7 @@ namespace Negocio
                 throw new Exception("É obrigatório informar o bairro do endereço.");
             }
 
-            if (aEntidade.Cep.ToString().Length != 8)
+            if (aEntidade.Cep.Length != 8)
             {
                 throw new Exception("O CEP do endereço informado é inválido.");
             }

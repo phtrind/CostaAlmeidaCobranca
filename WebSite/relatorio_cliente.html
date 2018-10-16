@@ -401,7 +401,8 @@
                 headers: {
                     'Authorization': 'Bearer ' + sessionStorage.getItem('Token')
                 },
-                url: "http://localhost/CostaAlmeidaCobranca/api/Cliente/Relatorio",
+                // url: "http://localhost/CostaAlmeidaCobranca/api/Cliente/Relatorio",
+                url: "http://173.193.169.235:3000/api/Cliente/Relatorio",
                 type: 'GET',
                 async: false
             }).done(function (data) {

@@ -1,17 +1,14 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using Dados;
 using Microsoft.Owin;
-using Owin;
-using System.Web.Http;
 using Microsoft.Owin.Security.OAuth;
-using Dados;
-using System.Web.Http.Cors;
+using Owin;
+using System;
+using System.Web.Http;
 
 [assembly: OwinStartup(typeof(CostaAlmeidaCobranca.Startup))]
 
 namespace CostaAlmeidaCobranca
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class Startup
     {
         public void Configuration(IAppBuilder app)
@@ -22,7 +19,7 @@ namespace CostaAlmeidaCobranca
 
             config.MapHttpAttributeRoutes();
 
-            config.EnableCors(new EnableCorsAttribute(origins: "*", headers: "*", methods: "*"));
+            config.EnableCors();
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
@@ -36,7 +33,6 @@ namespace CostaAlmeidaCobranca
 
             config.Formatters.Remove(config.Formatters.XmlFormatter);
             config.Formatters.JsonFormatter.Indent = true;
-            //config.Formatters.JsonFormatter.SerializerSettings.DateFormatString = "yyyy-MM-dd";
         }
 
         private void ConfigureAccessToken(IAppBuilder app)
@@ -46,7 +42,6 @@ namespace CostaAlmeidaCobranca
                 //Permitindo acesso ao endereço de fornecimento do token de acesso sem 
                 //precisar de HTTPS (AllowInsecureHttp). 
                 //Em produção o valor deve ser false.
-
                 AllowInsecureHttp = true,
 
                 //Configurando o endereço do fornecimento do token de acesso (TokenEndpointPath).
