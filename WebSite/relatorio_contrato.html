@@ -221,8 +221,40 @@
                         <div class="card card-outline-primary">
                             <div class="card-body">
                                 <h4 class="card-title">Relatório de Contrato</h4>
-                                <div class="table-responsive m-t-40">
+                                <!-- <div class="table-responsive m-t-40">
                                     <table id="example23" class="display nowrap table table-hover table-striped table-bordered"
+                                        cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th>Vendedor</th>
+                                                <th>Comprador</th>
+                                                <th>Evento</th>
+                                                <th>Valor</th>
+                                                <th>Status</th>
+                                                <th>Parcelas</th>
+                                                <th style="text-align: center; width: 30px">Editar</th>
+                                                <th style="text-align: center; width: 30px">Abrir</th>
+                                                <th style="text-align: center; width: 30px">CRM</th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Vendedor</th>
+                                                <th>Comprador</th>
+                                                <th>Evento</th>
+                                                <th>Valor</th>
+                                                <th>Status</th>
+                                                <th>Parcelas</th>
+                                                <th style="text-align: center; width: 30px">Editar</th>
+                                                <th style="text-align: center; width: 30px">Abrir</th>
+                                                <th style="text-align: center; width: 30px">CRM</th>
+                                            </tr>
+                                        </tfoot>
+                                        <tbody id="tabelaRelatorio"></tbody>
+                                    </table>
+                                </div> -->
+                                <div class="table-responsive">
+                                    <table class="table table-striped"
                                         cellspacing="0" width="100%">
                                         <thead>
                                             <tr>
@@ -417,7 +449,9 @@
                                                             <textarea onkeyup="textAreaAdjust(this)" class="textarea_editor form-control"
                                                                 ng-model="descricao"></textarea>
                                                             <br>
-                                                            <button ng-disabled="descricao.length == 0 || descricao.length == undefined" class="btn btn-primary col-md-12" style="text-align: center" ng-click="InserirCrm()">Inserir <i class="fa fa-plus-square"></i></button>
+                                                            <button ng-disabled="descricao.length == 0 || descricao.length == undefined"
+                                                                class="btn btn-primary col-md-12" style="text-align: center"
+                                                                ng-click="InserirCrm()">Inserir <i class="fa fa-plus-square"></i></button>
                                                         </div>
                                                     </div>
                                                 </div>

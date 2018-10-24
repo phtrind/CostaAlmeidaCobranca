@@ -4,6 +4,7 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using System;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 [assembly: OwinStartup(typeof(CostaAlmeidaCobranca.Startup))]
 
@@ -19,7 +20,7 @@ namespace CostaAlmeidaCobranca
 
             config.MapHttpAttributeRoutes();
 
-            config.EnableCors();
+            //config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
 
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
